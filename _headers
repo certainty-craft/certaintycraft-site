@@ -1,0 +1,5 @@
+# Per-path headers for Netlify.
+# One stanza per landing-page slug, appended by the agent at publish time
+# (daily-agent.md Step 5c). Landing pages are unlisted: noindex, nofollow,
+# and never linked from site navigation. Do not remove stanzas while the
+# matching application is open; see portfolio/landing/REGISTRY.md.

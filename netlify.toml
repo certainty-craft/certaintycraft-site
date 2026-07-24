@@ -1,0 +1,11 @@
+# certaintycraft.ca. Plain static site, no build step.
+# Per-path headers (including landing-page noindex) live in _headers.
+
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
