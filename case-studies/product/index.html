@@ -21,9 +21,81 @@
 
 
 
+
 <!-- prerender:style --><style>x-dc{display:none!important}</style>
+<!-- prerender:schema --><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://certaintycraft.ca/#dae",
+      "name": "Dae Courtney",
+      "jobTitle": "Content Systems Architect",
+      "url": "https://certaintycraft.ca/",
+      "email": "mailto:dae.courtney@gmail.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/dae-courtney"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Montreal",
+        "addressRegion": "QC",
+        "addressCountry": "CA"
+      }
+    },
+    {
+      "@type": "Article",
+      "@id": "https://certaintycraft.ca/case-studies/product/#article",
+      "headline": "Writing a consent threshold",
+      "name": "Writing a consent threshold",
+      "description": "A visibility toggle in our profile builder was quietly exposing nurse data before anyone had agreed to it. I rewrote it as a consent threshold, and the interface started telling the truth.",
+      "url": "https://certaintycraft.ca/case-studies/product/",
+      "mainEntityOfPage": {
+        "@id": "https://certaintycraft.ca/case-studies/product/"
+      },
+      "author": {
+        "@id": "https://certaintycraft.ca/#dae"
+      },
+      "publisher": {
+        "@id": "https://certaintycraft.ca/#dae"
+      },
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "inLanguage": "en-CA",
+      "isPartOf": {
+        "@id": "https://certaintycraft.ca/case-studies.html#collection"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Portfolio",
+          "item": "https://certaintycraft.ca/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Case studies",
+          "item": "https://certaintycraft.ca/case-studies.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Writing a consent threshold",
+          "item": "https://certaintycraft.ca/case-studies/product/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
+
 
 
 
@@ -933,6 +1005,7 @@ class Component extends DCLogic {
   }
 }
 </script>
+
 
 
 
