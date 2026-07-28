@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page not found | Dae Courtney</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found · Dae Courtney</title>
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/fonts.css">
+<link rel="stylesheet" href="/_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/colors.css">
+<link rel="stylesheet" href="/_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/typography.css">
+<link rel="stylesheet" href="/_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/spacing.css">
+<link rel="stylesheet" href="/_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/effects.css">
+<link rel="stylesheet" href="/_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/base.css">
+<style>
+  body{margin:0;min-height:100vh;display:flex;flex-direction:column;
+    background:var(--canvas,#eaeef0);color:var(--ink-900,#16242a);
+    font-family:var(--font-body,system-ui,sans-serif)}
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(1100px 780px at 20% 0%,rgba(146,204,209,.28),transparent 60%)}
+  .shell{position:relative;z-index:1;flex:1;display:flex;align-items:center;
+    padding:clamp(28px,6vw,80px)}
+  .wrap{max-width:60ch;margin:0 auto}
+  .eyebrow{font-family:var(--font-mono,ui-monospace,monospace);font-size:11px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--teal-700,#006380);
+    margin:0 0 18px}
+  h1{font-family:var(--font-heading,system-ui,sans-serif);font-weight:600;
+    font-size:clamp(30px,5vw,46px);line-height:1.15;margin:0 0 20px;
+    color:var(--ink-900,#16242a)}
+  p{font-size:17px;line-height:1.65;color:var(--ink-600,#54666c);margin:0 0 28px}
+  .links{display:flex;flex-wrap:wrap;gap:12px}
+  a.btn{display:inline-block;text-decoration:none;font-weight:600;font-size:15px;
+    padding:12px 20px;border-radius:999px;border:1px solid var(--hairline,rgba(36,52,57,.14));
+    color:var(--teal-700,#006380);background:var(--white,#fff);transition:all .18s ease}
+  a.btn:hover,a.btn:focus-visible{border-color:var(--teal-600,#0d7f8c);
+    color:var(--teal-800,#06505f)}
+  a.btn.primary{background:var(--teal-700,#006380);color:#fff;border-color:transparent}
+  a.btn.primary:hover,a.btn.primary:focus-visible{background:var(--teal-800,#06505f);color:#fff}
+  a:focus-visible{outline:2px solid var(--teal-600,#0d7f8c);outline-offset:3px}
+</style>
 </head>
 <body>
-
-<header>
-  <nav class="nav" aria-label="Main">
-    <a class="brand" href="/">
-      <img class="badge" src="/img/headshot-current.jpg" alt="Dae Courtney">
-      <span class="brand-name">Dae Courtney</span>
-    </a>
-    <ul>
-      <li><a href="/work/">Work</a></li>
-      <li><a href="/about/">About</a></li>
-      <li><a href="/contact/">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<main>
-  <section style="padding:96px 0 120px">
-    <div class="wrap">
-      <p class="mono" style="font-size:.85rem;color:var(--steel);letter-spacing:.08em">404</p>
-      <h1 class="display" style="font-size:2rem;margin:12px 0 16px">This page does not exist.</h1>
-      <p style="max-width:52ch;color:var(--steel)">The address may have been typed with a small difference, or the page may have been retired. Everything current is one click away.</p>
-      <p style="margin-top:28px"><a href="/">Back to the home page</a> or <a href="/work/">see the work</a>.</p>
+<div class="bg" aria-hidden="true"></div>
+<div class="shell">
+  <main class="wrap">
+    <p class="eyebrow">404 · page not found</p>
+    <h1>This page does not exist.</h1>
+    <p>The address may have been typed with a small difference, or the page
+    may have been retired. Everything current is one click away.</p>
+    <div class="links">
+      <a class="btn primary" href="/">Back to the portfolio</a>
+      <a class="btn" href="/case-studies.html">All case studies</a>
+      <a class="btn" href="/quick-view.html">Quick view: the evidence</a>
     </div>
-  </section>
-</main>
-
+  </main>
+</div>
 </body>
 </html>

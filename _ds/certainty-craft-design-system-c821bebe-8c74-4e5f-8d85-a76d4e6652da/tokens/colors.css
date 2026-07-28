@@ -1,0 +1,128 @@
+/* ============================================================
+   meeting place. — COLOR TOKENS
+   A calm-tech palette: cool misty light, deep petrol teal,
+   one electric "presence" blue (the orb), warm brick + amber accents.
+   ============================================================ */
+
+:root {
+  /* ---- Base palette: Petrol / Teal (primary brand) ---- */
+  --teal-900: #033844;
+  --teal-800: #06505f;
+  --teal-700: #006380; /* deep teal, sampled from wordmark */
+  --teal-600: #0d7f8c; /* signature teal — the wordmark color */
+  --teal-500: #1c97a3;
+  --teal-400: #57b0b8;
+  --teal-300: #92ccd1;
+  --teal-200: #c3e4e7;
+  --teal-100: #e2f2f3;
+  --teal-050: #f1f9f9;
+
+  /* ---- Presence blue (the orb) — electric, used sparingly ---- */
+  --blue-900: #001f6e;
+  --blue-700: #002b9e;
+  --blue-600: #0d3fd0;
+  --blue-500: #1457d6; /* primary usable presence blue */
+  --blue-400: #4c7fe6;
+  --blue-300: #8aabf0;
+  --blue-200: #c2d4f7;
+  --blue-100: #e6edfc;
+
+  /* ---- Brick / clay (warm accent) ---- */
+  --brick-700: #6e1109;
+  --brick-600: #88150a; /* sampled accent red */
+  --brick-500: #a8301f;
+  --brick-400: #c6584a;
+  --brick-300: #e0938a;
+  --brick-200: #f0c8c2;
+  --brick-100: #fae8e4;
+
+  /* ---- Amber (the dotted-i spark) ---- */
+  --amber-600: #b9831a;
+  --amber-500: #e0a51e; /* the golden dot */
+  --amber-400: #ecc05a;
+  --amber-300: #f4d894;
+  --amber-200: #faecc8;
+  --amber-100: #fdf6e6;
+
+  /* ---- Neutrals: cool mist greys ---- */
+  --ink-950: #0e1416;
+  --ink-900: #16242a;
+  --ink-800: #243439;
+  --ink-700: #3a4b51;
+  --ink-600: #54666c;
+  --ink-500: #71828a;
+  --ink-400: #94a3aa;
+  --ink-300: #b8c3c8;
+  --ink-200: #d6dee1;
+  --ink-150: #e4eaec;
+  --ink-100: #eef2f4;
+  --ink-050: #f6f8f9;
+  --white: #ffffff;
+
+  /* ---- Signature airy backgrounds ---- */
+  --mist: #eaeef0;        /* the cool light-grey "presence" canvas */
+  --mist-cool: #e6edf0;
+  --mist-warm: #eef0ee;
+  --cream: #fbebdd;       /* warm peach surface (from journey deck) */
+  --cream-soft: #fdf4ec;
+  --mint: #dcf1ed;        /* aqua surface (from journey deck) */
+  --mint-soft: #ecf7f4;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in product + components
+     ============================================================ */
+
+  /* Brand */
+  --brand: var(--teal-600);
+  --brand-deep: var(--teal-700);
+  --brand-press: var(--teal-800);
+  --presence: var(--blue-500);   /* the orb blue — reserve for emphasis */
+  --spark: var(--amber-500);
+  --clay: var(--brick-600);
+
+  /* Text */
+  --text-strong: var(--ink-900);
+  --text-body: var(--ink-700);
+  --text-muted: var(--ink-500);
+  --text-faint: var(--ink-400);
+  --text-on-brand: var(--white);
+  --text-link: var(--teal-700);
+  --text-on-dark: #e9f1f2;
+
+  /* Surfaces / backgrounds */
+  --canvas: var(--mist);          /* page background */
+  --surface: var(--white);        /* default card */
+  --surface-sunken: var(--ink-050);
+  --surface-raised: var(--white);
+  --surface-cream: var(--cream);
+  --surface-mint: var(--mint);
+  --surface-inverse: var(--teal-900);
+  --glass: rgba(255, 255, 255, 0.55);   /* frosted panel fill */
+  --glass-strong: rgba(255, 255, 255, 0.72);
+  --glass-edge: rgba(255, 255, 255, 0.65);
+
+  /* Borders / lines */
+  --border: var(--ink-200);
+  --border-soft: var(--ink-150);
+  --border-strong: var(--ink-300);
+  --border-brand: var(--teal-300);
+  --hairline: rgba(36, 52, 57, 0.10);
+
+  /* Interactive fills */
+  --fill-brand: var(--teal-600);
+  --fill-brand-hover: var(--teal-700);
+  --fill-brand-press: var(--teal-800);
+  --fill-subtle: var(--teal-100);
+  --fill-subtle-hover: var(--teal-200);
+  --focus-ring: rgba(20, 87, 214, 0.45);   /* presence-blue focus halo */
+
+  /* Status / semantic */
+  --success: #1f8a5b;
+  --success-bg: #e4f4ec;
+  --warning: var(--amber-600);
+  --warning-bg: var(--amber-100);
+  --danger: var(--brick-500);
+  --danger-bg: var(--brick-100);
+  --info: var(--teal-600);
+  --info-bg: var(--teal-100);
+}

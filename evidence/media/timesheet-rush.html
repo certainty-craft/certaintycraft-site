@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Liphe · Timesheets · Week of Jul 6, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Liphe Design System — Tokens
+   Colors, type, spacing, radius, shadow, motion. Source of truth: Figma.
+   Voice: approachable, forward-thinking, empathetically professional, calmly confident.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800&family=Poppins:wght@300;400;600;700&display=swap");
+
+:root {
+  /* ------------------------------------------------------------------ */
+  /* PRIMITIVES — colors                                                */
+  /* ------------------------------------------------------------------ */
+
+  /* Greyscale */
+  --liphe-white:        #ffffff;
+  --liphe-canvas:       #fcfcfc;  /* page bg, slightly off-white */
+  --liphe-grey-50:      #f9fafb;
+  --liphe-grey-100:     #ebebeb;
+  --liphe-grey-200:     #e5e7eb;
+  --liphe-grey-300:     #d1d5db;
+  --liphe-grey-400:     #c5c5c5;
+  --liphe-grey-500:     #7e7e7e;
+  --liphe-grey-600:     #6b7280;
+  --liphe-grey-700:     #535353;
+  --liphe-grey-800:     #282828;
+  --liphe-black:        #000000;
+  --liphe-ink:          #0c1d29;  /* deep navy ink, used in headers */
+
+  /* Status / feedback (primitives) */
+  --liphe-red:          #ff0000;  /* error, hard stop */
+  --liphe-amber:        #ff8c00;  /* warning */
+  --liphe-yellow:       #ffd900;
+  --liphe-green:        #00c932;  /* success */
+
+  /* Brand accents — multi-brand */
+  --liphe-brand-pps:    #ea5241;  /* PPS — coral red, primary highlight color */
+  --liphe-brand-psn:    #4bc1f0;  /* PSN — sky */
+  --liphe-brand-cb:     #0095f5;  /* Code Bleu */
+  --liphe-brand-chca:   #1582cc;  /* CHCA */
+  --liphe-brand-sn:     #6390c9;  /* Solutions Nursing */
+  --liphe-brand-ssi:    #9bad00;  /* SSI — olive */
+  --liphe-brand-neutral: var(--liphe-grey-700);
+
+  /* Brand DARK / DARKER pairs (used for headers, deep surfaces) */
+  --liphe-pps-dark:     #cb3d2d;
+  --liphe-pps-darker:   #911d10;
+  --liphe-psn-dark:     #33a8d6;
+  --liphe-psn-darker:   #166484;
+  --liphe-cb-dark:      #037ac7;
+  --liphe-cb-darker:    #005084;
+  --liphe-chca-dark:    #0f6cac;
+  --liphe-chca-darker:  #084b78;
+  --liphe-sn-dark:      #4473ae;
+  --liphe-sn-darker:    #284b76;
+  --liphe-ssi-dark:     #7b8a00;
+  --liphe-ssi-darker:   #485100;
+  --liphe-liphe-darker: #002966;
+
+  /* Web (marketing) palette — Nordik / Solutions Nursing / CHCA share this ladder */
+  --liphe-web-ink:        #0b2a3c;  /* near-black navy */
+  --liphe-web-ink-deep:   #021424;  /* CHCA */
+  --liphe-web-grey-mid:   #abb3b6;
+  --liphe-web-grey-light: #d0d9db;
+  --liphe-web-off-blue:   #f2fcff;  /* pale icy bg */
+  --liphe-web-contrast:   #fc0001;  /* CHCA red accent */
+
+  /* Action / signal colors (primary CTA hue) */
+  --liphe-action:       #0066ff;   /* primary "do it" blue — links, focus */
+  --liphe-action-hover: #0052d6;
+  --liphe-action-press: #003fa3;
+  --liphe-magenta:      #ff007a;   /* lab/highlight only */
+  --liphe-violet:       #9747ff;   /* dashed annotation borders in figma */
+
+  /* ------------------------------------------------------------------ */
+  /* SEMANTIC — colors                                                  */
+  /* ------------------------------------------------------------------ */
+  --color-bg:            var(--liphe-canvas);
+  --color-surface:       var(--liphe-white);
+  --color-surface-2:     var(--liphe-grey-50);
+  --color-surface-soft:  #fefaf9; /* warm pps-tinted soft surface seen in DS panels */
+  --color-surface-warm:  #fbf6f5; /* slightly deeper warm strip */
+
+  --color-border:        var(--liphe-grey-100);     /* default 1px */
+  --color-border-strong: var(--liphe-grey-300);
+  --color-border-focus:  var(--liphe-action);
+
+  --color-text:          var(--liphe-black);        /* primary text */
+  --color-text-secondary: var(--liphe-grey-500);    /* placeholders, helper */
+  --color-text-tertiary: var(--liphe-grey-400);
+  --color-text-on-dark:  var(--liphe-white);
+  --color-link:          var(--liphe-action);
+  --color-focus:         var(--liphe-action);
+  --color-section-eyebrow: var(--liphe-brand-pps);  /* small section labels in coral */
+
+  --color-error:         var(--liphe-red);
+  --color-warning:       var(--liphe-amber);
+  --color-success:       var(--liphe-green);
+
+  /* ------------------------------------------------------------------ */
+  /* TYPE — primitives                                                  */
+  /* ------------------------------------------------------------------ */
+  --font-ui:        "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-display:   "Montserrat", "Inter", system-ui, sans-serif;     /* huge headlines */
+  --font-brand-pps: "Poppins", "Inter", system-ui, sans-serif;
+  --font-brand-psn: "Poppins", "Inter", system-ui, sans-serif;
+  --font-brand-cb:  "Montserrat", "Inter", system-ui, sans-serif;
+  --font-brand-chca: "Inter", system-ui, sans-serif;        /* Proxima Nova substitute — flagged */
+  --font-brand-sn:  "Inter", system-ui, sans-serif;         /* Proxima Nova substitute — flagged */
+  --font-brand-ssi: "Inter", system-ui, sans-serif;
+  --font-mono:      ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --font-size-xs:   12px;   /* labels, helper, micro */
+  --font-size-sm:   14px;   /* body / description — most common */
+  --font-size-md:   16px;   /* CTA, prominent body */
+  --font-size-lg:   24px;   /* card titles */
+  --font-size-xl:   36px;   /* page titles */
+  --font-size-2xl:  48px;   /* section header */
+  --font-size-3xl:  64px;   /* hero / page banner */
+  --font-size-4xl:  128px;  /* cover */
+
+  --font-weight-light:     300;
+  --font-weight-regular:   400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight: 1;
+  --line-height-snug:  1.18;
+  --line-height-base:  1.4;
+  --line-height-loose: 2;        /* used in long-form definition copy */
+
+  /* ------------------------------------------------------------------ */
+  /* TYPE — semantic                                                    */
+  /* ------------------------------------------------------------------ */
+  --type-description: 400 14px/1.18 var(--font-ui);   /* helper, body */
+  --type-cta:         500 16px/1   var(--font-ui);    /* button / link label */
+  --type-title:       600 24px/1   var(--font-ui);    /* card / panel title */
+  --type-headline:    700 36px/1   var(--font-ui);    /* page title */
+  --type-display:     700 64px/1   var(--font-display); /* hero — Montserrat */
+
+  /* ------------------------------------------------------------------ */
+  /* SPACING — 8pt grid; named tokens                                   */
+  /* ------------------------------------------------------------------ */
+  --space-xxs: 1px;
+  --space-xs:  4px;
+  --space-s:   8px;
+  --space-m:   16px;
+  --space-l:   24px;
+  --space-xl:  32px;
+  --space-xxl: 48px;
+
+  --form-cell-padding:  4px;   /* tight, density-first */
+  --table-cell-padding: 4px;
+
+  /* ------------------------------------------------------------------ */
+  /* RADIUS                                                             */
+  /* ------------------------------------------------------------------ */
+  --radius-xs: 4px;     /* stem-cell input default */
+  --radius-sm: 6px;     /* input pill */
+  --radius-md: 8px;     /* list rows, list ends */
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* ------------------------------------------------------------------ */
+  /* BORDERS                                                            */
+  /* ------------------------------------------------------------------ */
+  --border-default: 1px solid var(--color-border);
+  --border-strong:  1px solid var(--color-border-strong);
+  --border-focus:   2px solid var(--color-focus);
+  --border-error:   2px solid var(--color-error);
+  --border-warning: 2px solid var(--color-warning);
+  --border-dashed-annotation: 1px dashed var(--liphe-violet); /* figma-only marker */
+
+  /* ------------------------------------------------------------------ */
+  /* SHADOWS / ELEVATION                                                */
+  /* very subtle — Liphe surfaces are flat, lifted via 1px borders     */
+  /* ------------------------------------------------------------------ */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.10);
+  --shadow-focus-ring: 0 0 0 3px rgba(0,102,255,0.18);
+
+  /* ------------------------------------------------------------------ */
+  /* MOTION                                                             */
+  /* ------------------------------------------------------------------ */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --duration-fast:   120ms; /* @kind other */
+  --duration-base:   200ms; /* @kind other */
+  --duration-slow:   320ms; /* @kind other */
+}
+
+/* ==========================================================================
+   Element defaults
+   ========================================================================== */
+html, body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: var(--type-description);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 { margin: 0; color: var(--color-text); }
+h1 { font: var(--type-display); }       /* Montserrat 64/700 */
+h2 { font: var(--type-headline); }      /* Inter 36/700 */
+h3 { font: var(--type-title); }         /* Inter 24/600 */
+h4 { font: 600 16px/1.2 var(--font-ui); }
+h5 { font: 500 14px/1.18 var(--font-ui); color: var(--color-section-eyebrow); text-transform: none; }
+h6 { font: 700 12px/1 var(--font-ui); text-transform: uppercase; letter-spacing: 0.04em; color: var(--liphe-grey-800); }
+
+p     { margin: 0 0 var(--space-m); }
+small { font-size: var(--font-size-xs); color: var(--color-text-secondary); }
+a     { color: var(--color-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code, pre, kbd { font-family: var(--font-mono); font-size: 13px; }
+
+/* eyebrow utility — coral pps section labels seen on every styleguide page */
+.eyebrow {
+  font: 400 16px/1.22 var(--font-ui);
+  color: var(--color-section-eyebrow);
+}
+
+</style>
+<style>
+/* ==========================================================================
+   Liphe Design System — Components
+   Buttons, inputs, labels, tags, status chips, cards, tables, navigation.
+   Depends on colors_and_type.css.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* Theming — sub-brand classes on <html> swap brand tokens           */
+/* ------------------------------------------------------------------ */
+:root {
+  --brand-base:    var(--liphe-action);     /* default = Liphe blue */
+  --brand-dark:    var(--liphe-action-hover);
+  --brand-darker:  var(--liphe-action-press);
+  --brand-on-dark: #ffffff;
+  --font-brand:    var(--font-ui);
+}
+.theme-pps  { --brand-base: var(--liphe-brand-pps);  --brand-dark: var(--liphe-pps-dark);  --brand-darker: var(--liphe-pps-darker);  --font-brand: var(--font-brand-pps); }
+.theme-psn  { --brand-base: var(--liphe-brand-psn);  --brand-dark: var(--liphe-psn-dark);  --brand-darker: var(--liphe-psn-darker);  --font-brand: var(--font-brand-psn); }
+.theme-cb   { --brand-base: var(--liphe-brand-cb);   --brand-dark: var(--liphe-cb-dark);   --brand-darker: var(--liphe-cb-darker);   --font-brand: var(--font-brand-cb); }
+.theme-chca { --brand-base: var(--liphe-brand-chca); --brand-dark: var(--liphe-chca-dark); --brand-darker: var(--liphe-chca-darker); --font-brand: var(--font-brand-chca); }
+.theme-sn   { --brand-base: var(--liphe-brand-sn);   --brand-dark: var(--liphe-sn-dark);   --brand-darker: var(--liphe-sn-darker);   --font-brand: var(--font-brand-sn); }
+.theme-ssi  { --brand-base: var(--liphe-brand-ssi);  --brand-dark: var(--liphe-ssi-dark);  --brand-darker: var(--liphe-ssi-darker);  --font-brand: var(--font-brand-ssi); }
+
+/* ==========================================================================
+   BUTTON — required-action (filled) + optional-action (outline)
+   Anatomy: 44h, 8px gap, 8/16 padding, 4px radius, Inter 14/500.
+   ========================================================================== */
+.l-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  height: 44px;
+  padding: 8px 16px;
+  border-radius: var(--radius-xs);
+  font: 500 14px/1 var(--font-ui);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+.l-btn:focus-visible { outline: 0; box-shadow: var(--shadow-focus-ring); }
+
+/* Required action — primary, filled */
+.l-btn--required {
+  background: var(--liphe-action);
+  color: #fff;
+}
+.l-btn--required:hover  { background: var(--liphe-action-hover); }
+.l-btn--required:active { background: var(--liphe-action-press); }
+.l-btn--required:disabled,
+.l-btn--required[aria-disabled="true"] {
+  background: var(--liphe-grey-100);
+  color: var(--liphe-grey-400);
+  cursor: not-allowed;
+}
+
+/* Optional action — outline, secondary */
+.l-btn--optional {
+  background: #fff;
+  color: var(--liphe-action);
+  border: 1px solid var(--liphe-action);
+}
+.l-btn--optional:hover  { background: rgba(0,102,255,0.06); }
+.l-btn--optional:active { background: rgba(0,102,255,0.12); border-color: var(--liphe-action-press); color: var(--liphe-action-press); }
+.l-btn--optional:disabled,
+.l-btn--optional[aria-disabled="true"] {
+  background: #fff;
+  color: var(--liphe-grey-400);
+  border-color: var(--liphe-grey-100);
+  cursor: not-allowed;
+}
+
+/* Ghost — text-only blue link in button shell */
+.l-btn--ghost {
+  background: transparent;
+  color: var(--liphe-action);
+  height: auto;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+.l-btn--ghost:hover { text-decoration: underline; }
+
+/* Sizes */
+.l-btn--sm { height: 32px; padding: 6px 12px; font-size: 13px; }
+.l-btn--md { height: 44px; }
+.l-btn--lg { height: 52px; padding: 12px 20px; font-size: 16px; }
+
+/* Full-width footer CTA — Main CTA Footer pattern */
+.l-cta-footer {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-m);
+  display: flex;
+  gap: var(--space-s);
+  justify-content: flex-end;
+}
+.l-cta-footer .l-btn { min-width: 120px; }
+
+/* ==========================================================================
+   INPUT — labeled, required/optional, with affordance icon
+   States: default, focused, hover, error, warning, disabled.
+   ========================================================================== */
+.l-field { display: flex; flex-direction: column; gap: var(--form-cell-padding); }
+
+.l-field__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font: 500 12px/20px var(--font-ui);
+  color: var(--liphe-grey-500);
+}
+.l-field__label .l-required-dot {
+  width: 6px; height: 6px; border-radius: 999px; background: var(--liphe-action);
+}
+.l-field__label svg { width: 16px; height: 16px; color: var(--liphe-grey-500); }
+
+.l-input {
+  display: flex; align-items: center; gap: var(--space-s);
+  height: 44px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0 8px;
+  font: 400 14px/16px var(--font-ui);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow   var(--duration-fast) var(--ease-out);
+}
+.l-input input,
+.l-input select,
+.l-input textarea {
+  appearance: none; border: 0; outline: 0; background: transparent;
+  width: 100%;
+  font: inherit; color: inherit;
+}
+.l-input input::placeholder { color: var(--liphe-action); }      /* required-empty placeholder = blue */
+.l-input--optional input::placeholder { color: var(--liphe-grey-500); }
+
+.l-input:hover                    { border-color: var(--liphe-grey-300); }
+.l-input:focus-within             { border-color: var(--liphe-action); box-shadow: var(--shadow-focus-ring); }
+.l-input--error                   { border-color: var(--liphe-red); }
+.l-input--error:focus-within      { box-shadow: 0 0 0 3px rgba(255,0,0,0.15); }
+.l-input--warning                 { border-color: var(--liphe-amber); }
+.l-input--warning:focus-within    { box-shadow: 0 0 0 3px rgba(255,140,0,0.18); }
+.l-input--disabled, .l-input[aria-disabled="true"] {
+  background: var(--liphe-grey-50); color: var(--liphe-grey-400); cursor: not-allowed;
+}
+.l-input__adornment { color: var(--liphe-grey-500); display: inline-flex; }
+.l-input__adornment svg { width: 20px; height: 20px; }
+
+.l-field__help  { font: 400 12px/1.18 var(--font-ui); color: var(--liphe-grey-500); }
+.l-field__error { font: 400 12px/1.18 var(--font-ui); color: var(--liphe-red); }
+
+/* ==========================================================================
+   LABEL — leading-icon label used both as field label and as inline meta
+   ========================================================================== */
+.l-meta {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  font: 500 12px/20px var(--font-ui);
+  color: var(--liphe-grey-500);
+}
+.l-meta svg { width: 16px; height: 16px; color: currentColor; }
+
+/* ==========================================================================
+   TAG / CHIP — pill, removable
+   ========================================================================== */
+.l-tag {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  height: 25px; padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--liphe-grey-100);
+  font: 400 14px/1 var(--font-ui);
+  color: var(--liphe-black);
+}
+.l-tag__close {
+  width: 16px; height: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--liphe-action);
+  background: transparent; border: 0; padding: 0; cursor: pointer;
+}
+.l-tag--neutral  { background: var(--liphe-grey-100); color: var(--liphe-grey-700); }
+.l-tag--blue     { background: rgba(0,102,255,0.10); color: var(--liphe-action); }
+.l-tag--success  { background: rgba(0,201,50,0.12);  color: #058a26; }
+.l-tag--warning  { background: rgba(255,140,0,0.14); color: #b35900; }
+.l-tag--error    { background: rgba(255,0,0,0.10);   color: #b50000; }
+
+/* ==========================================================================
+   STATUS PROPERTY — Pending / Submitted / Approved / Rejected (timesheet)
+   Mini badge with leading icon, used in lists and table cells.
+   ========================================================================== */
+.l-status {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font: 500 12px/16px var(--font-ui);
+  border: 1px solid transparent;
+}
+.l-status svg { width: 14px; height: 14px; }
+.l-status--pending    { background: rgba(255,140,0,0.12); color: #b35900; }
+.l-status--submitted  { background: rgba(0,102,255,0.10); color: var(--liphe-action); }
+.l-status--approved   { background: rgba(0,201,50,0.12);  color: #058a26; }
+.l-status--rejected   { background: rgba(255,0,0,0.10);   color: #b50000; }
+.l-status--draft      { background: var(--liphe-grey-100); color: var(--liphe-grey-700); }
+.l-status--stamped    { background: rgba(12,29,41,0.08); color: var(--liphe-ink); }
+
+/* ==========================================================================
+   CARD — flat surface, 1px border. Lift via border, not shadow.
+   ========================================================================== */
+.l-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-m);
+}
+.l-card--soft { background: var(--color-surface-soft); }
+.l-card--hero { padding: var(--space-xl); }
+.l-card__title { font: var(--type-title); margin-bottom: var(--space-xs); }
+.l-card__desc  { font: var(--type-description); color: var(--color-text); }
+
+/* Section eyebrow — coral PPS micro-label, e.g. "Semantic", "Primitives" */
+.l-eyebrow {
+  font: 400 16px/1.22 var(--font-ui);
+  color: var(--color-section-eyebrow);
+  margin-bottom: var(--space-m);
+}
+.l-eyebrow--lg { font-size: 20px; }
+
+/* Section header — ALL-CAPS Inter Bold 24, dark grey */
+.l-section-head {
+  font: 700 24px/1 var(--font-ui);
+  color: var(--liphe-grey-800);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--space-m);
+}
+
+/* ==========================================================================
+   TABLE — TS verification table; density-first
+   table-cell-padding 4px, row height 32, 1px grey-100 dividers
+   ========================================================================== */
+.l-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.l-table th, .l-table td {
+  padding: var(--table-cell-padding) var(--space-s);
+  font: 400 13px/1.18 var(--font-ui);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+}
+.l-table th {
+  font-weight: 500;
+  color: var(--liphe-grey-500);
+  background: var(--color-surface-2);
+  height: 32px;
+}
+.l-table td { height: 36px; color: var(--color-text); }
+.l-table tr:last-child td { border-bottom: 0; }
+.l-table tr:hover td { background: var(--color-surface-2); }
+.l-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   NAV — primary product nav (left rail) + sub-brand top header
+   ========================================================================== */
+.l-nav {
+  display: flex; flex-direction: column; gap: var(--space-xxs);
+  background: #fff;
+  padding: var(--space-s);
+  border-right: 1px solid var(--color-border);
+}
+.l-nav__item {
+  display: flex; align-items: center; gap: var(--space-s);
+  padding: 8px 12px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  font: 500 14px/1 var(--font-ui);
+  color: var(--liphe-grey-700);
+  text-decoration: none;
+  cursor: pointer;
+}
+.l-nav__item:hover    { background: var(--color-surface-2); color: var(--liphe-black); }
+.l-nav__item.is-active {
+  background: rgba(0,102,255,0.08);
+  color: var(--liphe-action);
+}
+.l-nav__item.is-disabled { color: var(--liphe-grey-400); cursor: not-allowed; }
+.l-nav__item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* Top brand header — sub-brand fill, dark or darker */
+.l-brand-bar {
+  display: flex; align-items: center; gap: var(--space-m);
+  height: 64px;
+  padding: 0 var(--space-l);
+  background: var(--brand-darker);
+  color: var(--brand-on-dark);
+  font: 600 16px/1 var(--font-brand);
+}
+.l-brand-bar__title { font-weight: 700; letter-spacing: 0.02em; }
+
+/* ==========================================================================
+   DIALOG / MODAL — 12px radius, white, soft md shadow
+   ========================================================================== */
+.l-dialog {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  max-width: 480px;
+  width: 100%;
+}
+.l-dialog__head { padding: var(--space-l) var(--space-l) var(--space-s); }
+.l-dialog__body { padding: 0 var(--space-l) var(--space-l); }
+.l-dialog__foot {
+  padding: var(--space-m) var(--space-l);
+  border-top: 1px solid var(--color-border);
+  display: flex; gap: var(--space-s); justify-content: flex-end;
+}
+
+/* ==========================================================================
+   LIST ROW — Reported TS Item / Pending TS Item
+   Used heavily on timesheet & dispatch screens.
+   ========================================================================== */
+.l-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: var(--space-m);
+  align-items: center;
+  padding: var(--space-s) var(--space-m);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.l-row + .l-row { margin-top: var(--space-xs); }
+.l-row__lead { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; color: var(--liphe-grey-500); }
+.l-row__title { font: 600 14px/1.18 var(--font-ui); color: var(--color-text); }
+.l-row__meta  { font: 400 12px/1.18 var(--font-ui); color: var(--liphe-grey-500); margin-top: 2px; }
+
+/* Utility: the violet dashed annotation — strip on import */
+.l-anno { border: 1px dashed var(--liphe-violet) !important; }
+
+</style>
+<style>
+/* App-shell layout for the timesheet screen (tokens only, no raw hex) */
+*{box-sizing:border-box}
+body{overflow-x:hidden}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.l-brand-bar{--brand-darker:var(--liphe-liphe-darker);--brand-on-dark:var(--color-text-on-dark);--font-brand:var(--font-ui)}
+.l-brand-bar .logo{height:22px;display:block}
+.l-brand-bar .env{margin-left:auto;font:500 12px/1 var(--font-ui);opacity:.75}
+.shell{display:flex;flex:1;min-height:0}
+.l-nav{width:200px;flex-shrink:0}
+.main{flex:1;padding:var(--space-l);min-width:0}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-m);margin-bottom:var(--space-m);flex-wrap:wrap}
+.page-head h2{font:var(--type-headline)}
+.page-head .sub{display:flex;align-items:center;gap:var(--space-s);margin-top:var(--space-s)}
+.deadline{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-xs)}
+.deadline .l-field__label{justify-content:flex-end}
+.clock{font:700 24px/1 var(--font-ui);font-variant-numeric:tabular-nums;color:var(--liphe-grey-800)}
+.clock.warn{color:var(--liphe-amber)}
+.clock.crit{color:var(--liphe-red)}
+.layout{display:grid;grid-template-columns:1fr 300px;gap:var(--space-m);align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.l-nav{display:none}}
+
+/* Playfield card */
+.field-card{position:relative;padding:0;overflow:hidden}
+.field-card.danger{border:var(--border-error);animation:pulse .8s steps(2) infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(255,0,0,.12)}}
+@media(prefers-reduced-motion:reduce){.field-card.danger{animation:none;box-shadow:0 0 0 4px rgba(255,0,0,.12)}}
+.field-head{display:flex;align-items:center;justify-content:space-between;padding:var(--space-s) var(--space-m);border-bottom:var(--border-default);background:var(--color-surface-2)}
+.field-head h6{margin:0}
+.field-head .hint{font:400 12px/1.18 var(--font-ui);color:var(--color-text-secondary)}
+canvas{display:block;width:100%;height:auto;background:var(--color-bg)}
+.statusline{padding:var(--space-s) var(--space-m);border-top:var(--border-default);font:400 13px/1.18 var(--font-ui);color:var(--color-text-secondary);display:flex;gap:var(--space-s);align-items:center;min-height:34px}
+.statusline.crit{color:var(--liphe-red)}
+
+/* Side column */
+.side{display:flex;flex-direction:column;gap:var(--space-m)}
+.progress{height:8px;background:var(--liphe-grey-100);border-radius:var(--radius-pill);overflow:hidden}
+.progress i{display:block;height:100%;width:0%;background:var(--liphe-action);border-radius:var(--radius-pill);transition:width var(--duration-base) var(--ease-out)}
+.progress i.done{background:var(--color-success)}
+.sum-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:var(--space-s)}
+.sum-row b{font:700 24px/1 var(--font-ui);font-variant-numeric:tabular-nums}
+.sum-row small{color:var(--color-text-secondary)}
+.checklist{list-style:none;margin:var(--space-m) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--space-s)}
+.checklist li{display:flex;gap:var(--space-s);align-items:center;font:400 13px/1.18 var(--font-ui);color:var(--liphe-grey-700)}
+.checklist .dot{width:16px;height:16px;border-radius:var(--radius-pill);border:var(--border-strong);flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
+.checklist li.done .dot{background:var(--color-success);border-color:var(--color-success)}
+.checklist li.done .dot::after{content:"";width:5px;height:8px;border:2px solid var(--liphe-white);border-top:0;border-left:0;transform:rotate(45deg);margin-top:-2px}
+.tbl-wrap{max-height:230px;overflow:auto;border-radius:var(--radius-md)}
+.l-table .empty td{color:var(--color-text-secondary);text-align:center;height:64px}
+
+/* Overlay dialogs over the playfield */
+.veil{position:absolute;inset:0;background:rgba(12,29,41,.32);display:flex;align-items:center;justify-content:center;padding:var(--space-l);z-index:5}
+.veil.hidden{display:none}
+.l-dialog__head h3{font:var(--type-title)}
+.l-dialog__head small{display:block;margin-top:var(--space-xs)}
+kbd{background:var(--liphe-grey-100);border:var(--border-default);border-radius:var(--radius-xs);padding:1px 5px}
+.toastbar{position:absolute;top:var(--space-s);left:50%;transform:translateX(-50%);z-index:4;opacity:0;transition:opacity var(--duration-base) var(--ease-out);pointer-events:none;white-space:nowrap}
+.toastbar.show{opacity:1}
+.l-cta-footer{position:sticky;bottom:0}
+.touch{display:none;gap:var(--space-s);padding:var(--space-s) var(--space-m);border-top:var(--border-default);background:var(--color-surface-2)}
+.touch .l-btn{flex:1}
+body.touch-on .touch{display:flex}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="l-brand-bar">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 478 189" width="478" height="189">
+  <text x="35" y="158" font-family="Inter, -apple-system, system-ui, sans-serif" font-weight="700" font-size="160" fill="#fff" letter-spacing="-3">Liphe</text>
+  <g transform="translate(384.6, 37) scale(0.45)">
+    <g fill="#FFFFFF">
+      
+      <g transform="translate(85,0)">
+        <path d="M 45.862 29.046 L 29.046 29.046 L 29.046 45.862 L 16.816 45.862 L 16.816 29.046 L 0 29.046 L 0 16.816 L 16.816 16.816 L 16.816 0 L 29.046 0 L 29.046 16.816 L 45.862 16.816 Z" fill-rule="nonzero"></path>
+      </g>
+      
+      <g transform="translate(50,55) scale(0.85)">
+        <path d="M 45.862 29.046 L 29.046 29.046 L 29.046 45.862 L 16.816 45.862 L 16.816 29.046 L 0 29.046 L 0 16.816 L 16.816 16.816 L 16.816 0 L 29.046 0 L 29.046 16.816 L 45.862 16.816 Z" fill-rule="nonzero"></path>
+      </g>
+      
+      <g transform="translate(95,90) scale(0.6)">
+        <path d="M 45.862 29.046 L 29.046 29.046 L 29.046 45.862 L 16.816 45.862 L 16.816 29.046 L 0 29.046 L 0 16.816 L 16.816 16.816 L 16.816 0 L 29.046 0 L 29.046 16.816 L 45.862 16.816 Z" fill-rule="nonzero"></path>
+      </g>
+    </g>
+  </g>
+</svg>
+    <span class="l-brand-bar__title">Timesheets</span>
+    <span class="env">Week of Jul 6, 2026 · EN-CA</span>
+  </header>
+  <div class="shell">
+    <nav class="l-nav" aria-label="Primary">
+      <a class="l-nav__item">Dashboard</a>
+      <a class="l-nav__item">Schedule</a>
+      <a class="l-nav__item is-active">Timesheets</a>
+      <a class="l-nav__item">Payroll</a>
+      <a class="l-nav__item">Expenses</a>
+      <a class="l-nav__item is-disabled">Approvals</a>
+    </nav>
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <span class="l-eyebrow">TIMESHEETS</span>
+          <h2>Week of Jul 6, 2026</h2>
+          <div class="sub">
+            <span class="l-status l-status--draft" id="tsStatus">Draft</span>
+            <small id="tsHelp">No hours logged yet. When you're ready, capture the first shift.</small>
+          </div>
+        </div>
+        <div class="deadline">
+          <span class="l-field__label">Submission window closes in</span>
+          <span class="clock" id="clock">2:00</span>
+          <small id="clockHelp">Payroll cutoff is firm.</small>
+        </div>
+      </div>
+
+      <div class="layout">
+        <section class="l-card field-card" id="fieldCard">
+          <div class="field-head">
+            <h6>Shift capture</h6>
+            <span class="hint">Move A / D · Jump Space · Log block Down or S · Pause P</span>
+          </div>
+          <div style="position:relative">
+            <canvas id="game" width="960" height="540"></canvas>
+            <div class="toastbar" id="toast"><span class="l-tag l-tag--blue" id="toastTag">·</span></div>
+
+            <div class="veil" id="startVeil">
+              <div class="l-dialog">
+                <div class="l-dialog__head"><h3>Timesheet period open</h3>
+                  <small>Log 40 net hours before the window closes. Catch a falling block, then carry it to its own weekday column and press Down to log it. Wrong day is rejected.</small></div>
+                <div class="l-dialog__body"><small>You can hold one block at a time and it expires if you dawdle. Night and weekend blocks pay more. Breaks are deducted for you. A stamp is required before you can submit.</small></div>
+                <div class="l-dialog__foot">
+                  <button class="l-btn l-btn--ghost l-btn--md" id="soundBtn">Sound off</button>
+                  <button class="l-btn l-btn--required l-btn--md" id="startBtn">Start capture</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="veil hidden" id="modalVeil">
+              <div class="l-dialog">
+                <div class="l-dialog__head"><h3>Timesheet complete</h3>
+                  <small>40 of 40 hours logged. Final step: obtain the authorizer stamp.</small></div>
+                <div class="l-dialog__body"><small>Last seen near the approval desk. It will relocate 3 times, then accept its fate.</small></div>
+                <div class="l-dialog__foot"><button class="l-btn l-btn--required l-btn--md" id="modalBtn">Locate authorizer</button></div>
+              </div>
+            </div>
+
+            <div class="veil hidden" id="endVeil">
+              <div class="l-dialog">
+                <div class="l-dialog__head"><h3 id="endTitle"></h3><small id="endSub"></small></div>
+                <div class="l-dialog__body" id="endBody"></div>
+                <div class="l-dialog__foot">
+                  <span id="endChip"></span>
+                  <button class="l-btn l-btn--required l-btn--md" id="restartBtn">Start a new period</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="veil hidden" id="timeoutVeil">
+              <div class="l-dialog">
+                <div class="l-dialog__head"><h3>Session timed out</h3>
+                  <small>You've been logged out for your security. Your draft is safe.</small></div>
+                <div class="l-dialog__body"><small>The clock is holding. Resume when you're ready.</small></div>
+                <div class="l-dialog__foot"><button class="l-btn l-btn--required l-btn--md" id="timeoutBtn">Resume session</button></div>
+              </div>
+            </div>
+
+            <div class="veil hidden" id="pauseVeil">
+              <div class="l-dialog"><div class="l-dialog__head"><h3>Paused</h3>
+                <small>The clock is holding. Press <kbd>P</kbd> to resume.</small></div></div>
+            </div>
+          </div>
+          <div class="statusline" id="statusline"><span class="l-tag l-tag--neutral">System</span><span id="statusMsg">Capture area ready.</span></div>
+          <div class="touch">
+            <button class="l-btn l-btn--optional l-btn--md" data-k="left">Left</button>
+            <button class="l-btn l-btn--optional l-btn--md" data-k="right">Right</button>
+            <button class="l-btn l-btn--optional l-btn--md" data-k="deposit">Log</button>
+            <button class="l-btn l-btn--required l-btn--md" data-k="jump">Jump</button>
+          </div>
+        </section>
+
+        <aside class="side">
+          <div class="l-card">
+            <div class="l-card__title" style="font:600 16px/1.2 var(--font-ui)">This week</div>
+            <div class="sum-row"><b><span id="hours">0</span><small style="font:400 14px/1 var(--font-ui)"> / 40 h net</small></b><small id="airNote"></small></div>
+            <div class="progress" style="margin-top:8px"><i id="bar"></i></div>
+            <ul class="checklist">
+              <li id="ck1"><span class="dot"></span>Log 40 hours</li>
+              <li id="ck2"><span class="dot"></span>Obtain authorizer stamp</li>
+              <li id="ck3"><span class="dot"></span>Submit at the ward terminal</li>
+            </ul>
+          </div>
+          <div class="l-card" style="padding:0">
+            <div class="field-head" style="border-bottom:var(--border-default)"><h6>Logged shifts</h6><span class="hint" id="shiftCount">0 entries</span></div>
+            <div class="tbl-wrap">
+              <table class="l-table" id="shiftTable">
+                <thead><tr><th>Day</th><th>Shift</th><th class="num">Hours</th><th>Status</th></tr></thead>
+                <tbody id="shiftBody"><tr class="empty"><td colspan="4">No timesheets yet. When you're ready, add the first shift.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="l-cta-footer" style="margin-top:var(--space-m)">
+        <small id="footHint" style="margin-right:auto;color:var(--color-text-secondary)">Add at least 40 hours and one stamp to submit.</small>
+        <button class="l-btn l-btn--ghost l-btn--md" id="pauseBtn">Pause</button>
+        <button class="l-btn l-btn--required l-btn--md" id="submitBtn" disabled>Submit timesheet</button>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="sr" aria-live="polite" id="live"></div>
+<script>
+(() => {
+"use strict";
+const cv=document.getElementById("game"),ctx=cv.getContext("2d"),W=cv.width,H=cv.height;
+const $=id=>document.getElementById(id);
+const fieldCard=$("fieldCard"),clockEl=$("clock"),clockHelp=$("clockHelp"),bar=$("bar"),
+hoursEl=$("hours"),airNote=$("airNote"),tsStatus=$("tsStatus"),tsHelp=$("tsHelp"),
+statusline=$("statusline"),statusMsg=$("statusMsg"),toastEl=$("toast"),toastTag=$("toastTag"),
+startVeil=$("startVeil"),modalVeil=$("modalVeil"),endVeil=$("endVeil"),pauseVeil=$("pauseVeil"),
+timeoutVeil=$("timeoutVeil"),endTitle=$("endTitle"),endSub=$("endSub"),endBody=$("endBody"),endChip=$("endChip"),
+shiftBody=$("shiftBody"),shiftCount=$("shiftCount"),submitBtn=$("submitBtn"),footHint=$("footHint"),
+ck1=$("ck1"),ck2=$("ck2"),ck3=$("ck3"),live=$("live");
+
+// ---- design tokens ----
+const css=getComputedStyle(document.documentElement);
+const T=n=>css.getPropertyValue(n).trim();
+const C={bg:T("--liphe-canvas"),surface:T("--liphe-white"),surface2:T("--liphe-grey-50"),
+  border:T("--liphe-grey-100"),borderStrong:T("--liphe-grey-300"),ink:T("--liphe-ink"),
+  text:T("--liphe-black"),grey:T("--liphe-grey-500"),grey7:T("--liphe-grey-700"),
+  action:T("--liphe-action"),red:T("--liphe-red"),amber:T("--liphe-amber"),green:T("--liphe-green"),
+  yellow:T("--liphe-yellow"),scrub:T("--liphe-brand-sn"),scrubDark:T("--liphe-sn-dark"),
+  navy:T("--liphe-liphe-darker"),float:T("--liphe-brand-cb")};
+
+// ---- tuning ----
+const TIME=120,TARGET=40,GRAV=.62,ACC=.9,FRIC=.82,MAXV=4.6,JUMP=-13.2,GROUND=498;
+const groundSegs=[{x:0,w:258},{x:322,w:314},{x:694,w:266}]; // narrower pits for carry jumps
+const plats=[{x:120,y:414,w:150},{x:380,y:372,w:170},{x:630,y:424,w:150},
+             {x:210,y:288,w:150},{x:470,y:262,w:170},{x:700,y:216,w:200}];
+const desk={x:735,y:166,w:150,h:50},portal={x:860,y:GROUND-86,w:66,h:86},PH=16;
+const edu={x:18,y:GROUND-42,w:74,h:42};
+const COL=W/7;
+const CARRY_MOVE=.72,CARRY_JUMP=.93,CARRY_MAX=8;      // carry penalty + patience seconds
+const DBL_DUR=15,DBL_PREM=1.5;                        // 24h shift length + deposit bonus
+const SLOW_MOVE=.5,SLOW_DUR=1.6;                      // slowdown penalty for clipping a block
+const WALL_GAP=130,WALL_H=30,WALL_VY=3.4,WALL_EVERY=2.0; // descending maze walls
+const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---- audio ----
+const Snd=(()=>{let ac=null,on=false,mt=null,st=0,tempo=.32;
+  const midi=n=>220*Math.pow(2,n/12);
+  function t(f,d,ty,g){if(!on||!ac)return;const o=ac.createOscillator(),gn=ac.createGain(),n=ac.currentTime;
+    o.type=ty||"sine";o.frequency.value=f;gn.gain.setValueAtTime(.0001,n);
+    gn.gain.exponentialRampToValueAtTime(g||.08,n+.01);gn.gain.exponentialRampToValueAtTime(.0001,n+d);
+    o.connect(gn).connect(ac.destination);o.start(n);o.stop(n+d+.02);}
+  function loop(){if(!on)return;const b=[0,3,5,3,7,5,3,0][st%8];t(midi(b-12),tempo*.8,"triangle",.05);
+    st++;mt=setTimeout(loop,tempo*1000);}
+  return{toggle(){if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();on=!on;
+      if(on){if(ac.state==="suspended")ac.resume();st=0;loop();}else clearTimeout(mt);return on;},tempo:v=>tempo=v,
+    coin(){t(660,.05,"sine",.08);setTimeout(()=>t(990,.07,"sine",.08),50);},
+    pick(){t(520,.05,"triangle",.06);},
+    jump(){t(300,.07,"sine",.05);},dodge(){t(500,.06,"triangle",.06);setTimeout(()=>t(380,.07,"triangle",.06),60);},
+    err(){t(170,.15,"square",.07);},beat(){t(90,.07,"sine",.10);},chirp(){t(1200,.05,"sine",.05);},
+    step(){t(150,.05,"square",.04);},
+    swoop(){if(!on||!ac)return;const o=ac.createOscillator(),gn=ac.createGain(),n=ac.currentTime;
+      o.type="sawtooth";o.frequency.setValueAtTime(900,n);o.frequency.exponentialRampToValueAtTime(150,n+.5);
+      gn.gain.setValueAtTime(.0001,n);gn.gain.exponentialRampToValueAtTime(.05,n+.03);gn.gain.exponentialRampToValueAtTime(.0001,n+.55);
+      o.connect(gn).connect(ac.destination);o.start(n);o.stop(n+.6);},
+    zap(){t(120,.18,"sawtooth",.09);setTimeout(()=>t(80,.2,"square",.08),40);},
+    clear(){t(520,.06,"triangle",.07);setTimeout(()=>t(820,.09,"triangle",.07),70);},
+    door(){t(300,.28,"sine",.05);setTimeout(()=>t(520,.16,"sine",.05),120);},
+    win(){[0,4,7,12].forEach((n,i)=>setTimeout(()=>t(midi(n+12),.22,"sine",.09),i*90));},
+    ok(){[0,7,12].forEach((n,i)=>setTimeout(()=>t(midi(n+24),.12,"triangle",.10),i*70));},
+    lose(){[7,4,0,-5].forEach((n,i)=>setTimeout(()=>t(midi(n),.24,"triangle",.08),i*150));}};})();
+
+// ---- state ----
+let state="start",p,hours,timeLeft,items,parts,pops,sig,spawnT,statT,statIdx,nearT,
+    danger,portalOpen,camShake,beatT,squash,paused,mark=0,shiftIdx=0,
+    breakAccum,breakLost,sigLatched,needCounter,bankedOT,meterLockT,idleT,timedOut,
+    compliance,complyHold,eduPulse,discDone,floatT,floatActive,discFlash,dupToastT,procT=0,
+    carry,carryT,dblActive,dblT,dblDone,walls,wallT,slowT,
+    introT,introWalk,doorOpen,introStep,introDoorSnd;
+
+const urgent=["Payroll portal closing soon, because apparently it has office hours.",
+  "Authorizer last seen near the approval desk.","Timesheet will auto-delete for no clear reason.",
+  "Final reminder: your hours are real, but the system remains skeptical."];
+const calm=["Autosave is on. Every hour counts.","Draft saved. Finish whenever you're ready.",
+  "Reminder: coffee is not a billable activity.","Log each block to its own day."];
+const nearMsgs=["Authorizer detected. Do not startle.","Signature moving to another department.",
+  "They said they'd be right back.","Approval requires eye contact and 3 follow-up emails."];
+const DAYS=["Mon Jul 6","Tue Jul 7","Wed Jul 8","Thu Jul 9","Fri Jul 10","Sat Jul 11","Sun Jul 12"];
+const SHORT=["MON","TUE","WED","THU","FRI","SAT","SUN"];
+const SH={day:{m:1,lab:"Day"},eve:{m:1.15,lab:"Eve"},night:{m:1.5,lab:"Night"}};
+
+function reset(){
+  p={x:60,y:GROUND-46,w:26,h:46,vx:0,vy:0,ground:true,face:1,walk:0,coyote:0,buf:0,fallV:0};
+  hours=0;timeLeft=TIME;items=[];parts=[];pops=[];sig=null;
+  spawnT=0;statT=4.5;statIdx=0;nearT=0;danger=false;portalOpen=false;
+  camShake=0;beatT=0;squash=0;paused=false;shiftIdx=0;
+  breakAccum=0;breakLost=0;sigLatched=false;needCounter=false;bankedOT=0;meterLockT=0;
+  idleT=0;timedOut=false;compliance=1;complyHold=false;eduPulse=0;discDone=false;
+  floatT=0;floatActive=false;discFlash=0;dupToastT=0;procT=0;
+  carry=null;carryT=0;dblActive=false;dblT=0;dblDone=false;walls=[];wallT=0;slowT=0;
+  introT=0;introWalk=0;doorOpen=0;introStep=-1;introDoorSnd=false;
+  Snd.tempo(.32);
+  fieldCard.classList.remove("danger");statusline.classList.remove("crit");
+  shiftBody.innerHTML='<tr class="empty"><td colspan="4">No timesheets yet. When you\u2019re ready, add the first shift.</td></tr>';
+  shiftCount.textContent="0 entries";[ck1,ck2,ck3].forEach(e=>e.classList.remove("done"));
+  setStatus("Capture area ready.","neutral");
+  setTS("draft","Draft","No hours logged yet. When you're ready, capture the first shift.");
+  submitBtn.disabled=true;footHint.textContent="Add at least 40 hours and one stamp to submit.";
+  airNote.textContent="";updateHUD();
+}
+function setTS(kind,label,help){tsStatus.className="l-status l-status--"+kind;tsStatus.textContent=label;
+  if(help!==undefined)tsHelp.textContent=help;}
+function setStatus(msg,kind){statusMsg.textContent=msg;toastTag.className="l-tag l-tag--"+(kind||"neutral");live.textContent=msg;}
+let toastT=null;
+function toast(msg,kind){toastTag.className="l-tag l-tag--"+(kind||"blue");toastTag.textContent=msg;
+  toastEl.classList.remove("show");void toastEl.offsetWidth;toastEl.classList.add("show");
+  clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove("show"),1600);live.textContent=msg;}
+function fmtH(v){return Number.isInteger(v)?v:(Math.round(v*4)/4).toString();}
+function addRow(day,shift,h,kind,label){
+  if(shiftBody.querySelector(".empty"))shiftBody.innerHTML="";
+  const tr=document.createElement("tr");
+  tr.innerHTML="<td>"+day+"</td><td>"+shift+'</td><td class="num">'+h+
+    '</td><td><span class="l-status l-status--'+kind+'">'+label+"</span></td>";
+  shiftBody.prepend(tr);shiftIdx++;shiftCount.textContent=shiftIdx+(shiftIdx===1?" entry":" entries");
+}
+function markRows(kind,label){shiftBody.querySelectorAll(".l-status").forEach(s=>{
+  if(s.classList.contains("l-status--rejected"))return;s.className="l-status l-status--"+kind;s.textContent=label;});}
+function updateHUD(){
+  const s=Math.max(0,timeLeft);
+  clockEl.textContent=Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+  clockEl.classList.toggle("crit",timeLeft<=15);clockEl.classList.toggle("warn",timeLeft>15&&timeLeft<=30);
+  const disp=Math.min(TARGET,hours);
+  bar.style.width=Math.min(100,disp/TARGET*100)+"%";bar.classList.toggle("done",hours>=TARGET);
+  hoursEl.textContent=fmtH(Math.max(0,disp));
+  const bits=[];if(airCatches)bits.push(airCatches+" OT");if(breakLost)bits.push(fmtH(breakLost)+" h breaks");
+  if(bankedOT)bits.push(fmtH(bankedOT)+" h banked");airNote.textContent=bits.join(" \u00b7 ");
+}
+let airCatches=0;
+
+// ---- input ----
+const keys={left:false,right:false,jump:false};
+function wake(){idleT=0;if(timedOut)resumeTimeout();}
+addEventListener("keydown",e=>{const k=e.key.toLowerCase();wake();
+  if(state==="intro"){skipIntro();e.preventDefault();return;}
+  if(k==="arrowleft"||k==="a")keys.left=true;
+  else if(k==="arrowright"||k==="d")keys.right=true;
+  else if(k==="arrowdown"||k==="s"){if(!e.repeat)deposit();e.preventDefault();}
+  else if(k===" "||k==="arrowup"||k==="w"){keys.jump=true;if(p)p.buf=8;e.preventDefault();}
+  else if(k==="p"||k==="escape")togglePause();
+  else if(k==="r"&&(state==="win"||state==="over"))start();});
+addEventListener("keyup",e=>{const k=e.key.toLowerCase();
+  if(k==="arrowleft"||k==="a")keys.left=false;
+  else if(k==="arrowright"||k==="d")keys.right=false;
+  else if(k===" "||k==="arrowup"||k==="w")keys.jump=false;});
+addEventListener("pointerdown",()=>{wake();skipIntro();});
+if("ontouchstart" in window||navigator.maxTouchPoints>0)document.body.classList.add("touch-on");
+document.querySelectorAll("[data-k]").forEach(b=>{const k=b.dataset.k;
+  if(k==="deposit"){["touchstart","mousedown"].forEach(ev=>b.addEventListener(ev,e=>{e.preventDefault();wake();deposit();},{passive:false}));return;}
+  const set=v=>{wake();if(k==="jump"){keys.jump=v;if(v&&p)p.buf=8;}else keys[k]=v;};
+  ["touchstart","mousedown"].forEach(ev=>b.addEventListener(ev,e=>{e.preventDefault();set(true);},{passive:false}));
+  ["touchend","touchcancel","mouseup","mouseleave"].forEach(ev=>b.addEventListener(ev,e=>{e.preventDefault();set(false);},{passive:false}));});
+function togglePause(){if(state==="start"||state==="intro"||state==="win"||state==="over"||timedOut||!modalVeil.classList.contains("hidden"))return;
+  paused=!paused;pauseVeil.classList.toggle("hidden",!paused);$("pauseBtn").textContent=paused?"Resume":"Pause";
+  if(paused)pauseVeil.innerHTML='<div class="l-dialog"><div class="l-dialog__head"><h3>Paused</h3><small>The clock is holding. Press P to resume.</small></div></div>';}
+$("pauseBtn").addEventListener("click",togglePause);
+function resumeTimeout(){timedOut=false;timeoutVeil.classList.add("hidden");idleT=0;}
+$("timeoutBtn").addEventListener("click",resumeTimeout);
+
+// ---- helpers ----
+const hit=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
+const rnd=(a,b)=>a+Math.random()*(b-a);
+function spark(x,y,c,n){for(let i=0;i<(n||8);i++)parts.push({x,y,vx:rnd(-2.2,2.2),vy:rnd(-3.2,-.4),life:rnd(20,42),c});}
+function dust(x,y){for(let i=0;i<6;i++)parts.push({x:x+rnd(-8,8),y,vx:rnd(-1.3,1.3),vy:rnd(-1.1,-.2),life:rnd(12,22),c:C.borderStrong});}
+function pop(x,y,txt,c){pops.push({x,y,txt,c:c||C.action,life:52});}
+function colOf(x){return Math.min(6,Math.max(0,Math.floor(x/COL)));}
+
+// ---- spawning ----
+function newItem(x,opt){opt=opt||{};
+  const base=[2,4,8][Math.random()*3|0];
+  const r=Math.random();const st=r<.55?"day":r<.8?"eve":"night";
+  // The assigned weekday is independent of where the block drops, so almost
+  // every block must be carried across to its own column (drop column no
+  // longer matches the day) — carrying is the whole point.
+  const col=Math.random()*7|0,weekend=col>=5;const mult=SH[st].m*(weekend?1.25:1);
+  const it={x,y:-30,w:34,h:34,vy:rnd(1.1,2),val:base,mult,st,weekend,col,fast:st==="night",
+    rot:rnd(0,6),settled:false,life:600,missed:false,attested:false,dup:false,blocked:false,
+    rounding:Math.random()<.18,evidence:!!opt.evidence};
+  if(opt.dup)it.dup=true;
+  if(!opt.dup&&!opt.evidence&&!dblActive){if(Math.random()<.12)it.missed=true;if(complyHold)it.blocked=true;}
+  if(it.fast)it.vy+=1.1;
+  return it;}
+function spawnItem(){const x=rnd(40,W-80);items.push(newItem(x));
+  if(!complyHold&&!dblActive&&items.length<14&&Math.random()<.10){
+    const dx=Math.max(20,Math.min(W-54,x+rnd(-70,70)));items.push(newItem(dx,{dup:true}));}}
+function spawnSig(counter){sig={x:desk.x+40,y:desk.y-56,w:counter?36:48,h:counter?30:40,tx:0,ty:0,fl:0,gl:0,wt:0,
+       stam:counter?2:3,tired:false,tp:0,counter:!!counter};wander();}
+function wander(){sig.tx=rnd(560,W-100);sig.ty=rnd(130,270);}
+
+// ---- events ----
+function fireDiscrepancy(){discDone=true;discFlash=1.4;const loss=Math.min(2,hours);
+  hours=Math.max(0,hours-loss);Snd.err();
+  addRow("Facility","Reported total","-"+fmtH(loss),"rejected","Rejected");
+  toast("Facility reported "+fmtH(loss)+" fewer hours. Recapture to dispute.","error");
+  setStatus("Facility discrepancy filed. Recapture the disputed hours.","error");
+  for(let i=0;i<2;i++)items.push(newItem(rnd(120,W-140),{evidence:true}));updateHUD();}
+function startFloat(){floatActive=true;floatT=15;toast("Floated to 4-East. Same clock, new cost centre.","warning");
+  setStatus("Working 4-East. Hours log to a different cost centre.","warning");}
+function endFloat(){floatActive=false;setStatus("Back on home unit.","neutral");}
+// ---- 24-hour shift: descending maze walls ----
+function startDouble(){dblActive=true;dblDone=true;dblT=DBL_DUR;walls=[];wallT=.8;slowT=0;
+  toast("Mandatory 24-hour shift. Slip through the gaps.","warning");
+  setStatus("24-hour shift. Line up with the gap in each block. Deposits pay 1.5x.","warning");Snd.swoop();}
+function endDouble(){dblActive=false;walls=[];slowT=0;setStatus("Shift change. Blocks cleared.","neutral");}
+function safeGapX(w){const segs=groundSegs.filter(g=>g.w>=w+8);
+  const s=segs.length?segs[Math.random()*segs.length|0]:groundSegs[0];
+  return rnd(s.x+4,s.x+s.w-w-4);}                       // gap always lands over solid ground
+function spawnWall(){walls.push({y:-WALL_H,gapX:safeGapX(WALL_GAP),gapW:WALL_GAP,vy:WALL_VY,checked:false,safe:false});Snd.swoop();}
+function updateWalls(){const pc=p.y+p.h/2;
+  for(let i=walls.length-1;i>=0;i--){const wl=walls[i];wl.y+=wl.vy;
+    if(!wl.checked&&wl.y+WALL_H>=pc){wl.checked=true;                       // one decisive check per wall
+      const safe=p.x>=wl.gapX&&p.x+p.w<=wl.gapX+wl.gapW;
+      if(safe){wl.safe=true;Snd.clear();pop(p.x+p.w/2,p.y-10,"Clear",C.green);spark(p.x+p.w/2,p.y,C.green,10);}
+      else{wl.safe=false;slowT=SLOW_DUR;Snd.zap();camShake=Math.max(camShake,7);
+        pop(p.x+p.w/2,p.y-10,"Slowed",C.red);
+        if(dupToastT<=0){dupToastT=1;setStatus("Clipped the block. Slowed for a moment.","error");}}}
+    if(wl.y>H)walls.splice(i,1);}}
+
+// ---- transitions ----
+function toSign(){state="sign";modalVeil.classList.remove("hidden");Snd.ok();
+  setTS("pending","Pending","40 of 40 hours logged. Stamp required.");markRows("pending","Pending");
+  ck1.classList.add("done");footHint.textContent="Stamp required before submission.";}
+function getSig(){const wasCounter=sig.counter;spark(sig.x+24,sig.y+20,C.green,26);sig=null;
+  if(!wasCounter&&Math.random()<.10){needCounter=true;spawnSig(true);Snd.dodge();
+    toast("Stamp requires a countersignature.","warning");
+    setStatus("Second approver required. Chase the countersignature.","warning");return;}
+  portalOpen=true;state="portal";Snd.win();camShake=8;ck2.classList.add("done");
+  toast("Authorizer stamp acquired","success");
+  setTS("stamped","Stamped","Approval status: somehow approved.");markRows("stamped","Stamped");
+  setStatus("Payroll can no longer pretend this did not happen. Submit at the ward terminal.","success");
+  footHint.textContent="Reach the ward terminal to submit.";submitBtn.disabled=false;}
+function toProcessing(){state="processing";procT=2.0;Snd.chirp();submitBtn.disabled=true;
+  setTS("submitted","In review","Processing. Remain at the terminal.");
+  setStatus("Processing. Do not close the window.","blue");}
+function win(){state="win";Snd.win();ck3.classList.add("done");
+  setTS("submitted","Submitted","We'll let you know when it's processed.");markRows("submitted","Submitted");
+  endTitle.textContent="Timesheet submitted";endSub.textContent="Approval status: miraculously accepted.";
+  endBody.innerHTML="<small>Payroll has received your hours and will now think about them for 3 to 5 business years.</small>"+
+    "<small style='display:block;margin-top:8px'>Time left: "+Math.ceil(timeLeft)+" s \u00b7 Overtime: "+airCatches+
+    " h \u00b7 Breaks deducted: "+fmtH(breakLost)+" h \u00b7 Dodges: "+dodges+"</small>";
+  endChip.innerHTML='<span class="l-status l-status--approved">Approved</span>';endVeil.classList.remove("hidden");}
+function over(reason){state="over";Snd.lose();submitBtn.disabled=true;setTS("rejected","Rejected","");
+  endChip.innerHTML='<span class="l-status l-status--rejected">Rejected</span>';
+  if(reason==="time"){endTitle.textContent="Shift over. Timesheet unapproved";
+    endSub.textContent="The submission window has closed.";
+    endBody.innerHTML="<small>You collected the hours, but not the sacred signature. Please resubmit during the next payroll moon cycle.</small>";}
+  else{endTitle.textContent="Nurse down";endSub.textContent="You fell through a gap in the ward floor.";
+    endBody.innerHTML="<small>Facilities has been notified and will respond eventually. Hours banked: "+fmtH(hours)+".</small>";}
+  endVeil.classList.remove("hidden");}
+let dodges=0;
+
+// ---- physics ----
+function landCheck(o,prevBot){if(o.vy<0)return false;const bot=o.y+o.h;
+  for(const g of groundSegs)if(o.x+o.w>g.x&&o.x<g.x+g.w&&bot>=GROUND&&prevBot<=GROUND+1){o.y=GROUND-o.h;return true;}
+  for(const pl of plats)if(o.x+o.w>pl.x&&o.x<pl.x+pl.w&&bot>=pl.y&&prevBot<=pl.y+1){o.y=pl.y-o.h;return true;}
+  return false;}
+
+// ---- pick up ----
+function tryCatch(it,i){
+  if(it.blocked){if(dupToastT<=0){dupToastT=1.2;toast("Pending compliance. Renew at education desk.","warning");}return false;}
+  if(it.missed&&!it.attested){it.attested=true;Snd.jump();pop(it.x,it.y-6,"Attested",C.action);
+    if(dupToastT<=0){dupToastT=1.4;toast("Punch attested. Touch again to pick up.","blue");}return false;}
+  if(it.dup){items.splice(i,1);meterLockT=1.3;Snd.err();camShake=4;
+    addRow(DAYS[it.col%7],"Duplicate","\u2014","rejected","Rejected");
+    toast("Duplicate entry flagged. Meter held.","error");return true;}
+  if(meterLockT>0){if(dupToastT<=0){dupToastT=1;toast("Meter locked. One moment.","warning");}return false;}
+  // pick up (one at a time)
+  carry={val:it.val,mult:it.mult,st:it.st,weekend:it.weekend,col:it.col,rounding:it.rounding,
+         evidence:it.evidence,air:!it.settled};
+  carryT=CARRY_MAX;items.splice(i,1);Snd.pick();
+  if(dupToastT<=0){dupToastT=1;toast("Carry it to "+SHORT[carry.col]+", then press Down.","blue");}
+  return true;}
+
+// ---- deposit ----
+function deposit(){
+  if(!carry||state==="start"||state==="win"||state==="over"||paused||timedOut)return;
+  if(!p.ground){if(dupToastT<=0){dupToastT=.8;toast("Land in the day column, then log.","warning");}return;}
+  const col=colOf(p.x+p.w/2),cy=carry;
+  if(col!==cy.col){
+    addRow(DAYS[cy.col%7],SHORT[col]+" slot","\u2014","rejected","Wrong day");
+    toast("Logged to the wrong day. Rejected.","error");meterLockT=1.1;Snd.err();camShake=4;
+    carry=null;return;}
+  let gain=cy.val*cy.mult;
+  if(cy.rounding)gain=Math.max(.25,gain-.25);
+  if(cy.air){gain+=1;airCatches++;}
+  if(dblActive)gain*=DBL_PREM;
+  const day=DAYS[cy.col%7],unit=floatActive?"4-East":SH[cy.st].lab;
+  const tags=unit+(cy.weekend?" \u00b7 WE":"")+(cy.air?" \u00b7 OT":"")+(dblActive?" \u00b7 24h":"");
+  const px=p.x+p.w/2;
+  if(sigLatched){
+    if(cy.air){bankedOT+=gain;addRow(day,tags,fmtH(gain),"stamped","Banked");Snd.coin();spark(px,p.y,C.action,10);
+      if(dupToastT<=0){dupToastT=1;toast("Pre-approved overtime banked.","blue");}}
+    else{Snd.err();pop(px-10,p.y-4,"OT not authorized",C.red);}
+    carry=null;updateHUD();return;}
+  if(cy.rounding&&dupToastT<=0){dupToastT=1.2;toast("Rounded to the nearest quarter hour. Downward.","warning");}
+  hours+=gain;breakAccum+=gain;spark(px,p.y,cy.evidence?C.amber:C.green,12);
+  addRow(day,tags,fmtH(gain),"draft","Draft");
+  pop(px-6,p.y-4,"+"+fmtH(gain)+" h"+(dblActive?" 24h":cy.air?" OT":""),dblActive?C.amber:cy.air?C.green:C.action);
+  Snd.coin();
+  while(breakAccum>=8){breakAccum-=8;const cut=Math.min(.5,hours);hours=Math.max(0,hours-cut);breakLost+=cut;
+    addRow(day,"Unpaid break","-"+fmtH(cut),"draft","Auto");pop(px-14,p.y+14,"-"+fmtH(cut)+" h break",C.grey);}
+  carry=null;updateHUD();
+  if(hours>=TARGET&&!sigLatched){sigLatched=true;spawnSig(false);toSign();}
+  else if(state==="play")setTS("draft","Draft",fmtH(Math.max(0,TARGET-hours))+" hours to go.");}
+
+// ---- intro cutscene ----
+function updateIntro(dt){introT+=dt;introWalk+=dt*8;
+  if(introT<3.3){const ph=Math.floor(introT/0.34);if(ph!==introStep){introStep=ph;Snd.step();}}
+  if(introT>2.4){doorOpen=Math.min(1,doorOpen+dt*1.7);if(!introDoorSnd){introDoorSnd=true;Snd.door();}}
+  if(introT>=4.4)beginPlay();}
+
+// ---- update ----
+function update(dt){
+  if(state==="intro"){updateIntro(dt);return;}
+  if(state==="start"||state==="win"||state==="over"||paused||timedOut)return;
+  const modalUp=!modalVeil.classList.contains("hidden");
+  if(state!=="processing"&&!modalUp){
+    // Only accrue idle time when the player is genuinely inactive. Actively
+    // moving, jumping, being airborne or carrying a block keeps the session
+    // alive, so waiting for a block to fall no longer triggers a spurious
+    // logout. The threshold is also relaxed from 6s to 15s.
+    const engaged=keys.left||keys.right||keys.jump||!!carry||!p.ground||Math.abs(p.vx)>0;
+    if(engaged)idleT=0;else idleT+=dt;
+    if(idleT>15){timedOut=true;timeoutVeil.classList.remove("hidden");Snd.err();return;}}
+  if(!modalUp){timeLeft-=dt;if(timeLeft<=0){timeLeft=0;updateHUD();
+    if(state==="processing"){win();return;} over("time");return;}}
+
+  const wasD=danger;danger=timeLeft<=30;
+  if(danger&&!wasD){fieldCard.classList.add("danger");statusline.classList.add("crit");Snd.tempo(.18);statIdx=0;clockHelp.textContent="Cutoff imminent.";}
+  if(danger){beatT-=dt;if(beatT<=0){beatT=timeLeft<=12?.5:.9;Snd.beat();}}
+  statT-=dt;
+  if(statT<=0){statT=danger?2.4:4.8;
+    if(danger){setStatus(urgent[statIdx%4],"error");statIdx++;}
+    else if(state==="play")setStatus(calm[Math.random()*calm.length|0],"neutral");}
+
+  // staggered events
+  if(state==="play"){
+    // Events fire on hours-logged milestones, not clock time, so an efficient
+    // player who reaches 40h quickly still meets them before the chase starts.
+    if(!discDone&&!sigLatched&&hours>=8&&timeLeft<=TIME*.66)fireDiscrepancy();
+    if(!dblDone&&!dblActive&&!floatActive&&!sigLatched&&hours>=16&&timeLeft>20)startDouble();
+    if(!floatActive&&floatT===0&&!dblActive&&!sigLatched&&hours>=28&&timeLeft>16){startFloat();}
+  }
+  if(dblActive){dblT-=dt;wallT-=dt;
+    if(wallT<=0&&dblT>1.4){wallT=WALL_EVERY;spawnWall();}   // stop spawning near the end so walls clear
+    updateWalls();
+    if(dblT<=0||sigLatched)endDouble();}
+  if(slowT>0)slowT-=dt;
+  if(floatActive){floatT-=dt;if(floatT<=0){floatT=0.0001;endFloat();}}
+
+  if(!complyHold&&!sigLatched){compliance-=dt/16;if(compliance<=0){compliance=0;complyHold=true;
+    toast("CPR certification expired. New blocks on hold.","error");setStatus("Compliance hold. Renew at the education desk.","error");}}
+  eduPulse+=.12;
+  if(dupToastT>0)dupToastT-=dt;
+  if(discFlash>0)discFlash-=dt;
+  if(meterLockT>0)meterLockT-=dt;
+  // carry patience
+  if(carry){carryT-=dt;if(carryT<=0){carry=null;Snd.err();toast("Entry expired unlogged.","error");}}
+  if(modalUp)return;
+
+  // Renewal is deliberate — only when the cert has actually expired. This stops
+  // incidental contact (spawn point / Monday deposits sit on the desk) from
+  // silently topping it up, so the hold is guaranteed to happen at least once.
+  if(hit(p,edu)&&complyHold){toast("Certification renewed. Blocks released.","success");
+    compliance=1;complyHold=false;Snd.chirp();}
+
+  // movement (carry + fatigue penalties)
+  const slow=slowT>0?SLOW_MOVE:1;
+  const mv=MAXV*(carry?CARRY_MOVE:1)*slow;
+  const ac=ACC*(carry?CARRY_MOVE:1)*slow;
+  const jv=JUMP*(carry?CARRY_JUMP:1);
+  if(keys.left){p.vx-=ac;p.face=-1;}
+  if(keys.right){p.vx+=ac;p.face=1;}
+  if(!keys.left&&!keys.right)p.vx*=FRIC;
+  p.vx=Math.max(-mv,Math.min(mv,p.vx));if(Math.abs(p.vx)<.05)p.vx=0;
+  if(p.ground)p.coyote=8;else if(p.coyote>0)p.coyote--;
+  if(p.buf>0)p.buf--;
+  if(p.buf>0&&p.coyote>0){p.vy=jv;p.ground=false;p.coyote=0;p.buf=0;squash=-1;Snd.jump();dust(p.x+p.w/2,p.y+p.h);}
+  if(!keys.jump&&p.vy<-4)p.vy=-4;
+  p.vy+=GRAV;if(p.vy>16)p.vy=16;p.fallV=p.vy;
+  p.x+=p.vx;p.x=Math.max(0,Math.min(W-p.w,p.x));
+  const prevBot=p.y+p.h;p.y+=p.vy;
+  const wasAir=!p.ground;p.ground=landCheck(p,prevBot);
+  if(p.ground){if(wasAir&&p.fallV>7){squash=1;camShake=Math.min(camShake+3,6);dust(p.x+p.w/2,p.y+p.h);}p.vy=0;}
+  if(Math.abs(p.vx)>.5&&p.ground)p.walk+=.28;
+  squash*=.85;
+  if(p.y>H+30){over("fall");return;}
+
+  if(state==="processing"){
+    if(hit(p,portal)){procT-=dt;if(procT<=0){win();return;}}
+    else if(dupToastT<=0){dupToastT=1;toast("Remain at the terminal to finish.","warning");}}
+
+  spawnT-=dt;
+  if(spawnT<=0){
+    if(state==="play"){spawnT=rnd(.5,1);spawnItem();}
+    else if(sigLatched){spawnT=rnd(1.1,2.0);spawnItem();}   // red-tape rain during the chase
+    else{spawnT=rnd(3.5,6);if(Math.random()<.5)spawnItem();}}
+
+  for(let i=items.length-1;i>=0;i--){const it=items[i];it.rot+=.08;
+    if(!it.settled){it.vy+=GRAV*.5;if(it.vy>6)it.vy=6;const pb=it.y+it.h;it.y+=it.vy;
+      if(landCheck(it,pb)){it.settled=true;it.vy=0;}
+      if(it.y>H+40){items.splice(i,1);continue;}}
+    else{it.life-=dt*60;if(it.life<=0){items.splice(i,1);continue;}}
+    if(hit(p,{x:it.x-6,y:it.y-6,w:it.w+12,h:it.h+12})){
+      if(sigLatched){                                       // after 40h these are red-tape hazards
+        items.splice(i,1);slowT=SLOW_DUR;Snd.zap();camShake=Math.max(camShake,6);
+        pop(p.x+p.w/2,p.y-8,"Red tape",C.red);
+        if(dupToastT<=0){dupToastT=1.2;toast("Red tape. Slowed for a moment.","error");}}
+      else if(carry){if(dupToastT<=0){dupToastT=1.4;toast("Hands full. Log the block you're carrying.","warning");}}
+      else tryCatch(it,i);}}
+
+  if(sig){sig.fl+=.08;sig.gl+=.12;sig.wt-=dt;sig.tp-=dt;
+    if(sig.wt<=0){sig.wt=rnd(1.6,2.8);if(!sig.tired)wander();}
+    const cx=p.x+p.w/2,cy=p.y+p.h/2,sx=sig.x+sig.w/2,sy=sig.y+sig.h/2;
+    const dx=sx-cx,dy=sy-cy,dist=Math.hypot(dx,dy);let tx=sig.tx,ty=sig.ty,ease=sig.counter?.06:.045;
+    if(!sig.tired&&dist<150){tx=Math.max(540,Math.min(W-100,sx+dx/(dist||1)*(sig.counter?150:120)));
+      ty=Math.max(120,Math.min(290,sy+dy/(dist||1)*90));nearT-=dt;
+      if(nearT<=0){nearT=1.6;toast(nearMsgs[Math.random()*4|0],"warning");Snd.dodge();}
+      if(dist<70&&sig.tp<=0){sig.stam--;dodges++;sig.tp=1.2;spark(sx,sy,C.amber,14);
+        if(sig.stam<=0){sig.tired=true;toast(sig.counter?"Countersigned. Reluctantly.":"Fine. One signature.","success");}
+        else{sig.x=rnd(560,W-110);sig.y=rnd(130,270);wander();toast("Signature moved to another department","warning");Snd.dodge();}}}
+    if(sig.tired){ease=.02;tx=sig.x;ty=sig.y;}
+    sig.x+=(tx-sig.x)*ease;sig.y+=(ty-sig.y)*ease;
+    const bob=Math.sin(sig.fl)*6;
+    // Signing requires the authorizer to be worn down first (stamina exhausted).
+    // Overlapping before that only counts as a dodge, so the "dodge 3 times"
+    // design can no longer be skipped during the cooldown window.
+    if(hit(p,{x:sig.x-6,y:sig.y+bob-6,w:sig.w+12,h:sig.h+12})&&sig.tired)getSig();}
+
+  if(state==="portal"&&hit(p,portal)&&portalOpen){toProcessing();return;}
+  if((state==="play"||state==="sign")&&hit(p,portal)){
+    p.vx=-6;p.x-=24;p.vy=-6;camShake=5;Snd.err();
+    if(dupToastT<=0){dupToastT=1;toast("Can't submit. Stamp missing.","error");
+      setStatus(["Approval status: emotionally unavailable.","Please locate the person who definitely saw your email."][Math.random()*2|0],"error");}}
+
+  for(let i=parts.length-1;i>=0;i--){const s=parts[i];s.x+=s.vx;s.y+=s.vy;s.vy+=.18;if(--s.life<=0)parts.splice(i,1);}
+  for(let i=pops.length-1;i>=0;i--){const o=pops[i];o.y-=.8;if(--o.life<=0)pops.splice(i,1);}
+  camShake*=.86;mark+=.1;updateHUD();}
+
+// ---- render ----
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function card(x,y,w,h,r,fill){ctx.fillStyle=fill||C.surface;rr(x,y,w,h,r);ctx.fill();ctx.strokeStyle=C.border;ctx.lineWidth=1;ctx.stroke();}
+function chip(x,y,txt,fg,bg){ctx.font="600 10px Inter, sans-serif";const w=ctx.measureText(txt).width+16;
+  ctx.fillStyle=bg;rr(x,y,w,18,9);ctx.fill();ctx.fillStyle=fg;ctx.textAlign="left";
+  ctx.textBaseline="middle";ctx.fillText(txt,x+8,y+10);ctx.textBaseline="alphabetic";return w;}
+
+// the Liphe plus — always Action Blue per the design system
+function drawPlus(cx,cy,s,col){ctx.fillStyle=col||C.action;
+  ctx.fillRect(cx-s,cy-s/3,2*s,2*s/3);ctx.fillRect(cx-s/3,cy-s,2*s/3,2*s);}
+function drawWalls(){
+  // faint full-height lane marking the gap of the nearest approaching wall
+  const next=walls.filter(w=>!w.checked).sort((a,b)=>a.y-b.y)[0];
+  if(next){ctx.fillStyle="rgba(0,201,50,.06)";ctx.fillRect(next.gapX,28,next.gapW,H-28);
+    ctx.strokeStyle="rgba(0,201,50,.5)";ctx.setLineDash([4,5]);ctx.lineWidth=1.5;
+    ctx.strokeRect(next.gapX+.5,28.5,next.gapW-1,H-29);ctx.setLineDash([]);}
+  for(const wl of walls){const y=wl.y,rgt=wl.gapX+wl.gapW,edge=wl.checked?(wl.safe?C.green:C.red):C.amber;
+    ctx.fillStyle="rgba(255,140,0,.16)";ctx.fillRect(0,y,wl.gapX,WALL_H);ctx.fillRect(rgt,y,W-rgt,WALL_H);
+    ctx.fillStyle=edge;ctx.fillRect(0,y,wl.gapX,3);ctx.fillRect(0,y+WALL_H-3,wl.gapX,3);
+    ctx.fillRect(rgt,y,W-rgt,3);ctx.fillRect(rgt,y+WALL_H-3,W-rgt,3);
+    ctx.strokeStyle=C.green;ctx.setLineDash([6,4]);ctx.lineWidth=2;ctx.beginPath();
+    ctx.moveTo(wl.gapX,y-6);ctx.lineTo(wl.gapX,y+WALL_H+6);
+    ctx.moveTo(rgt,y-6);ctx.lineTo(rgt,y+WALL_H+6);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle="#b35900";ctx.font="700 9px Inter, sans-serif";ctx.textAlign="center";
+    if(wl.gapX>72)ctx.fillText("24-HOUR SHIFT",wl.gapX/2,y+WALL_H/2+3);
+    if(W-rgt>92)ctx.fillText("SLIP THROUGH THE GAP",rgt+(W-rgt)/2,y+WALL_H/2+3);
+    ctx.textAlign="left";}}
+function drawIntro(){
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,C.surface);g.addColorStop(1,C.surface2);
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=C.surface2;ctx.fillRect(0,GROUND,W,H-GROUND);
+  ctx.fillStyle=C.borderStrong;ctx.fillRect(0,GROUND,W,2);
+  // hospital facade
+  const bx=250,bw=460,by=96,bh=GROUND-by;card(bx,by,bw,bh,10,C.surface);
+  ctx.save();rr(bx,by,bw,44,10);ctx.clip();ctx.fillStyle=C.navy;ctx.fillRect(bx,by,bw,44);ctx.restore();
+  const plusX=bx+150,plusY=by+22;drawPlus(plusX,plusY,9,C.action);
+  ctx.fillStyle="#fff";ctx.font="700 20px Inter, sans-serif";ctx.textAlign="left";ctx.textBaseline="middle";
+  ctx.fillText("LIPHE GENERAL",plusX+22,plusY+1);ctx.textBaseline="alphabetic";
+  // windows
+  ctx.fillStyle="rgba(75,193,240,.18)";
+  for(let r=0;r<2;r++)for(let c=0;c<6;c++){if(c>=2&&c<=3)continue;rr(bx+24+c*72,by+64+r*70,52,44,6);ctx.fill();}
+  // entrance + sliding glass doors
+  const dw=120,dcx=W/2,dtop=GROUND-150,dh=150,slide=doorOpen*(dw/2-2);
+  ctx.fillStyle=C.surface2;rr(dcx-dw/2-8,dtop-8,dw+16,dh+8,8);ctx.fill();ctx.strokeStyle=C.border;ctx.lineWidth=1;ctx.stroke();
+  if(doorOpen>0){ctx.fillStyle="rgba(0,102,255,"+(0.06+0.06*doorOpen)+")";ctx.fillRect(dcx-slide,dtop,slide*2,dh);}
+  ctx.fillStyle="rgba(75,193,240,.30)";
+  rr(dcx-dw/2,dtop,dw/2-1-slide,dh,4);ctx.fill();rr(dcx+1+slide,dtop,dw/2-1-slide,dh,4);ctx.fill();
+  // nurse walks in from the left, then enters
+  const startX=-40,DOORX=dcx-13,walkT=Math.min(1,introT/3.2);
+  const nx=startX+(DOORX-startX)*walkT,enter=Math.max(0,Math.min(1,(introT-3.4)/0.9));
+  ctx.save();ctx.globalAlpha=1-enter*.85;
+  drawNurse({x:nx,y:GROUND-46,w:26,h:46,vx:walkT<1?2:0,ground:true,face:1,walk:introWalk});
+  ctx.restore();
+  // caption
+  ctx.fillStyle=C.grey7;ctx.font="600 14px Inter, sans-serif";ctx.textAlign="center";
+  ctx.fillText(introT<2.6?"Arriving on shift":introT<3.6?"Badging in":"Welcome back",W/2,GROUND+34);
+  ctx.fillStyle=C.grey;ctx.font="400 11px Inter, sans-serif";
+  ctx.fillText("Press any key to skip",W/2,GROUND+52);ctx.textAlign="left";
+  if(introT>3.9){const a=Math.min(1,(introT-3.9)/0.5);ctx.fillStyle="rgba(252,252,252,"+a+")";ctx.fillRect(0,0,W,H);}}
+
+function draw(){
+  if(state==="intro"){drawIntro();return;}
+  ctx.save();
+  if(camShake>.3)ctx.translate(rnd(-camShake,camShake),rnd(-camShake,camShake));
+  ctx.fillStyle=C.bg;ctx.fillRect(-10,-10,W+20,H+20);
+
+  // target-column highlight while carrying
+  if(carry){const tc=carry.col*COL;
+    ctx.fillStyle="rgba(0,201,50,.09)";ctx.fillRect(tc,28,COL,H-28);
+    ctx.strokeStyle=C.green;ctx.setLineDash([6,4]);ctx.lineWidth=2;ctx.strokeRect(tc+1,29,COL-2,H-30);ctx.setLineDash([]);}
+
+  ctx.strokeStyle=floatActive?"rgba(0,149,245,.18)":C.border;ctx.lineWidth=1;
+  for(let i=1;i<7;i++){const x=i*COL;ctx.beginPath();ctx.moveTo(x,28);ctx.lineTo(x,H);ctx.stroke();}
+  ctx.fillStyle="rgba(255,217,0,.05)";ctx.fillRect(5*COL,28,2*COL,H-28);
+  ctx.font="500 11px Inter, sans-serif";ctx.textAlign="center";
+  for(let i=0;i<7;i++){ctx.fillStyle=(carry&&carry.col===i)?C.green:C.grey;
+    ctx.fillText(floatActive?("4E-"+(i+1)):SHORT[i],(i+.5)*COL,18);}
+  ctx.textAlign="left";
+
+  for(let i=0;i<groundSegs.length-1;i++){const a=groundSegs[i],b=groundSegs[i+1],px=a.x+a.w,pw=b.x-px;
+    ctx.fillStyle="rgba(255,0,0,.05)";ctx.fillRect(px,GROUND,pw,H-GROUND);
+    ctx.strokeStyle=C.red;ctx.setLineDash([5,4]);ctx.lineWidth=1.5;ctx.strokeRect(px+1,GROUND+1,pw-2,H-GROUND);ctx.setLineDash([]);
+    ctx.fillStyle=C.red;ctx.font="600 9px Inter, sans-serif";ctx.textAlign="center";
+    ctx.fillText("GAP",px+pw/2,GROUND+22);ctx.textAlign="left";}
+  for(const g of groundSegs){ctx.fillStyle=C.surface2;ctx.fillRect(g.x,GROUND,g.w,H-GROUND);
+    ctx.fillStyle=floatActive?C.float:C.borderStrong;ctx.fillRect(g.x,GROUND,g.w,2);}
+  for(const pl of plats){card(pl.x,pl.y,pl.w,PH,4);ctx.fillStyle=C.action;ctx.fillRect(pl.x,pl.y,3,PH);}
+  drawEdu();drawDesk();drawPortal();
+  for(const it of items)drawItem(it);
+  if(dblActive)drawWalls();
+  if(sig)drawSig(sig);
+  for(const s of parts){ctx.globalAlpha=Math.max(0,s.life/42);ctx.fillStyle=s.c;ctx.fillRect(s.x,s.y,3,3);}
+  ctx.globalAlpha=1;
+  for(const o of pops){ctx.globalAlpha=Math.min(1,o.life/25);ctx.fillStyle=o.c;
+    ctx.font="700 12px Inter, sans-serif";ctx.textAlign="center";ctx.fillText(o.txt,o.x,o.y);ctx.textAlign="left";}
+  ctx.globalAlpha=1;
+  if(sig)drawMark(sig);
+  if(p)drawNurse(p);
+  if(carry)drawCarry();
+
+  let cx=8;
+  if(dblActive)cx+=chip(cx,32,"24h shift 0:"+String(Math.ceil(Math.max(0,dblT))).padStart(2,"0"),"#b35900","rgba(255,140,0,.14)")+6;
+  if(complyHold)cx+=chip(cx,32,"Compliance hold",C.red,"rgba(255,0,0,.10)")+6;
+  else if(compliance<.34){const secs=Math.ceil(compliance*42);
+    cx+=chip(cx,32,"CPR cert 0:"+String(secs).padStart(2,"0"),"#b35900","rgba(255,140,0,.14)")+6;}
+  if(floatActive)chip(cx,32,"4-East 0:"+String(Math.ceil(Math.max(0,floatT))).padStart(2,"0"),C.action,"rgba(0,102,255,.10)");
+  if(state==="processing")drawProcessing();
+  ctx.restore();
+
+  // full-screen treatments (stable, unshaken)
+  if(dblActive){const a=.06+.04*Math.sin(Date.now()/160);   // amber banner instead of reduced vision
+    const v=ctx.createLinearGradient(0,0,0,120);
+    v.addColorStop(0,"rgba(255,140,0,"+a+")");v.addColorStop(1,"rgba(255,140,0,0)");ctx.fillStyle=v;ctx.fillRect(0,0,W,120);}
+  if(danger){const a=.05+.04*Math.sin(Date.now()/180);
+    const v=ctx.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,H*.8);
+    v.addColorStop(0,"rgba(255,0,0,0)");v.addColorStop(1,"rgba(255,0,0,"+a+")");ctx.fillStyle=v;ctx.fillRect(0,0,W,H);}
+  if(discFlash>0){ctx.globalAlpha=Math.min(.12,discFlash*.1);ctx.fillStyle=C.red;ctx.fillRect(0,0,W,H);ctx.globalAlpha=1;}}
+
+function drawCarry(){const cx=p.x+p.w/2,cy=p.y-16,c=carry;
+  const ring=Math.max(0,carryT/CARRY_MAX),low=carryT<3;
+  card(cx-17,cy-15,34,30,5,C.surface);
+  ctx.strokeStyle=low?C.red:C.green;ctx.lineWidth=2;rr(cx-17,cy-15,34,30,5);ctx.stroke();
+  ctx.fillStyle=C.action;ctx.font="700 11px Inter, sans-serif";ctx.textAlign="center";ctx.fillText(c.val+"h",cx,cy-1);
+  ctx.fillStyle=low?C.red:C.grey7;ctx.font="600 7px Inter, sans-serif";ctx.fillText(SHORT[c.col],cx,cy+9);
+  // patience ring
+  ctx.strokeStyle=C.border;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy-24,7,0,7);ctx.stroke();
+  ctx.strokeStyle=low?C.red:C.green;ctx.beginPath();ctx.arc(cx,cy-24,7,-Math.PI/2,-Math.PI/2+ring*2*Math.PI);ctx.stroke();
+  ctx.textAlign="left";}
+function drawEdu(){const d=edu,warn=complyHold||compliance<.34;
+  card(d.x,d.y,d.w,d.h,6,C.surface);ctx.fillStyle=warn?C.amber:C.green;ctx.fillRect(d.x,d.y,3,d.h);
+  ctx.fillStyle=C.grey7;ctx.font="700 8px Inter, sans-serif";ctx.textAlign="center";ctx.fillText("EDUCATION",d.x+d.w/2,d.y+16);
+  ctx.fillStyle=warn?"#b35900":C.grey;ctx.font="500 8px Inter, sans-serif";
+  ctx.fillText(complyHold?"Renew CPR":"CPR current",d.x+d.w/2,d.y+30);
+  ctx.fillStyle=C.border;ctx.fillRect(d.x+10,d.y+34,d.w-20,4);
+  ctx.fillStyle=warn?C.amber:C.green;ctx.fillRect(d.x+10,d.y+34,(d.w-20)*compliance,4);ctx.textAlign="left";}
+function drawDesk(){const d=desk;card(d.x-6,d.y-30,d.w+12,22,4,C.surface);
+  ctx.fillStyle=C.grey7;ctx.font="700 10px Inter, sans-serif";ctx.textAlign="center";ctx.fillText("APPROVAL DESK",d.x+d.w/2,d.y-15);
+  card(d.x,d.y,d.w,d.h,6,C.surface);ctx.fillStyle=C.surface2;rr(d.x+d.w/2-38,d.y+12,76,24,4);ctx.fill();ctx.strokeStyle=C.border;ctx.stroke();
+  ctx.fillStyle=C.grey;ctx.font="500 9px Inter, sans-serif";
+  ctx.fillText(sig&&sig.tired?"Fine. Come in.":"In a meeting",d.x+d.w/2,d.y+27);ctx.textAlign="left";}
+function drawPortal(){const pt=portal,gl=portalOpen?.5+.5*Math.sin(Date.now()/220):0;
+  card(pt.x-8,pt.y-8,pt.w+16,pt.h+8,8,C.surface);
+  ctx.fillStyle=portalOpen?C.action:C.border;rr(pt.x,pt.y,pt.w,pt.h-26,6);ctx.fill();
+  ctx.fillStyle=portalOpen?C.surface:C.grey;ctx.font="600 10px Inter, sans-serif";ctx.textAlign="center";
+  ctx.fillText("Submit",pt.x+pt.w/2,pt.y+(pt.h-26)/2-2);ctx.fillText("timesheet",pt.x+pt.w/2,pt.y+(pt.h-26)/2+11);
+  ctx.fillStyle=C.grey;ctx.font="500 8px Inter, sans-serif";
+  ctx.fillText(portalOpen?"Ready":"Stamp required",pt.x+pt.w/2,pt.y+pt.h-9);ctx.textAlign="left";
+  if(portalOpen){ctx.strokeStyle="rgba(0,102,255,"+(0.25+0.35*gl)+")";ctx.lineWidth=3;rr(pt.x-8,pt.y-8,pt.w+16,pt.h+8,8);ctx.stroke();}}
+function drawProcessing(){const pt=portal,cx=pt.x+pt.w/2,cy=pt.y-24,a=Date.now()/1000*6;
+  ctx.strokeStyle=C.border;ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,11,0,7);ctx.stroke();
+  ctx.strokeStyle=C.action;ctx.beginPath();ctx.arc(cx,cy,11,a,a+2);ctx.stroke();
+  ctx.fillStyle=C.grey7;ctx.font="600 9px Inter, sans-serif";ctx.textAlign="center";
+  ctx.fillText("Processing "+Math.max(0,procT).toFixed(1)+"s",cx,cy+26);ctx.textAlign="left";}
+function drawItem(it){const cx=it.x+17,cy=it.y+17;
+  const fade=it.settled&&it.life<120?(Math.sin(Date.now()/90)>0?1:.4):1;ctx.globalAlpha=fade;
+  if(sigLatched){                                           // red-tape hazard skin during the chase
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(Math.sin(it.rot)*.12);
+    ctx.fillStyle="rgba(255,0,0,.10)";ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();
+    ctx.strokeStyle=C.red;ctx.lineWidth=2.5;ctx.stroke();
+    ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-9,-4);ctx.lineTo(9,4);ctx.moveTo(-9,4);ctx.lineTo(9,-4);ctx.stroke();
+    ctx.restore();
+    ctx.globalAlpha=fade;ctx.fillStyle=C.red;ctx.font="700 8px Inter, sans-serif";ctx.textAlign="center";
+    ctx.fillText("Red tape",cx,cy+27);ctx.textAlign="left";ctx.globalAlpha=1;return;}
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(Math.sin(it.rot)*.12);
+  if(it.blocked){ctx.fillStyle=C.surface;ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();
+    ctx.setLineDash([3,3]);ctx.strokeStyle=C.grey;ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=C.grey;ctx.font="700 11px Inter, sans-serif";ctx.textAlign="center";ctx.fillText(it.val+"h",0,4);}
+  else if(it.missed&&!it.attested){ctx.fillStyle=C.surface;ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();
+    ctx.strokeStyle=C.borderStrong;ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle=C.grey;ctx.font="700 11px Inter, sans-serif";ctx.textAlign="center";ctx.fillText("?",0,4);}
+  else if(it.dup){ctx.fillStyle=C.surface;ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();
+    ctx.setLineDash([3,3]);ctx.strokeStyle=C.action;ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=C.action;ctx.font="700 11px Inter, sans-serif";ctx.textAlign="center";ctx.fillText(it.val+"h",0,4);}
+  else{const ring=it.evidence?C.amber:it.weekend?C.yellow:C.action;
+    ctx.fillStyle=C.surface;ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();
+    ctx.strokeStyle=ring;ctx.lineWidth=it.weekend||it.evidence?3:2.5;ctx.stroke();
+    ctx.fillStyle=C.action;ctx.font="700 12px Inter, sans-serif";ctx.textAlign="center";ctx.fillText(it.val+"h",0,4);}
+  ctx.restore();
+  // day + shift label (dimmed during the double shift)
+  ctx.globalAlpha=fade;ctx.font="700 8px Inter, sans-serif";ctx.textAlign="center";
+  let tag="",tc=C.grey7;
+  if(it.blocked){tag="Hold";tc=C.grey;}
+  else if(it.missed&&!it.attested){tag="No punch";tc=C.grey;}
+  else if(it.dup){tag="Copy";tc=C.action;}
+  else{tag=SHORT[it.col]+" \u00b7 "+SH[it.st].lab;if(it.st==="night"||it.weekend)tc="#b35900";}
+  ctx.fillStyle=tc;ctx.fillText(tag,cx,cy+27);ctx.textAlign="left";ctx.globalAlpha=1;}
+function drawSig(sg){const bob=Math.sin(sg.fl)*6,x=sg.x,y=sg.y+bob,gl=.5+.5*Math.sin(sg.gl);
+  ctx.globalAlpha=.10+.10*gl;ctx.fillStyle=sg.counter?C.action:C.green;
+  ctx.beginPath();ctx.arc(x+sg.w/2,y+sg.h/2,38,0,7);ctx.fill();ctx.globalAlpha=1;
+  card(x,y,sg.w,sg.h,4,C.surface);ctx.fillStyle=C.borderStrong;rr(x+sg.w/2-7,y-4,14,7,2);ctx.fill();
+  ctx.strokeStyle=C.borderStrong;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x+7,y+sg.h-10);ctx.lineTo(x+sg.w-7,y+sg.h-10);ctx.stroke();
+  ctx.strokeStyle=C.ink;ctx.beginPath();ctx.moveTo(x+9,y+sg.h-13);
+  ctx.quadraticCurveTo(x+sg.w*.35,y+sg.h-20,x+sg.w*.55,y+sg.h-13);
+  ctx.quadraticCurveTo(x+sg.w*.7,y+sg.h-7,x+sg.w-9,y+sg.h-15);ctx.stroke();
+  ctx.strokeStyle=sg.counter?C.action:C.green;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+sg.w-11,y+11,6,0,7);ctx.stroke();
+  ctx.font="700 7px Inter, sans-serif";ctx.fillStyle=sg.counter?C.action:C.green;ctx.textAlign="center";ctx.fillText("OK",x+sg.w-11,y+14);
+  for(let i=0;i<3;i++){const a=sg.gl+i*2.1;ctx.fillStyle=(sg.counter?"rgba(0,102,255,":"rgba(0,201,50,")+(0.35+0.35*Math.sin(a))+")";
+    ctx.fillRect(x+sg.w/2+Math.cos(a)*26,y+sg.h/2+Math.sin(a*1.3)*20,3,3);}
+  ctx.fillStyle=C.grey7;ctx.font="600 9px Inter, sans-serif";ctx.globalAlpha=.6+.4*gl;
+  ctx.fillText(sg.counter?"Countersign":sg.tired?"Sign here. Quickly.":"Sign here",x+sg.w/2,y-9);
+  ctx.globalAlpha=1;ctx.textAlign="left";
+  if(!sg.tired)for(let i=0;i<sg.stam;i++){ctx.fillStyle=C.amber;ctx.fillRect(x+9+i*7,y+sg.h+3,5,5);}}
+function drawMark(sg){const mx=Math.max(20,Math.min(W-20,sg.x+sg.w/2)),yy=58+Math.sin(mark)*4;
+  ctx.fillStyle=C.grey7;ctx.beginPath();ctx.moveTo(mx,yy+11);ctx.lineTo(mx-8,yy);ctx.lineTo(mx+8,yy);ctx.closePath();ctx.fill();
+  ctx.font="600 9px Inter, sans-serif";ctx.textAlign="center";ctx.fillText(sg.counter?"Countersignature":"Authorizer",mx,yy-4);ctx.textAlign="left";}
+function drawNurse(o){const sq=squash,sy=1+sq*.18,sx=1-sq*.12;
+  const x=Math.round(o.x),y=Math.round(o.y),f=o.face;
+  const leg=o.ground&&Math.abs(o.vx)>.5?Math.sin(o.walk):0;
+  ctx.fillStyle="rgba(12,29,41,.15)";ctx.beginPath();ctx.ellipse(x+13,y+48,13,4,0,0,7);ctx.fill();
+  ctx.save();ctx.translate(x+13,y+46);ctx.scale(sx,sy);ctx.translate(-13,-46);
+  ctx.fillStyle=C.scrubDark;ctx.fillRect(4,34,7,12+leg*3);ctx.fillRect(15,34,7,12-leg*3);
+  ctx.fillStyle=C.scrub;ctx.fillRect(2,18,22,20);ctx.fillStyle=C.scrubDark;ctx.fillRect(2,18,22,3);
+  ctx.fillStyle=C.scrub;ctx.fillRect(-2,20,5,12);ctx.fillRect(23,20,5,12);
+  ctx.fillStyle="#f2d9c0";ctx.fillRect(6,4,14,14);
+  ctx.fillStyle=C.surface;ctx.fillRect(5,0,16,7);
+  ctx.fillStyle=C.red;ctx.fillRect(11,1,4,5);ctx.fillRect(10,2,6,3);
+  ctx.fillStyle=C.ink;ctx.fillRect(f>0?15:8,9,2,3);
+  ctx.strokeStyle=C.ink;ctx.lineWidth=2;ctx.beginPath();ctx.arc(13,22,5,0,Math.PI);ctx.stroke();
+  ctx.restore();}
+
+// ---- loop ----
+let last=0;
+function frame(ts){if(!last)last=ts;let dt=(ts-last)/1000;last=ts;if(dt>.05)dt=.05;update(dt);draw();requestAnimationFrame(frame);}
+
+// ---- UI ----
+function start(){reset();airCatches=0;dodges=0;startVeil.classList.add("hidden");endVeil.classList.add("hidden");
+  modalVeil.classList.add("hidden");pauseVeil.classList.add("hidden");timeoutVeil.classList.add("hidden");
+  timedOut=false;beginIntro();}
+function beginIntro(){state="intro";introT=0;introWalk=0;doorOpen=0;introStep=-1;introDoorSnd=false;
+  setStatus("Arriving on shift.","neutral");}
+function skipIntro(){if(state==="intro")beginPlay();}
+function beginPlay(){state="play";setStatus("Capture running. Autosave is on.","blue");Snd.ok();}
+$("startBtn").addEventListener("click",start);
+$("restartBtn").addEventListener("click",start);
+$("modalBtn").addEventListener("click",()=>{modalVeil.classList.add("hidden");
+  setStatus("Authorizer located. Corner it 3 times. Weave through the red tape.","warning");});
+$("soundBtn").addEventListener("click",()=>{$("soundBtn").textContent=Snd.toggle()?"Sound on":"Sound off";});
+submitBtn.addEventListener("click",()=>{
+  // Submission happens by walking the nurse onto the ward-terminal portal.
+  // The footer button only becomes enabled once the stamp is acquired; clicking
+  // it points the player at the portal rather than doing nothing.
+  if(state==="portal"&&portalOpen){
+    toast("Reach the ward terminal to submit.","blue");
+    setStatus("Walk right to the ward terminal and stand on it to submit.","blue");
+    camShake=Math.max(camShake,4);}});
+
+reset();requestAnimationFrame(frame);
+})();
+
+</script>
+</body>
+</html>

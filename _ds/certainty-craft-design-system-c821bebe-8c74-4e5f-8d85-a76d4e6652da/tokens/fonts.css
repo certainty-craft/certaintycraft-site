@@ -1,0 +1,13 @@
+/* ============================================================
+   meeting place. — WEBFONTS
+   NOTE: substituted via Google Fonts (no original binaries were
+   provided). Closest matches to the source artwork:
+     • Jost      → thin geometric wordmark / display  (Futura/Century-Gothic lineage)
+     • Quicksand → rounded geometric UI headings       (matches deck headers)
+     • Mulish    → soft humanist body sans
+     • IBM Plex Mono → data, labels, timestamps
+   If you have the real brand fonts, drop the .woff2 files in
+   assets/fonts/ and replace this @import with @font-face rules.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Quicksand:wght@400;500;600;700&family=Mulish:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');

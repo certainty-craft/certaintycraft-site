@@ -5,7 +5,16 @@
   publish = "."
   command = ""
 
+# Netlify's post-processing rewrites .html links to extension-less urls. The
+# pages carry canonical tags pointing at the .html form
+# (https://certaintycraft.ca/case-studies.html), so letting it strip the
+# extension would put the canonical tag and the served url out of sync.
+[build.processing]
+  skip_processing = true
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"

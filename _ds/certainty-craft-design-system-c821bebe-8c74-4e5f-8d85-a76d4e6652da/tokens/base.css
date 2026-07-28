@@ -1,0 +1,77 @@
+/* ============================================================
+   meeting place. — BASE / RESET
+   Element defaults wired to tokens. Imported by styles.css.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background-color: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-strong);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+a {
+  color: var(--text-link);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--brand); }
+
+button { font-family: inherit; }
+
+::selection { background: var(--teal-200); color: var(--ink-900); }
+
+:focus-visible {
+  outline: 2px solid var(--presence);
+  outline-offset: 2px;
+}
+
+/* ---- Brand utility: the wordmark ---- */
+.mp-wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--fw-thin);
+  letter-spacing: var(--tracking-tight);
+  color: var(--teal-600);
+  white-space: nowrap;
+}
+.mp-wordmark .dot { color: var(--brick-600); }
+.mp-wordmark .spark { color: var(--amber-500); }
+
+/* ---- Eyebrow / kicker label ---- */
+.mp-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---- Signature misty canvas background ---- */
+.mp-canvas {
+  background:
+    radial-gradient(120% 90% at 75% 8%, rgba(20,87,214,0.06), transparent 55%),
+    radial-gradient(90% 80% at 12% 95%, rgba(13,127,140,0.05), transparent 60%),
+    linear-gradient(160deg, #eef1f3 0%, var(--mist) 45%, #e4ebee 100%);
+}
