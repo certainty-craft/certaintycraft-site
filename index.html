@@ -21,9 +21,11 @@
 
 
 
+
 <!-- prerender:style --><style>x-dc{display:none!important}</style>
 </head>
 <body>
+
 
 
 
@@ -2401,77 +2403,8 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._onScroll, { passive: true });
     this._onScroll();
 
-    // guided scroll: a fast flick decelerates and always settles on the nearest section head
-    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduce) {
-      const BAR = 74;
-      let lastY = window.scrollY, lastT = performance.now(), peak = 0, gliding = false;
-
-      const headTops = () => this._secIds
-        .map((id) => document.getElementById(id))
-        .filter((el) => el && el.offsetParent !== null)
-        .map((el) => Math.max(0, el.getBoundingClientRect().top + window.scrollY - BAR));
-
-      const cancel = () => {
-        if (this._glideRaf) cancelAnimationFrame(this._glideRaf);
-        clearTimeout(this._glideGuard);
-        clearTimeout(this._settle);
-        this._glideRaf = 0;
-        gliding = false;
-        peak = 0;
-        lastY = window.scrollY;
-        lastT = performance.now();
-      };
-      this._cancelGlide = cancel;
-
-      // ease-out cubic, starts at the flick's speed, visibly slows into the header
-      const glideTo = (target) => {
-        const from = window.scrollY;
-        const dist = target - from;
-        if (!dist) return;
-        const dur = Math.min(900, Math.max(380, Math.abs(dist) * 1.05));
-        const t0 = performance.now();
-        gliding = true;
-        clearTimeout(this._glideGuard);
-        // if frames are suspended (backgrounded tab), never stay latched
-        this._glideGuard = setTimeout(() => { if (gliding) cancel(); }, dur + 400);
-        const step = (now) => {
-          const p = Math.min(1, (now - t0) / dur);
-          const e = 1 - Math.pow(1 - p, 3);
-          window.scrollTo(0, from + dist * e);
-          if (p < 1 && gliding) this._glideRaf = requestAnimationFrame(step);
-          else { gliding = false; this._glideRaf = 0; clearTimeout(this._glideGuard); peak = 0; lastY = window.scrollY; lastT = performance.now(); }
-        };
-        this._glideRaf = requestAnimationFrame(step);
-      };
-
-      this._onFlick = () => {
-        if (gliding) return;
-        const now = performance.now();
-        const dt = Math.max(now - lastT, 1);
-        const v = Math.abs(window.scrollY - lastY) / dt;   // px per ms
-        if (v > peak) peak = v;                             // peak of the gesture, not its tail
-        lastY = window.scrollY;
-        lastT = now;
-        clearTimeout(this._settle);
-        this._settle = setTimeout(() => {
-          if (peak < 1.1) { peak = 0; return; }             // only fast flicks are guided
-          const y = window.scrollY;
-          const maxY = document.documentElement.scrollHeight - window.innerHeight;
-          if (y <= 2 || y >= maxY - 2) { peak = 0; return; } // never fight the page ends
-          const tops = headTops();
-          if (!tops.length) { peak = 0; return; }
-          let best = tops[0], bestD = Infinity;
-          tops.forEach((t) => { const d = Math.abs(t - y); if (d < bestD) { bestD = d; best = t; } });
-          if (bestD < 20) { peak = 0; return; }             // already parked
-          glideTo(Math.min(best, maxY));
-        }, 120);
-      };
-
-      window.addEventListener('scroll', this._onFlick, { passive: true });
-      ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) =>
-        window.addEventListener(ev, cancel, { passive: true }));
-    }
+    // scrolling is the reader's. nothing here moves the viewport off a scroll
+    // gesture; the page only moves when something is clicked.
     const els = Array.prototype.slice.call(document.querySelectorAll('[data-rev]'));
     if (!els.length) return;
     if (!('IntersectionObserver' in window)) {
@@ -2525,14 +2458,6 @@ class Component extends DCLogic {
     if (this._io) this._io.disconnect();
     clearTimeout(this._tally);
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
-    if (this._onFlick) window.removeEventListener('scroll', this._onFlick);
-    if (this._cancelGlide) {
-      ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) =>
-        window.removeEventListener(ev, this._cancelGlide));
-      this._cancelGlide();
-    }
-    clearTimeout(this._settle);
-    clearTimeout(this._glideGuard);
     clearTimeout(this._knot);
     if (this._raf) cancelAnimationFrame(this._raf);
     clearTimeout(this._t1);
@@ -2587,6 +2512,7 @@ class Component extends DCLogic {
   }
 }
 </script>
+
 
 
 
