@@ -27,6 +27,295 @@
 
 
 <!-- prerender:style --><style>x-dc{display:none!important}</style>
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/colors.css">
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/typography.css">
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/effects.css">
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/base.css">
+<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/styles.css">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--canvas,#eaeef0);color:var(--ink-700,#3a4b51);font-family:var(--font-body,'Mulish',system-ui,sans-serif);-webkit-font-smoothing:antialiased}
+  a{color:var(--teal-700,#006380);text-decoration:none;transition:color .2s ease}
+  a:hover{color:var(--teal-600,#0d7f8c)}
+  ::selection{background:var(--teal-200,#c3e4e7);color:var(--ink-900,#16242a)}
+  @keyframes dcIn{from{opacity:0;transform:translateY(12px) scale(.995)}to{opacity:1;transform:none}}
+  @keyframes ccFloat{0%{transform:translate3d(-50%,0,0) scale(1)}50%{transform:translate3d(-50%,-14px,0) scale(1.05)}100%{transform:translate3d(-50%,0,0) scale(1)}}
+  @keyframes ccLayerPulse{0%,100%{box-shadow:0 0 0 rgba(13,127,140,0);transform:none}30%{box-shadow:0 14px 32px rgba(13,127,140,.2);transform:translateY(-4px)}55%{box-shadow:0 0 0 rgba(13,127,140,0);transform:none}}
+  [data-rev="in"] [data-layer]{animation:ccLayerPulse 3.4s cubic-bezier(.22,.8,.28,1) both}
+
+  /* lane-specific copy: seven parallel pitches stacked in one cell */
+  [data-swap]{display:grid;grid-template-columns:100%}
+  [data-lv]{grid-area:1/1;opacity:0;filter:blur(12px);transform:translateY(10px);pointer-events:none;transition:opacity .45s cubic-bezier(.22,.8,.28,1),filter .6s cubic-bezier(.22,.8,.28,1),transform .6s cubic-bezier(.22,.8,.28,1)}
+  [data-lv="all"]{opacity:1;filter:none;transform:none;pointer-events:auto}
+  [data-l] [data-lv]{opacity:0;filter:blur(12px);transform:translateY(10px);pointer-events:none}
+  [data-l="all"] [data-lv="all"],[data-l="systems"] [data-lv="systems"],[data-l="ai"] [data-lv="ai"],[data-l="know"] [data-lv="know"],[data-l="content"] [data-lv="content"],[data-l="marketing"] [data-lv="marketing"],[data-l="production"] [data-lv="production"],[data-l="art"] [data-lv="art"]{opacity:1;filter:none;transform:none;pointer-events:auto}
+
+  /* living water, ported from the Certainty Craft marketing site (cc-script.js) */
+  [data-water]{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;filter:blur(64px) saturate(118%);opacity:.34;transition:opacity 1.2s ease}
+  [data-l="art"] [data-water]{filter:blur(72px) saturate(132%);opacity:.5}
+
+  /* global lane atmosphere, whole page shifts color world with the Show me choice */
+  [data-atmo]{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
+  [data-l="all"] [data-atmo="all"],[data-l="systems"] [data-atmo="systems"],[data-l="ai"] [data-atmo="ai"],[data-l="know"] [data-atmo="know"],[data-l="content"] [data-atmo="content"],[data-l="marketing"] [data-atmo="marketing"],[data-l="production"] [data-atmo="production"],[data-l="art"] [data-atmo="art"]{opacity:1}
+  [data-band]{transition:background 1.4s ease}
+  [data-band="a"]{background:rgba(255,255,255,.42)}
+  [data-band="b"]{background:rgba(255,255,255,.78)}
+  [data-morph]{color:var(--teal-600,#0d7f8c)}   [data-l="ai"] [data-morph]{color:var(--blue-500,#1457d6)}
+  [data-l="marketing"] [data-morph]{color:var(--brick-500,#a8301f)}
+  [data-l="production"] [data-morph]{color:var(--amber-600,#b9831a)}
+  [data-l="art"] [data-morph]{color:var(--ink-900,#16242a)}
+
+  /* lane filtering */
+  [data-caserow]{display:grid}
+  [data-filterable]{transition:opacity .26s ease,transform .26s ease}
+  [data-phase="out"] [data-filterable]{opacity:0;transform:translateY(8px) scale(.99)}
+  [data-phase="in"] [data-filterable]{animation:dcIn .6s cubic-bezier(.22,.8,.28,1) both}
+  [data-l="systems"] [data-filterable]:not([data-lane~="systems"]),
+  [data-l="ai"] [data-filterable]:not([data-lane~="ai"]),
+  [data-l="know"] [data-filterable]:not([data-lane~="know"]),
+  [data-l="content"] [data-filterable]:not([data-lane~="content"]),
+  [data-l="marketing"] [data-filterable]:not([data-lane~="marketing"]),
+  [data-l="production"] [data-filterable]:not([data-lane~="production"]){display:none}
+
+  /* lane chips */
+  [data-chip]{background:rgba(255,255,255,.7);border:1px solid var(--border,#d6dee1);color:var(--ink-700,#3a4b51);transition:background .3s ease,color .3s ease,border-color .3s ease,transform .2s ease}
+  [data-chip]:hover{transform:translateY(-1px)}
+  [data-l="all"] [data-chip="all"],[data-l="systems"] [data-chip="systems"],[data-l="ai"] [data-chip="ai"],[data-l="know"] [data-chip="know"],[data-l="content"] [data-chip="content"],[data-l="marketing"] [data-chip="marketing"],[data-l="production"] [data-chip="production"]{background:var(--teal-600,#0d7f8c);border-color:var(--teal-600,#0d7f8c);color:#fff}
+  [data-l="ai"] [data-chip="ai"]{background:var(--blue-500,#1457d6);border-color:var(--blue-500,#1457d6)}
+  [data-l="marketing"] [data-chip="marketing"]{background:var(--brick-500,#a8301f);border-color:var(--brick-500,#a8301f)}
+  [data-l="production"] [data-chip="production"]{background:var(--amber-600,#b9831a);border-color:var(--amber-800,#8a5f10)}
+  [data-l="art"] [data-chip="art"]{background:var(--ink-900,#16242a);border-color:var(--ink-900,#16242a);color:#fff}
+
+  /* lane-driven section visibility, TOC and page collapse together */
+  [data-l="systems"] [data-secvis]:not([data-secvis~="systems"]),
+  [data-l="ai"] [data-secvis]:not([data-secvis~="ai"]),
+  [data-l="know"] [data-secvis]:not([data-secvis~="know"]),
+  [data-l="content"] [data-secvis]:not([data-secvis~="content"]),
+  [data-l="marketing"] [data-secvis]:not([data-secvis~="marketing"]),
+  [data-l="production"] [data-secvis]:not([data-secvis~="production"]),
+  [data-l="art"] [data-secvis]:not([data-secvis~="art"]){display:none}
+
+  /* folds: in a filtered lane the two constant context blocks collapse to a
+     one-liner, so the work sits closer to the top. Everything stays as is. */
+  [data-fold] > summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:14px;
+    padding:15px 0;border-top:1px solid var(--hairline,rgba(36,52,57,.1));
+    border-bottom:1px solid var(--hairline,rgba(36,52,57,.1));min-height:48px}
+  [data-fold] > summary::-webkit-details-marker{display:none}
+  [data-fold] > summary::marker{content:""}
+  [data-fold] > summary:hover [data-foldlabel]{color:var(--teal-600,#0d7f8c)}
+  [data-fold] > summary:focus-visible{outline:2px solid var(--teal-600,#0d7f8c);outline-offset:3px}
+  [data-foldeyebrow]{font-family:var(--font-mono,monospace);font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-600,#54666c);flex:none}
+  [data-foldlabel]{font-family:var(--font-heading,sans-serif);font-size:15px;font-weight:600;
+    color:var(--ink-900,#16242a);line-height:1.4;transition:color .2s ease}
+  [data-fold] > summary::after{content:"";margin-left:auto;flex:none;align-self:center;
+    width:8px;height:8px;border-right:1.5px solid var(--ink-600,#54666c);
+    border-bottom:1.5px solid var(--ink-600,#54666c);transform:rotate(45deg);
+    transition:transform .25s ease}
+  [data-fold][open] > summary::after{transform:rotate(-135deg)}
+  /* the Everything view keeps no disclosure affordance at all */
+  [data-l="all"] [data-fold] > summary{display:none}
+  /* a fold sitting directly under the hero needs the same air the grid had */
+  [data-fold="lanes"] > summary{margin-top:clamp(28px,3.5vw,52px)}
+  /* in a filtered lane the summary already carries the eyebrow and the name,
+     so the card must not repeat them when it is opened */
+  [data-l="systems"] [data-folddupe],[data-l="ai"] [data-folddupe],
+  [data-l="know"] [data-folddupe],[data-l="content"] [data-folddupe],
+  [data-l="marketing"] [data-folddupe],[data-l="production"] [data-folddupe],
+  [data-l="art"] [data-folddupe]{display:none}
+
+  /* numbering follows what is actually visible (display:none skips counters) */
+  nav[aria-label="Sections"]{counter-reset:toc}
+  nav[aria-label="Sections"] a[data-navlink]{counter-increment:toc}
+  nav[aria-label="Sections"] [data-num]::before{content:counter(toc,decimal-leading-zero)}
+  main{counter-reset:secn}
+  main > section{counter-increment:secn}
+  main > sc-if section{counter-increment:secn}
+  main [data-num]::before{content:counter(secn,decimal-leading-zero)}
+
+  /* the knot: strands retract to nothing, then draw themselves back as the next shape */
+
+  /* art lane: the lights go down across the whole site */
+  [data-l="art"]{background:#070d10}
+  [data-l="art"] [data-band="a"]{background:rgba(10,18,22,.5)}
+  [data-l="art"] [data-band="b"]{background:rgba(10,18,22,.28)}
+  [data-l="art"] nav,[data-l="art"] aside{border-color:rgba(255,255,255,.12)}
+  [data-l="art"] [data-mobilebar]{background:rgba(10,18,22,.88) !important;border-bottom-color:rgba(255,255,255,.13) !important}
+  [data-l="art"] [data-mobilebar] a{color:#8fd0d8 !important}
+  [data-l="art"] [data-mobilebar] [data-chip]{background:rgba(255,255,255,.07) !important;border-color:rgba(255,255,255,.16) !important;color:rgba(233,241,242,.82) !important}
+  [data-l="art"] [data-mobilebar] [data-chip="art"]{background:#f2f7f8 !important;border-color:#f2f7f8 !important;color:#0a1216 !important}
+  [data-l="art"] [style*="--ink-900"]{color:#f2f7f8 !important}
+  [data-l="art"] [style*="--ink-800"]{color:#e2ebed !important}
+  [data-l="art"] [style*="--ink-700"]{color:rgba(233,241,242,.8) !important}
+  [data-l="art"] [style*="--ink-600"]{color:rgba(233,241,242,.7) !important}
+  [data-l="art"] [style*="--ink-500"]{color:rgba(233,241,242,.58) !important}
+  .mp-badge{color:#16242a !important}
+  [data-l="art"] .mp-badge{color:#0a1216 !important}
+  [data-l="art"] [style*="--ink-400"]{color:rgba(233,241,242,.46) !important}
+  [data-l="art"] [style*="--teal-700"],[data-l="art"] [style*="--teal-600"],[data-l="art"] [style*="--teal-500"]{color:#8fd0d8 !important}
+  [data-l="art"] [style*="--brick-500"]{color:#e39a8c !important}
+  [data-l="art"] [style*="--blue-500"]{color:#8fb4ff !important}
+  [data-l="art"] [style*="--hairline"],[data-l="art"] [style*="--border,"],[data-l="art"] [style*="--border-soft"]{border-color:rgba(255,255,255,.13) !important}
+  [data-l="art"] #s1 button{background:rgba(20,31,36,.72) !important;border:1px solid rgba(255,255,255,.14) !important}
+  [data-l="art"] #s1 button div{color:rgba(233,241,242,.92) !important}
+  [data-l="art"] [style*="background:var(--white"]{background:rgba(22,34,40,.66) !important}
+  [data-l="art"] .mp-card{background:rgba(20,31,36,.72);border-color:rgba(255,255,255,.12);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+  [data-l="art"] [data-chip]{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:rgba(233,241,242,.82)}
+  [data-l="art"] [data-chip="art"]{background:#f2f7f8;border-color:#f2f7f8;color:#070d10}
+  [data-l="art"] [data-navlink]{color:rgba(233,241,242,.6)}
+  [data-l="art"] [data-navlink]:hover{color:#f2f7f8}
+  [data-l="art"] [data-morph]{color:#8fd0d8}
+  [data-l="art"] a{color:#8fd0d8}
+
+  /* the art room: standard section by default, blacked out when Art is the lane */
+  #s9,#s9 *{transition:background 1s ease,color .8s ease,border-color .8s ease}
+  [data-l="art"] #s9 [data-ink="h"]{color:#f2f7f8}
+  [data-l="art"] #s9 [data-ink="b"]{color:rgba(233,241,242,.76)}
+  [data-l="art"] #s9 [data-ink="m"]{color:#8fd0d8}
+  [data-l="art"] #s9 [data-caserow]{border-bottom-color:rgba(255,255,255,.13)}
+  [data-l="art"] #s9 > div[style*="border-top"]{border-top-color:rgba(255,255,255,.13)}
+
+  /* in-depth panels: only present when a lane is chosen */
+  [data-deep]{display:none}
+  [data-l="systems"] [data-deep~="systems"],[data-l="ai"] [data-deep~="ai"],[data-l="know"] [data-deep~="know"],[data-l="content"] [data-deep~="content"],[data-l="marketing"] [data-deep~="marketing"],[data-l="production"] [data-deep~="production"],[data-l="art"] [data-deep~="art"]{display:block;animation:dcIn .7s cubic-bezier(.22,.8,.28,1) both}
+
+  [data-l="all"] #sd,[data-l="all"] nav[aria-label="Sections"] a[href="#sd"]{display:none}
+
+  nav[aria-label="Sections"] a[data-navlink]{transition:color .25s ease,transform .25s ease}
+
+  /* rail nav links */
+  [data-navlink]{color:var(--ink-600,#54666c);display:flex;align-items:center;min-height:26px;transition:color .25s ease,transform .25s ease}
+  [data-navlink]:hover{color:var(--ink-900,#16242a);transform:translateX(2px)}
+
+  /* morphing section glyph */
+  
+  /* (state rules for the glyph live above, with :not([data-tying]) guards) */
+
+  /* drift detector */
+  [data-driftv]{grid-area:1/1;opacity:0;filter:blur(6px);transform:translateY(4px);pointer-events:none;transition:opacity .45s cubic-bezier(.22,.8,.28,1),filter .6s ease,transform .6s cubic-bezier(.22,.8,.28,1)}
+  [data-drift=""] [data-driftv="off"],[data-drift="on"] [data-driftv="on"]{opacity:1;filter:none;transform:none;pointer-events:auto}
+  [data-flag]{background:linear-gradient(180deg,rgba(232,150,132,.001) 58%,rgba(232,150,132,.42) 58%);box-shadow:inset 0 -1px 0 rgba(168,48,31,.5);transition:background .5s ease,box-shadow .5s ease}
+  [data-fixed]{background:linear-gradient(180deg,rgba(146,204,209,.001) 58%,rgba(146,204,209,.45) 58%);transition:background .5s ease}
+  [data-driftpane]{transition:border-color .6s ease,box-shadow .6s ease}
+  [data-drift="on"] [data-driftpane]{border-color:var(--border-brand,#92ccd1) !important;box-shadow:0 12px 30px rgba(13,127,140,.12)}
+  [data-driftlabel]{display:none}
+  [data-drift=""] [data-driftlabel="off"],[data-drift="on"] [data-driftlabel="on"]{display:inline}
+
+  /* the art lane goes dark globally, body included (visible on overscroll) */
+  body:has([data-l="art"]){background:#070d10}
+
+  /* convergence diagram, ported from the marketing site's "one claim, five surfaces" figure */
+  [data-conv]{max-height:0;opacity:0;overflow:hidden;transition:max-height .8s cubic-bezier(.22,.8,.28,1),opacity .5s ease}
+  [data-drift="on"] [data-conv]{max-height:280px;opacity:1}
+  [data-flow]{stroke-dasharray:1;stroke-dashoffset:1}
+  [data-drift="on"] [data-flow]{animation:convDraw 1.1s cubic-bezier(.22,.8,.28,1) forwards}
+  @keyframes convDraw{to{stroke-dashoffset:0}}
+  [data-drift="on"] [data-surf]{border-color:var(--border-brand,#92ccd1);transition:border-color .6s ease}
+  [data-sourcecard]{opacity:0;transform:translateX(10px);transition:opacity .6s ease .5s,transform .6s cubic-bezier(.22,.8,.28,1) .5s}
+  [data-drift="on"] [data-sourcecard]{opacity:1;transform:none}
+  @media (max-width: 640px){
+    [data-conv]{grid-template-columns:1fr !important}
+    [data-conv] svg{display:none}
+    [data-drift="on"] [data-conv]{max-height:520px}
+    [data-sourcecard]{margin-top:14px}
+  }
+
+  /* provenance on hover */
+  [data-prov]{margin-top:8px;font-family:var(--font-mono,monospace);font-size:11px;line-height:1.55;color:var(--ink-600,#54666c);max-height:0;opacity:0;overflow:hidden;transition:max-height .45s cubic-bezier(.22,.8,.28,1),opacity .3s ease}
+  [data-filterable]:hover > [data-prov],[data-filterable]:focus-visible > [data-prov],[data-filterable]:focus-within > [data-prov]{max-height:96px;opacity:1}
+  [data-filterable]:has(> [data-prov]){border-radius:12px;transition:background .3s ease}
+  [data-filterable]:has(> [data-prov]):hover,[data-filterable]:has(> [data-prov]):focus-visible{background:rgba(255,255,255,.55)}
+
+  /* rail scrollbar: thin, teal, fades in like water finding a channel */
+  [data-rail]{scrollbar-width:thin;scrollbar-color:rgba(13,127,140,0) transparent;transition:scrollbar-color 1.1s cubic-bezier(.22,.8,.28,1)}
+  [data-rail]:hover,[data-rail]:focus-within{scrollbar-color:rgba(13,127,140,.34) transparent}
+  [data-rail]::-webkit-scrollbar{width:6px}
+  [data-rail]::-webkit-scrollbar-track{background:transparent}
+  [data-rail]::-webkit-scrollbar-thumb{border-radius:999px;background:linear-gradient(180deg,rgba(28,151,163,.42),rgba(13,127,140,.5) 46%,rgba(20,87,214,.34));opacity:0;transition:opacity 1.1s cubic-bezier(.22,.8,.28,1),background .6s ease}
+  [data-rail]:hover::-webkit-scrollbar-thumb,[data-rail]:focus-within::-webkit-scrollbar-thumb{opacity:1}
+  [data-rail]:hover::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,rgba(28,151,163,.6),rgba(13,127,140,.7) 46%,rgba(20,87,214,.5))}
+  [data-l="art"] [data-rail]:hover,[data-l="art"] [data-rail]:focus-within{scrollbar-color:rgba(143,208,216,.4) transparent}
+  [data-l="art"] [data-rail]::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(143,208,216,.5),rgba(107,183,196,.56) 46%,rgba(76,127,230,.4))}
+  @media (prefers-reduced-motion: reduce){
+    [data-rail],[data-rail]::-webkit-scrollbar-thumb{transition-duration:.01ms !important}
+  }
+
+  /* skip link */
+  [data-skip]{position:absolute;left:-9999px;top:0;z-index:99;background:#ffffff !important;color:#00505f !important;border:1px solid var(--border-brand,#92ccd1);border-radius:0 0 12px 0;padding:12px 18px;font-family:var(--font-heading,sans-serif);font-size:14px;font-weight:600}
+  [data-skip]:focus{left:0}
+
+  /* scroll reveal */
+  [data-heroimg]{transition:opacity .5s cubic-bezier(.22,.8,.28,1)}
+  [data-heroimg="art"]{opacity:0;pointer-events:none}
+  [data-l="art"] [data-heroimg="art"]{opacity:1}
+  [data-l="art"] [data-heroimg="std"]{opacity:0}
+  [data-rev]{transition:opacity .9s ease,transform .9s cubic-bezier(.22,.8,.28,1)}
+  [data-rev="pre"]{opacity:0;transform:translateY(22px)}
+  [data-rev="in"]{opacity:1;transform:none}
+
+  /* responsive shell */
+  [data-mobilebar]{display:none}
+  @media (max-width: 980px){
+    [data-shell]{grid-template-columns:1fr !important}
+    [data-rail]{display:none !important}
+    [data-mobilebar]{display:block !important}
+  }
+
+  /* ---- responsive + device hardening ---- */
+  :root{color-scheme:light}
+  html,body{max-width:100%;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  img,svg,iframe,video{max-width:100%}
+  [data-rail]{height:100vh;height:100dvh}
+
+  /* keyboard focus, everywhere */
+  a:focus-visible,button:focus-visible,[data-chip]:focus-visible,[data-navlink]:focus-visible,image-slot:focus-visible{outline:2px solid var(--teal-600,#0d7f8c);outline-offset:3px;border-radius:8px}
+  [data-l="art"] a:focus-visible,[data-l="art"] button:focus-visible,[data-l="art"] [data-chip]:focus-visible,[data-l="art"] [data-navlink]:focus-visible{outline-color:#8fd0d8}
+
+  /* touch: real hit targets, no hover-lift stickiness */
+  @media (pointer: coarse){
+    [data-chip]{min-height:44px;padding-top:11px;padding-bottom:11px}
+    [data-navlink]{padding:6px 0;min-height:40px}
+    [data-mobilebar] a{min-height:44px;display:inline-flex;align-items:center}
+    [data-chip]:hover,[data-navlink]:hover{transform:none}
+  }
+
+  /* narrow screens: tighten the type ramp and the game frame */
+  @media (max-width: 720px){
+    [data-gameframe]{height:560px !important}
+    [data-heroshot]{max-width:300px;margin-inline:auto}
+  }
+  @media (max-width: 420px){
+    [data-gameframe]{height:500px !important}
+  }
+
+  /* print: one flat document, everything visible */
+  @media print{
+    [data-rail],[data-mobilebar],[data-atmo],[data-morph]{display:none !important}
+    [data-shell]{display:block !important}
+    main{padding:0 !important}
+    iframe,image-slot{display:none !important}
+    [data-filterable],[data-secvis],[data-lv="all"]{display:block !important;opacity:1 !important;filter:none !important;transform:none !important}
+    /* folds print expanded. beforeprint opens them, and this is the belt for
+       any browser that does not fire it, since a closed fold prints nothing. */
+    [data-fold] > summary{display:none !important}
+    details[data-fold] > *:not(summary){display:block !important;content-visibility:visible !important}
+    details[data-fold]::details-content{content-visibility:visible !important;display:block !important}
+    /* the summary is gone in print, so the card takes its title back */
+    [data-folddupe]{display:block !important}
+    [data-band],section{background:#fff !important;margin:0 !important;padding:18px 0 !important;break-inside:avoid}
+    *{color:#000 !important;box-shadow:none !important}
+    a{text-decoration:underline}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+    [data-lv]{filter:none!important;transform:none!important}
+  }
+</style>
 </head>
 <body>
 
@@ -157,7 +446,7 @@
           <div data-dc-tpl="186" style="position: relative; display: flex; align-items: flex-end; justify-content: center; min-height: 340px;">
             <div data-dc-tpl="187" data-heroshot="" style="position: relative; width: min(88%, 400px); aspect-ratio: 4 / 5; border-radius: 999px 999px 28px 28px; overflow: hidden; background: radial-gradient(120% 90% at 50% 16%, rgb(241, 249, 249) 0%, rgb(220, 241, 237) 48%, rgb(195, 228, 231) 100%); border: 1px solid var(--border-brand,#92ccd1); box-shadow: rgba(13, 127, 140, 0.16) 0px 24px 56px; display: flex; align-items: flex-end; justify-content: center;">
               <img data-dc-tpl="188" src="assets/orb-glow.png" alt="" aria-hidden="true" style="position: absolute; top: 5%; left: 50%; width: 72%; transform: translateX(-50%); opacity: 0.55; animation: 12s ease-in-out 0s infinite normal none running ccFloat; pointer-events: none;">
-              <img data-dc-tpl="189" data-heroimg="std" src="img/dae-current-cutout.webp" alt="Dae Courtney" style="position: relative; width: 98%; max-width: none; object-fit: contain; object-position: center bottom; margin-bottom: -2px;">
+              <img width="900" height="1100" data-dc-tpl="189" data-heroimg="std" src="img/dae-current-cutout.webp" alt="Dae Courtney" style="position: relative; width: 98%; height: auto; max-width: none; object-fit: contain; object-position: center bottom; margin-bottom: -2px;">
               <img height="1350" width="900" data-dc-tpl="190" data-heroimg="art" src="img/dae-portrait-dark.jpg" alt="Dae Courtney" style="position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; object-position: center 18%;">
             </div>
           </div>
@@ -987,13 +1276,6 @@
   </div></div></div></div><!-- prerender:end -->
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/fonts.css">
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/colors.css">
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/typography.css">
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/spacing.css">
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/effects.css">
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/tokens/base.css">
-<link rel="stylesheet" href="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/styles.css">
 <script src="_ds/certainty-craft-design-system-c821bebe-8c74-4e5f-8d85-a76d4e6652da/_ds_bundle.js" defer></script>
 <script type="application/ld+json">
 {
@@ -1032,288 +1314,6 @@
   ]
 }
 </script>
-<style>
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--canvas,#eaeef0);color:var(--ink-700,#3a4b51);font-family:var(--font-body,'Mulish',system-ui,sans-serif);-webkit-font-smoothing:antialiased}
-  a{color:var(--teal-700,#006380);text-decoration:none;transition:color .2s ease}
-  a:hover{color:var(--teal-600,#0d7f8c)}
-  ::selection{background:var(--teal-200,#c3e4e7);color:var(--ink-900,#16242a)}
-  @keyframes dcIn{from{opacity:0;transform:translateY(12px) scale(.995)}to{opacity:1;transform:none}}
-  @keyframes ccFloat{0%{transform:translate3d(-50%,0,0) scale(1)}50%{transform:translate3d(-50%,-14px,0) scale(1.05)}100%{transform:translate3d(-50%,0,0) scale(1)}}
-  @keyframes ccLayerPulse{0%,100%{box-shadow:0 0 0 rgba(13,127,140,0);transform:none}30%{box-shadow:0 14px 32px rgba(13,127,140,.2);transform:translateY(-4px)}55%{box-shadow:0 0 0 rgba(13,127,140,0);transform:none}}
-  [data-rev="in"] [data-layer]{animation:ccLayerPulse 3.4s cubic-bezier(.22,.8,.28,1) both}
-
-  /* lane-specific copy: seven parallel pitches stacked in one cell */
-  [data-swap]{display:grid;grid-template-columns:100%}
-  [data-lv]{grid-area:1/1;opacity:0;filter:blur(12px);transform:translateY(10px);pointer-events:none;transition:opacity .45s cubic-bezier(.22,.8,.28,1),filter .6s cubic-bezier(.22,.8,.28,1),transform .6s cubic-bezier(.22,.8,.28,1)}
-  [data-lv="all"]{opacity:1;filter:none;transform:none;pointer-events:auto}
-  [data-l] [data-lv]{opacity:0;filter:blur(12px);transform:translateY(10px);pointer-events:none}
-  [data-l="all"] [data-lv="all"],[data-l="systems"] [data-lv="systems"],[data-l="ai"] [data-lv="ai"],[data-l="know"] [data-lv="know"],[data-l="content"] [data-lv="content"],[data-l="marketing"] [data-lv="marketing"],[data-l="production"] [data-lv="production"],[data-l="art"] [data-lv="art"]{opacity:1;filter:none;transform:none;pointer-events:auto}
-
-  /* living water, ported from the Certainty Craft marketing site (cc-script.js) */
-  [data-water]{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;filter:blur(64px) saturate(118%);opacity:.34;transition:opacity 1.2s ease}
-  [data-l="art"] [data-water]{filter:blur(72px) saturate(132%);opacity:.5}
-
-  /* global lane atmosphere, whole page shifts color world with the Show me choice */
-  [data-atmo]{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
-  [data-l="all"] [data-atmo="all"],[data-l="systems"] [data-atmo="systems"],[data-l="ai"] [data-atmo="ai"],[data-l="know"] [data-atmo="know"],[data-l="content"] [data-atmo="content"],[data-l="marketing"] [data-atmo="marketing"],[data-l="production"] [data-atmo="production"],[data-l="art"] [data-atmo="art"]{opacity:1}
-  [data-band]{transition:background 1.4s ease}
-  [data-band="a"]{background:rgba(255,255,255,.42)}
-  [data-band="b"]{background:rgba(255,255,255,.78)}
-  [data-morph]{color:var(--teal-600,#0d7f8c)}   [data-l="ai"] [data-morph]{color:var(--blue-500,#1457d6)}
-  [data-l="marketing"] [data-morph]{color:var(--brick-500,#a8301f)}
-  [data-l="production"] [data-morph]{color:var(--amber-600,#b9831a)}
-  [data-l="art"] [data-morph]{color:var(--ink-900,#16242a)}
-
-  /* lane filtering */
-  [data-caserow]{display:grid}
-  [data-filterable]{transition:opacity .26s ease,transform .26s ease}
-  [data-phase="out"] [data-filterable]{opacity:0;transform:translateY(8px) scale(.99)}
-  [data-phase="in"] [data-filterable]{animation:dcIn .6s cubic-bezier(.22,.8,.28,1) both}
-  [data-l="systems"] [data-filterable]:not([data-lane~="systems"]),
-  [data-l="ai"] [data-filterable]:not([data-lane~="ai"]),
-  [data-l="know"] [data-filterable]:not([data-lane~="know"]),
-  [data-l="content"] [data-filterable]:not([data-lane~="content"]),
-  [data-l="marketing"] [data-filterable]:not([data-lane~="marketing"]),
-  [data-l="production"] [data-filterable]:not([data-lane~="production"]){display:none}
-
-  /* lane chips */
-  [data-chip]{background:rgba(255,255,255,.7);border:1px solid var(--border,#d6dee1);color:var(--ink-700,#3a4b51);transition:background .3s ease,color .3s ease,border-color .3s ease,transform .2s ease}
-  [data-chip]:hover{transform:translateY(-1px)}
-  [data-l="all"] [data-chip="all"],[data-l="systems"] [data-chip="systems"],[data-l="ai"] [data-chip="ai"],[data-l="know"] [data-chip="know"],[data-l="content"] [data-chip="content"],[data-l="marketing"] [data-chip="marketing"],[data-l="production"] [data-chip="production"]{background:var(--teal-600,#0d7f8c);border-color:var(--teal-600,#0d7f8c);color:#fff}
-  [data-l="ai"] [data-chip="ai"]{background:var(--blue-500,#1457d6);border-color:var(--blue-500,#1457d6)}
-  [data-l="marketing"] [data-chip="marketing"]{background:var(--brick-500,#a8301f);border-color:var(--brick-500,#a8301f)}
-  [data-l="production"] [data-chip="production"]{background:var(--amber-600,#b9831a);border-color:var(--amber-800,#8a5f10)}
-  [data-l="art"] [data-chip="art"]{background:var(--ink-900,#16242a);border-color:var(--ink-900,#16242a);color:#fff}
-
-  /* lane-driven section visibility, TOC and page collapse together */
-  [data-l="systems"] [data-secvis]:not([data-secvis~="systems"]),
-  [data-l="ai"] [data-secvis]:not([data-secvis~="ai"]),
-  [data-l="know"] [data-secvis]:not([data-secvis~="know"]),
-  [data-l="content"] [data-secvis]:not([data-secvis~="content"]),
-  [data-l="marketing"] [data-secvis]:not([data-secvis~="marketing"]),
-  [data-l="production"] [data-secvis]:not([data-secvis~="production"]),
-  [data-l="art"] [data-secvis]:not([data-secvis~="art"]){display:none}
-
-  /* folds: in a filtered lane the two constant context blocks collapse to a
-     one-liner, so the work sits closer to the top. Everything stays as is. */
-  [data-fold] > summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:14px;
-    padding:15px 0;border-top:1px solid var(--hairline,rgba(36,52,57,.1));
-    border-bottom:1px solid var(--hairline,rgba(36,52,57,.1));min-height:48px}
-  [data-fold] > summary::-webkit-details-marker{display:none}
-  [data-fold] > summary::marker{content:""}
-  [data-fold] > summary:hover [data-foldlabel]{color:var(--teal-600,#0d7f8c)}
-  [data-fold] > summary:focus-visible{outline:2px solid var(--teal-600,#0d7f8c);outline-offset:3px}
-  [data-foldeyebrow]{font-family:var(--font-mono,monospace);font-size:10px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--ink-600,#54666c);flex:none}
-  [data-foldlabel]{font-family:var(--font-heading,sans-serif);font-size:15px;font-weight:600;
-    color:var(--ink-900,#16242a);line-height:1.4;transition:color .2s ease}
-  [data-fold] > summary::after{content:"";margin-left:auto;flex:none;align-self:center;
-    width:8px;height:8px;border-right:1.5px solid var(--ink-600,#54666c);
-    border-bottom:1.5px solid var(--ink-600,#54666c);transform:rotate(45deg);
-    transition:transform .25s ease}
-  [data-fold][open] > summary::after{transform:rotate(-135deg)}
-  /* the Everything view keeps no disclosure affordance at all */
-  [data-l="all"] [data-fold] > summary{display:none}
-  /* a fold sitting directly under the hero needs the same air the grid had */
-  [data-fold="lanes"] > summary{margin-top:clamp(28px,3.5vw,52px)}
-  /* in a filtered lane the summary already carries the eyebrow and the name,
-     so the card must not repeat them when it is opened */
-  [data-l="systems"] [data-folddupe],[data-l="ai"] [data-folddupe],
-  [data-l="know"] [data-folddupe],[data-l="content"] [data-folddupe],
-  [data-l="marketing"] [data-folddupe],[data-l="production"] [data-folddupe],
-  [data-l="art"] [data-folddupe]{display:none}
-
-  /* numbering follows what is actually visible (display:none skips counters) */
-  nav[aria-label="Sections"]{counter-reset:toc}
-  nav[aria-label="Sections"] a[data-navlink]{counter-increment:toc}
-  nav[aria-label="Sections"] [data-num]::before{content:counter(toc,decimal-leading-zero)}
-  main{counter-reset:secn}
-  main > section{counter-increment:secn}
-  main > sc-if section{counter-increment:secn}
-  main [data-num]::before{content:counter(secn,decimal-leading-zero)}
-
-  /* the knot: strands retract to nothing, then draw themselves back as the next shape */
-
-  /* art lane: the lights go down across the whole site */
-  [data-l="art"]{background:#070d10}
-  [data-l="art"] [data-band="a"]{background:rgba(10,18,22,.5)}
-  [data-l="art"] [data-band="b"]{background:rgba(10,18,22,.28)}
-  [data-l="art"] nav,[data-l="art"] aside{border-color:rgba(255,255,255,.12)}
-  [data-l="art"] [data-mobilebar]{background:rgba(10,18,22,.88) !important;border-bottom-color:rgba(255,255,255,.13) !important}
-  [data-l="art"] [data-mobilebar] a{color:#8fd0d8 !important}
-  [data-l="art"] [data-mobilebar] [data-chip]{background:rgba(255,255,255,.07) !important;border-color:rgba(255,255,255,.16) !important;color:rgba(233,241,242,.82) !important}
-  [data-l="art"] [data-mobilebar] [data-chip="art"]{background:#f2f7f8 !important;border-color:#f2f7f8 !important;color:#0a1216 !important}
-  [data-l="art"] [style*="--ink-900"]{color:#f2f7f8 !important}
-  [data-l="art"] [style*="--ink-800"]{color:#e2ebed !important}
-  [data-l="art"] [style*="--ink-700"]{color:rgba(233,241,242,.8) !important}
-  [data-l="art"] [style*="--ink-600"]{color:rgba(233,241,242,.7) !important}
-  [data-l="art"] [style*="--ink-500"]{color:rgba(233,241,242,.58) !important}
-  .mp-badge{color:#16242a !important}
-  [data-l="art"] .mp-badge{color:#0a1216 !important}
-  [data-l="art"] [style*="--ink-400"]{color:rgba(233,241,242,.46) !important}
-  [data-l="art"] [style*="--teal-700"],[data-l="art"] [style*="--teal-600"],[data-l="art"] [style*="--teal-500"]{color:#8fd0d8 !important}
-  [data-l="art"] [style*="--brick-500"]{color:#e39a8c !important}
-  [data-l="art"] [style*="--blue-500"]{color:#8fb4ff !important}
-  [data-l="art"] [style*="--hairline"],[data-l="art"] [style*="--border,"],[data-l="art"] [style*="--border-soft"]{border-color:rgba(255,255,255,.13) !important}
-  [data-l="art"] #s1 button{background:rgba(20,31,36,.72) !important;border:1px solid rgba(255,255,255,.14) !important}
-  [data-l="art"] #s1 button div{color:rgba(233,241,242,.92) !important}
-  [data-l="art"] [style*="background:var(--white"]{background:rgba(22,34,40,.66) !important}
-  [data-l="art"] .mp-card{background:rgba(20,31,36,.72);border-color:rgba(255,255,255,.12);box-shadow:0 18px 44px rgba(0,0,0,.35)}
-  [data-l="art"] [data-chip]{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:rgba(233,241,242,.82)}
-  [data-l="art"] [data-chip="art"]{background:#f2f7f8;border-color:#f2f7f8;color:#070d10}
-  [data-l="art"] [data-navlink]{color:rgba(233,241,242,.6)}
-  [data-l="art"] [data-navlink]:hover{color:#f2f7f8}
-  [data-l="art"] [data-morph]{color:#8fd0d8}
-  [data-l="art"] a{color:#8fd0d8}
-
-  /* the art room: standard section by default, blacked out when Art is the lane */
-  #s9,#s9 *{transition:background 1s ease,color .8s ease,border-color .8s ease}
-  [data-l="art"] #s9 [data-ink="h"]{color:#f2f7f8}
-  [data-l="art"] #s9 [data-ink="b"]{color:rgba(233,241,242,.76)}
-  [data-l="art"] #s9 [data-ink="m"]{color:#8fd0d8}
-  [data-l="art"] #s9 [data-caserow]{border-bottom-color:rgba(255,255,255,.13)}
-  [data-l="art"] #s9 > div[style*="border-top"]{border-top-color:rgba(255,255,255,.13)}
-
-  /* in-depth panels: only present when a lane is chosen */
-  [data-deep]{display:none}
-  [data-l="systems"] [data-deep~="systems"],[data-l="ai"] [data-deep~="ai"],[data-l="know"] [data-deep~="know"],[data-l="content"] [data-deep~="content"],[data-l="marketing"] [data-deep~="marketing"],[data-l="production"] [data-deep~="production"],[data-l="art"] [data-deep~="art"]{display:block;animation:dcIn .7s cubic-bezier(.22,.8,.28,1) both}
-
-  [data-l="all"] #sd,[data-l="all"] nav[aria-label="Sections"] a[href="#sd"]{display:none}
-
-  nav[aria-label="Sections"] a[data-navlink]{transition:color .25s ease,transform .25s ease}
-
-  /* rail nav links */
-  [data-navlink]{color:var(--ink-600,#54666c);display:flex;align-items:center;min-height:26px;transition:color .25s ease,transform .25s ease}
-  [data-navlink]:hover{color:var(--ink-900,#16242a);transform:translateX(2px)}
-
-  /* morphing section glyph */
-  
-  /* (state rules for the glyph live above, with :not([data-tying]) guards) */
-
-  /* drift detector */
-  [data-driftv]{grid-area:1/1;opacity:0;filter:blur(6px);transform:translateY(4px);pointer-events:none;transition:opacity .45s cubic-bezier(.22,.8,.28,1),filter .6s ease,transform .6s cubic-bezier(.22,.8,.28,1)}
-  [data-drift=""] [data-driftv="off"],[data-drift="on"] [data-driftv="on"]{opacity:1;filter:none;transform:none;pointer-events:auto}
-  [data-flag]{background:linear-gradient(180deg,rgba(232,150,132,.001) 58%,rgba(232,150,132,.42) 58%);box-shadow:inset 0 -1px 0 rgba(168,48,31,.5);transition:background .5s ease,box-shadow .5s ease}
-  [data-fixed]{background:linear-gradient(180deg,rgba(146,204,209,.001) 58%,rgba(146,204,209,.45) 58%);transition:background .5s ease}
-  [data-driftpane]{transition:border-color .6s ease,box-shadow .6s ease}
-  [data-drift="on"] [data-driftpane]{border-color:var(--border-brand,#92ccd1) !important;box-shadow:0 12px 30px rgba(13,127,140,.12)}
-  [data-driftlabel]{display:none}
-  [data-drift=""] [data-driftlabel="off"],[data-drift="on"] [data-driftlabel="on"]{display:inline}
-
-  /* the art lane goes dark globally, body included (visible on overscroll) */
-  body:has([data-l="art"]){background:#070d10}
-
-  /* convergence diagram, ported from the marketing site's "one claim, five surfaces" figure */
-  [data-conv]{max-height:0;opacity:0;overflow:hidden;transition:max-height .8s cubic-bezier(.22,.8,.28,1),opacity .5s ease}
-  [data-drift="on"] [data-conv]{max-height:280px;opacity:1}
-  [data-flow]{stroke-dasharray:1;stroke-dashoffset:1}
-  [data-drift="on"] [data-flow]{animation:convDraw 1.1s cubic-bezier(.22,.8,.28,1) forwards}
-  @keyframes convDraw{to{stroke-dashoffset:0}}
-  [data-drift="on"] [data-surf]{border-color:var(--border-brand,#92ccd1);transition:border-color .6s ease}
-  [data-sourcecard]{opacity:0;transform:translateX(10px);transition:opacity .6s ease .5s,transform .6s cubic-bezier(.22,.8,.28,1) .5s}
-  [data-drift="on"] [data-sourcecard]{opacity:1;transform:none}
-  @media (max-width: 640px){
-    [data-conv]{grid-template-columns:1fr !important}
-    [data-conv] svg{display:none}
-    [data-drift="on"] [data-conv]{max-height:520px}
-    [data-sourcecard]{margin-top:14px}
-  }
-
-  /* provenance on hover */
-  [data-prov]{margin-top:8px;font-family:var(--font-mono,monospace);font-size:11px;line-height:1.55;color:var(--ink-600,#54666c);max-height:0;opacity:0;overflow:hidden;transition:max-height .45s cubic-bezier(.22,.8,.28,1),opacity .3s ease}
-  [data-filterable]:hover > [data-prov],[data-filterable]:focus-visible > [data-prov],[data-filterable]:focus-within > [data-prov]{max-height:96px;opacity:1}
-  [data-filterable]:has(> [data-prov]){border-radius:12px;transition:background .3s ease}
-  [data-filterable]:has(> [data-prov]):hover,[data-filterable]:has(> [data-prov]):focus-visible{background:rgba(255,255,255,.55)}
-
-  /* rail scrollbar: thin, teal, fades in like water finding a channel */
-  [data-rail]{scrollbar-width:thin;scrollbar-color:rgba(13,127,140,0) transparent;transition:scrollbar-color 1.1s cubic-bezier(.22,.8,.28,1)}
-  [data-rail]:hover,[data-rail]:focus-within{scrollbar-color:rgba(13,127,140,.34) transparent}
-  [data-rail]::-webkit-scrollbar{width:6px}
-  [data-rail]::-webkit-scrollbar-track{background:transparent}
-  [data-rail]::-webkit-scrollbar-thumb{border-radius:999px;background:linear-gradient(180deg,rgba(28,151,163,.42),rgba(13,127,140,.5) 46%,rgba(20,87,214,.34));opacity:0;transition:opacity 1.1s cubic-bezier(.22,.8,.28,1),background .6s ease}
-  [data-rail]:hover::-webkit-scrollbar-thumb,[data-rail]:focus-within::-webkit-scrollbar-thumb{opacity:1}
-  [data-rail]:hover::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,rgba(28,151,163,.6),rgba(13,127,140,.7) 46%,rgba(20,87,214,.5))}
-  [data-l="art"] [data-rail]:hover,[data-l="art"] [data-rail]:focus-within{scrollbar-color:rgba(143,208,216,.4) transparent}
-  [data-l="art"] [data-rail]::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(143,208,216,.5),rgba(107,183,196,.56) 46%,rgba(76,127,230,.4))}
-  @media (prefers-reduced-motion: reduce){
-    [data-rail],[data-rail]::-webkit-scrollbar-thumb{transition-duration:.01ms !important}
-  }
-
-  /* skip link */
-  [data-skip]{position:absolute;left:-9999px;top:0;z-index:99;background:#ffffff !important;color:#00505f !important;border:1px solid var(--border-brand,#92ccd1);border-radius:0 0 12px 0;padding:12px 18px;font-family:var(--font-heading,sans-serif);font-size:14px;font-weight:600}
-  [data-skip]:focus{left:0}
-
-  /* scroll reveal */
-  [data-heroimg]{transition:opacity .5s cubic-bezier(.22,.8,.28,1)}
-  [data-heroimg="art"]{opacity:0;pointer-events:none}
-  [data-l="art"] [data-heroimg="art"]{opacity:1}
-  [data-l="art"] [data-heroimg="std"]{opacity:0}
-  [data-rev]{transition:opacity .9s ease,transform .9s cubic-bezier(.22,.8,.28,1)}
-  [data-rev="pre"]{opacity:0;transform:translateY(22px)}
-  [data-rev="in"]{opacity:1;transform:none}
-
-  /* responsive shell */
-  [data-mobilebar]{display:none}
-  @media (max-width: 980px){
-    [data-shell]{grid-template-columns:1fr !important}
-    [data-rail]{display:none !important}
-    [data-mobilebar]{display:block !important}
-  }
-
-  /* ---- responsive + device hardening ---- */
-  :root{color-scheme:light}
-  html,body{max-width:100%;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-  img,svg,iframe,video{max-width:100%}
-  [data-rail]{height:100vh;height:100dvh}
-
-  /* keyboard focus, everywhere */
-  a:focus-visible,button:focus-visible,[data-chip]:focus-visible,[data-navlink]:focus-visible,image-slot:focus-visible{outline:2px solid var(--teal-600,#0d7f8c);outline-offset:3px;border-radius:8px}
-  [data-l="art"] a:focus-visible,[data-l="art"] button:focus-visible,[data-l="art"] [data-chip]:focus-visible,[data-l="art"] [data-navlink]:focus-visible{outline-color:#8fd0d8}
-
-  /* touch: real hit targets, no hover-lift stickiness */
-  @media (pointer: coarse){
-    [data-chip]{min-height:44px;padding-top:11px;padding-bottom:11px}
-    [data-navlink]{padding:6px 0;min-height:40px}
-    [data-mobilebar] a{min-height:44px;display:inline-flex;align-items:center}
-    [data-chip]:hover,[data-navlink]:hover{transform:none}
-  }
-
-  /* narrow screens: tighten the type ramp and the game frame */
-  @media (max-width: 720px){
-    [data-gameframe]{height:560px !important}
-    [data-heroshot]{max-width:300px;margin-inline:auto}
-  }
-  @media (max-width: 420px){
-    [data-gameframe]{height:500px !important}
-  }
-
-  /* print: one flat document, everything visible */
-  @media print{
-    [data-rail],[data-mobilebar],[data-atmo],[data-morph]{display:none !important}
-    [data-shell]{display:block !important}
-    main{padding:0 !important}
-    iframe,image-slot{display:none !important}
-    [data-filterable],[data-secvis],[data-lv="all"]{display:block !important;opacity:1 !important;filter:none !important;transform:none !important}
-    /* folds print expanded. beforeprint opens them, and this is the belt for
-       any browser that does not fire it, since a closed fold prints nothing. */
-    [data-fold] > summary{display:none !important}
-    details[data-fold] > *:not(summary){display:block !important;content-visibility:visible !important}
-    details[data-fold]::details-content{content-visibility:visible !important;display:block !important}
-    /* the summary is gone in print, so the card takes its title back */
-    [data-folddupe]{display:block !important}
-    [data-band],section{background:#fff !important;margin:0 !important;padding:18px 0 !important;break-inside:avoid}
-    *{color:#000 !important;box-shadow:none !important}
-    a{text-decoration:underline}
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
-    [data-lv]{filter:none!important;transform:none!important}
-  }
-</style>
 </helmet>
 
 <div data-l="{{ lane }}" data-phase="{{ phase }}" style="position:relative;min-height:100vh">
@@ -1437,7 +1437,7 @@
           <div style="position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:340px">
             <div data-heroshot="" style="position:relative;width:min(88%,400px);aspect-ratio:4/5;border-radius:999px 999px 28px 28px;overflow:hidden;background:radial-gradient(120% 90% at 50% 16%, #f1f9f9 0%, #dcf1ed 48%, #c3e4e7 100%);border:1px solid var(--border-brand,#92ccd1);box-shadow:0 24px 56px rgba(13,127,140,.16);display:flex;align-items:flex-end;justify-content:center">
               <img src="assets/orb-glow.png" alt="" aria-hidden="true" style="position:absolute;top:5%;left:50%;width:72%;transform:translateX(-50%);opacity:.55;animation:ccFloat 12s ease-in-out infinite;pointer-events:none">
-              <img data-heroimg="std" src="img/dae-current-cutout.webp" alt="Dae Courtney" style="position:relative;width:98%;max-width:none;object-fit:contain;object-position:bottom;margin-bottom:-2px">
+              <img width="900" height="1100" data-heroimg="std" src="img/dae-current-cutout.webp" alt="Dae Courtney" style="position:relative;width:98%; height: auto;max-width:none;object-fit:contain;object-position:bottom;margin-bottom:-2px">
               <img height="1350" width="900" data-heroimg="art" src="img/dae-portrait-dark.jpg" alt="Dae Courtney" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%">
             </div>
           </div>
@@ -2093,7 +2093,7 @@
             </div>
             <div style="font-family:var(--font-mono,monospace);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-600,#54666c);margin-bottom:10px">with Tyson Houseman · OFFTA, La Chapelle, PuSh · touring</div>
             <h3 style="margin:0 0 10px;font-family:var(--font-heading,sans-serif);font-size:20px;font-weight:600;line-height:1.25;color:var(--ink-900,#16242a)">askîwan ᐊᐢᑮᐊᐧᐣ</h3>
-            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--ink-600,#54666c);text-wrap:pretty">An operatic multimedia performance created and directed by Cree artist Tyson Houseman, built from live video feeds, object performance at miniature scale, and mountainscapes standing in for deep, non-linear geologic time. I am their production manager and technician making the performance work wherever we are. It has toured across several seasons and venues. <a href="https://www.lachapelle.org/en/shows/askiwan-" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:24px;">Show page</a></p>
+            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--ink-600,#54666c);text-wrap:pretty">An operatic multimedia performance created and directed by Cree artist Tyson Houseman, built from live video feeds, object performance at miniature scale, and mountainscapes standing in for deep, non-linear geologic time. I composed the electroacoustic score and perform it live, under baritone lyrics sung in nêhiyawêwin and viola da gamba. It has toured across several seasons and venues. <a href="https://www.lachapelle.org/en/shows/askiwan-" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:24px;">Show page</a></p>
           </x-import>
         </div>
 
