@@ -77,20 +77,16 @@
       glyph.style.cssText = 'width:22px;height:22px;color:var(--teal-600,#0d7f8c);flex:none';
       head.appendChild(glyph);
     }
-    var title = document.createElement('div');
-    title.style.cssText =
-      "font:300 19px var(--font-display,'Jost',sans-serif);color:var(--ink-900,#16242a)";
-    title.textContent = 'Before any counting happens';
-    head.appendChild(title);
     var msg = document.createElement('p');
-    msg.style.cssText = 'margin:0 0 14px;text-wrap:pretty';
+    msg.style.cssText =
+      'margin:0;text-wrap:pretty;color:var(--ink-900,#16242a);' +
+      "font:300 17px/1.5 var(--font-display,'Jost',sans-serif)";
     msg.textContent =
-      'This site collects zero data until you choose. Yes turns on anonymous visit stats, ' +
-      'so I can see which projects get looked at. No means nothing is collected at all. ' +
-      'Completely optional, the way consent should be. / Ce site ne collecte aucune ' +
-      'donn\u00e9e avant votre choix. Oui active des statistiques de visite anonymes; ' +
-      'non veut dire aucune collecte, tout simplement. Enti\u00e8rement facultatif, ' +
-      'comme le consentement devrait l\u2019\u00eatre.';
+      'All tracking requires consent, which is completely optional. ' +
+      'That\u2019s how it should be. / Tout suivi exige votre consentement, ' +
+      'enti\u00e8rement facultatif. Comme il se doit.';
+    head.appendChild(msg);
+    head.style.marginBottom = '14px';
     var row = document.createElement('div');
     row.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap';
     var btnCss =
@@ -101,7 +97,7 @@
     var accept = document.createElement('button');
     accept.type = 'button';
     accept.style.cssText = btnCss;
-    accept.textContent = 'Yes, count my visit / Oui, comptez ma visite';
+    accept.textContent = 'Sure / Bien s\u00fbr';
     accept.addEventListener('click', function () { setConsent('granted'); });
     var refuse = document.createElement('button');
     refuse.type = 'button';
@@ -111,7 +107,6 @@
     row.appendChild(accept);
     row.appendChild(refuse);
     bar.appendChild(head);
-    bar.appendChild(msg);
     bar.appendChild(row);
     document.body.appendChild(bar);
   }
