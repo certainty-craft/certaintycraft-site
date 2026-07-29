@@ -115,7 +115,13 @@
 
   // Click tracking via delegation so it survives the prerender/hydration swap.
   document.addEventListener('click', function (ev) {
-    var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+    if (!ev.target || !ev.target.closest) return;
+    var chip = ev.target.closest('[data-chip]');
+    if (chip) {
+      gtag('event', 'filter_select', { filter_id: chip.getAttribute('data-chip') });
+      return;
+    }
+    var a = ev.target.closest('a[href]');
     if (!a) return;
     var href = a.getAttribute('href') || '';
     if (href.indexOf('mailto:') === 0) {
@@ -127,6 +133,15 @@
     if (a.hasAttribute('download') || /\.(pdf|docx)(\?|#|$)/i.test(href)) {
       gtag('event', 'resume_download', { link_url: a.href });
       return;
+    }
+    var cs = null;
+    try { cs = new URL(a.href, location.href); } catch (e) {}
+    if (cs && cs.hostname === location.hostname) {
+      var cm = cs.pathname.match(/^\/case-studies\/([^/]+)\//);
+      if (cm) {
+        gtag('event', 'case_study_click', { project_id: cm[1] });
+        return;
+      }
     }
     if (/(^|\.)linkedin\.com$/.test(hostOf)) {
       gtag('event', 'outbound_linkedin', { link_url: a.href });
