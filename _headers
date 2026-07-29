@@ -6,21 +6,23 @@
 
 # --- Caching ---------------------------------------------------------------
 # The runtime under /vendor is pinned (React 18.3.1) and only changes when it
-# is replaced deliberately, so it can be cached hard. The design system and
-# images change with a rebuild, so they get a week. HTML must revalidate so a
-# copy fix goes live on the next request rather than whenever a cache expires.
+# is replaced deliberately, so it can be cached hard. The design system lives
+# in a content-hashed directory (a rebuild changes the path), so it can be
+# cached hard too. Images get a month; they change rarely and a stale copy is
+# cosmetic only. HTML must revalidate so a copy fix goes live on the next
+# request rather than whenever a cache expires.
 
 /vendor/*
   Cache-Control: public, max-age=31536000, immutable
 
 /_ds/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=31536000, immutable
 
 /img/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=2592000
 
 /assets/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=2592000
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
