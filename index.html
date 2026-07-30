@@ -191,9 +191,7 @@
   [data-navlink]{color:var(--ink-600,#54666c);display:flex;align-items:center;min-height:26px;transition:color .25s ease,transform .25s ease}
   [data-navlink]:hover{color:var(--ink-900,#16242a);transform:translateX(2px)}
 
-  /* morphing section glyph */
-  
-  /* (state rules for the glyph live above, with :not([data-tying]) guards) */
+  /* morphing section glyph: <rope-glyph> animates itself; lane colors live above on [data-morph] */
 
   /* drift detector */
   [data-driftv]{grid-area:1/1;opacity:0;filter:blur(6px);transform:translateY(4px);pointer-events:none;transition:opacity .45s cubic-bezier(.22,.8,.28,1),filter .6s ease,transform .6s cubic-bezier(.22,.8,.28,1)}
@@ -349,7 +347,7 @@
     <div data-dc-tpl="16" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 18px;">
       <a data-dc-tpl="17" href="#s1" style="font-family: var(--font-display,'Jost',sans-serif); font-weight: 300; font-size: 19px; color: var(--ink-900,#16242a); white-space: nowrap;">dae courtney<span data-dc-tpl="18" style="color: var(--teal-600,#0d7f8c);">.</span></a>
       <div data-dc-tpl="19" style="display: flex; align-items: center; gap: 14px;">
-        <div data-dc-tpl="20" aria-hidden="true" data-morph="0" data-tying="" style="width: 26px; height: 26px; position: relative;">
+        <div data-dc-tpl="20" aria-hidden="true" data-morph="0" style="width: 26px; height: 26px; position: relative;">
           <rope-glyph data-dc-tpl="21" shape="0" style="width: 100%; height: 100%; display: block;"></rope-glyph>
         </div>
         <div data-dc-tpl="22" data-copy="h001" style="display: flex; align-items: center; gap: 14px;"><a data-dc-tpl="23" href="quick-view.html" style="display: inline-flex; align-items: center; min-height: 26px; font-family: var(--font-heading,sans-serif); font-size: 14px; font-weight: 600;">Quick view</a>
@@ -373,7 +371,7 @@
 
     <aside data-dc-tpl="36" data-rail="" style="position: sticky; top: 0px; display: flex; flex-direction: column; gap: 22px; padding: 28px 28px 24px; border-right: 1px solid var(--hairline,rgba(36,52,57,.1)); height: 100vh; overflow-y: auto; overscroll-behavior: contain;">
       <div data-dc-tpl="37" style="display: flex; align-items: center; gap: 11px; flex-shrink: 0;">
-        <div data-dc-tpl="38" aria-hidden="true" data-morph="0" data-tying="" style="width: 34px; height: 34px; position: relative; flex: 0 0 auto;">
+        <div data-dc-tpl="38" aria-hidden="true" data-morph="0" style="width: 34px; height: 34px; position: relative; flex: 0 0 auto;">
           <rope-glyph data-dc-tpl="39" shape="0" style="width: 100%; height: 100%; display: block;"></rope-glyph>
         </div>
         <a data-dc-tpl="40" href="#s1" style="font-family: var(--font-display,'Jost',sans-serif); font-weight: 300; font-size: 22px; letter-spacing: -0.005em; color: var(--ink-900,#16242a); white-space: nowrap;">dae courtney<span data-dc-tpl="41" style="color: var(--teal-600,#0d7f8c);">.</span></a>
@@ -1322,7 +1320,7 @@
     <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px">
       <a href="#s1" style="font-family:var(--font-display,'Jost',sans-serif);font-weight:300;font-size:19px;color:var(--ink-900,#16242a);white-space:nowrap">dae courtney<span style="color:var(--teal-600,#0d7f8c)">.</span></a>
       <div style="display:flex;align-items:center;gap:14px">
-        <div aria-hidden="true" data-morph="{{ sec }}" data-tying="{{ tying }}" style="width:26px;height:26px;position:relative">
+        <div aria-hidden="true" data-morph="{{ sec }}" style="width:26px;height:26px;position:relative">
           <rope-glyph shape="{{ sec }}" style="width:100%;height:100%;display:block"></rope-glyph>
         </div>
         <div style="display:flex;align-items:center;gap:14px" data-copy="h001"><a href="quick-view.html" style="display:inline-flex;align-items:center;min-height:26px;font-family:var(--font-heading,sans-serif);font-size:14px;font-weight:600">Quick view</a>
@@ -1346,7 +1344,7 @@
 
     <aside data-rail="" style="position:sticky;top:0;display:flex;flex-direction:column;gap:22px;padding:28px 28px 24px;border-right:1px solid var(--hairline,rgba(36,52,57,.1));height:100vh;overflow-y:auto;overscroll-behavior:contain">
       <div style="display:flex;align-items:center;gap:11px;flex-shrink:0">
-        <div aria-hidden="true" data-morph="{{ sec }}" data-tying="{{ tying }}" style="width:34px;height:34px;position:relative;flex:none">
+        <div aria-hidden="true" data-morph="{{ sec }}" style="width:34px;height:34px;position:relative;flex:none">
           <rope-glyph shape="{{ sec }}" style="width:100%;height:100%;display:block"></rope-glyph>
         </div>
         <a href="#s1" style="font-family:var(--font-display,'Jost',sans-serif);font-weight:300;font-size:22px;letter-spacing:-.005em;color:var(--ink-900,#16242a);white-space:nowrap">dae courtney<span style="color:var(--teal-600,#0d7f8c)">.</span></a>
@@ -2378,9 +2376,9 @@ class Component extends DCLogic {
         }
         if (idx !== this._secIdx) {
           this._secIdx = idx;
-          this.setState({ tying: '1' });
-          clearTimeout(this._knot);
-          this._knot = setTimeout(() => this.setState({ sec: idx, tying: '' }), 300);
+          // the rope retargets fluidly mid-flight, so the glyph can follow
+          // the reading line with no artificial delay
+          this.setState({ sec: idx });
         }
       };
       requestAnimationFrame(run);
@@ -2446,7 +2444,6 @@ class Component extends DCLogic {
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
     if (this._onBeforePrint) window.removeEventListener('beforeprint', this._onBeforePrint);
     if (this._onAfterPrint) window.removeEventListener('afterprint', this._onAfterPrint);
-    clearTimeout(this._knot);
     if (this._raf) cancelAnimationFrame(this._raf);
     clearTimeout(this._t1);
     clearTimeout(this._t2);
@@ -2469,7 +2466,6 @@ class Component extends DCLogic {
       drift: this.state.drift,
       tally: this.state.tally || '',
       toggleDrift: () => this.setState(s => ({ drift: s.drift === 'on' ? '' : 'on' })),
-      tying: this.state.tying || '',
       isAll: l === 'all', isSystems: l === 'systems', isAi: l === 'ai', isKnow: l === 'know',
       isContent: l === 'content', isMarketing: l === 'marketing', isProduction: l === 'production',
       isArt: l === 'art',
