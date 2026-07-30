@@ -1,0 +1,431 @@
+# Decap CMS configuration for the site's copy layer.
+#
+# Editing surface only: everything here maps 1:1 onto files under
+# portfolio/content/ in the portfolio-archive repo. Saving commits to main,
+# which triggers the publish-site workflow (inject -> prerender -> validate
+# -> mirror -> Netlify). An edit is live roughly five minutes after Save.
+#
+# Auth: Netlify's OAuth provider for GitHub (configured once in the Netlify
+# site settings; runbook in portfolio/content/README.md). Log in with the
+# GitHub account that owns portfolio-archive.
+
+backend:
+  name: github
+  repo: certainty-craft/portfolio-archive
+  branch: main
+  commit_messages:
+    create: 'copy: create {{collection}} "{{slug}}"'
+    update: 'copy: update {{collection}} "{{slug}}"'
+    delete: 'copy: delete {{collection}} "{{slug}}"'
+    uploadMedia: 'copy: upload "{{path}}"'
+    deleteMedia: 'copy: remove "{{path}}"'
+site_url: https://certaintycraft.ca
+display_url: https://certaintycraft.ca
+media_folder: portfolio/site/img
+public_folder: /img
+collections:
+- name: case_studies
+  label: Case studies
+  label_singular: Case study
+  description: The nine long-form case studies. Title, lede and body flow into the article page; the card fields are the tile on the case-studies index; the SEO fields override the generated page title and description when filled in.
+  folder: portfolio/content/case-studies
+  format: yml
+  extension: yml
+  create: false
+  delete: false
+  identifier_field: slug
+  summary: '{{title}}'
+  fields:
+  - name: slug
+    label: Slug
+    widget: string
+    hint: 'Do not change: this is the page URL and the anchor into the site templates.'
+  - name: eyebrow
+    label: Eyebrow
+    widget: string
+    hint: The small uppercase line above the title (client · discipline · years).
+  - name: title
+    label: Title (h1)
+    widget: string
+  - name: lede
+    label: Lede
+    widget: text
+    hint: Opening summary paragraph. Also the source of the SEO description when no override is set below.
+  - name: meta
+    label: SEO override
+    widget: object
+    collapsed: true
+    fields:
+    - name: title
+      label: Page title
+      widget: string
+      required: false
+      default: ''
+      pattern:
+      - ^[\s\S]{0,70}$
+      - Keep at or under 70 characters (45-62 is the sweet spot)
+      hint: Leave empty to use "<Title> · Dae Courtney".
+    - name: description
+      label: Meta description
+      widget: text
+      required: false
+      default: ''
+      pattern:
+      - ^[\s\S]{0,170}$
+      - Keep at or under 170 characters (120-160 is the sweet spot)
+      hint: Leave empty to derive from the lede.
+  - name: card
+    label: Index card
+    widget: object
+    collapsed: true
+    fields:
+    - name: eyebrow
+      label: Card eyebrow
+      widget: string
+    - name: title
+      label: Card title
+      widget: string
+    - name: blurb
+      label: Card blurb
+      widget: text
+    - name: cta
+      label: Card call-to-action
+      widget: string
+  - name: artifacts_note
+    label: Artifacts note
+    widget: text
+    required: false
+    default: ''
+    hint: The closing "Artifacts on request" line. Leave empty to omit.
+  - name: body
+    label: Body
+    widget: list
+    types:
+    - name: prose
+      label: Prose
+      widget: object
+      summary: '{{fields.text | truncate(60)}}'
+      fields:
+      - name: text
+        label: Text
+        widget: markdown
+        editor_components: []
+        hint: 'Use ## for section headings, ### for sub-headings, - for lists, > for quotes.'
+    - name: figure
+      label: Figure (diagram)
+      widget: object
+      summary: 'Diagram: edit with care'
+      fields:
+      - name: html
+        label: Figure HTML
+        widget: code
+        default_language: html
+        output_code_only: true
+        allow_language_selection: false
+        hint: Raw diagram markup, passed through exactly as written. Only edit if you know why. A malformed figure fails the publish check rather than shipping.
+    - name: note
+      label: Note (honest-status box)
+      widget: object
+      summary: '{{fields.text | truncate(60)}}'
+      fields:
+      - name: text
+        label: Text
+        widget: markdown
+        editor_components: []
+- name: pages
+  label: Pages
+  description: 'Page-level copy for the homepage, the case-studies index and the quick view: browser-tab titles, search descriptions, the hero lane variants, and every other text block on the page, listed in page order.'
+  files:
+  - name: home
+    label: Homepage
+    file: portfolio/content/pages/home.yml
+    fields:
+    - name: meta
+      label: SEO
+      widget: object
+      fields:
+      - name: title
+        label: Page title
+        widget: string
+        pattern:
+        - ^[\s\S]{1,70}$
+        - Required, at most 70 characters
+      - name: description
+        label: Meta description
+        widget: text
+        pattern:
+        - ^[\s\S]{1,170}$
+        - Required, at most 170 characters
+    - name: lanes
+      label: Hero and closing lane variants
+      widget: object
+      collapsed: false
+      hint: The headline and intro swap depending on which lane a visitor picks. "all" is the default. Keep the eight variants parallel in tone.
+      fields:
+      - name: hero_heading
+        label: Hero heading
+        widget: object
+        collapsed: true
+        fields: &id001
+        - name: all
+          label: Everything
+          widget: string
+        - name: systems
+          label: Content systems
+          widget: string
+        - name: ai
+          label: AI operations
+          widget: string
+        - name: know
+          label: Knowledge architecture
+          widget: string
+        - name: content
+          label: Copy & content design
+          widget: string
+        - name: marketing
+          label: Marketing
+          widget: string
+        - name: production
+          label: Media production
+          widget: string
+        - name: art
+          label: Sound & performance
+          widget: string
+      - name: hero_intro
+        label: Hero intro paragraph
+        widget: object
+        collapsed: true
+        fields: *id001
+      - name: closing_heading
+        label: Closing heading
+        widget: object
+        collapsed: true
+        fields: *id001
+      - name: closing_text
+        label: Closing paragraph
+        widget: object
+        collapsed: true
+        fields: *id001
+    - name: sections
+      label: Page copy, by section
+      widget: object
+      collapsed: false
+      fields:
+      - name: chrome
+        label: Navigation & chrome
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: &id002
+        - name: id
+          label: Anchor id
+          widget: string
+          hint: Do not change.
+        - name: text
+          label: Text
+          widget: text
+      - name: s1
+        label: Hero & contact (s1)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: sd
+        label: Practice deep-dives (sd)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s2
+        label: Featured case studies (s2)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s3
+        label: The rest of the work (s3)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s4
+        label: Watch one, play one (s4)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s5
+        label: Testimonials (s5)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s9
+        label: Sound & performance (s9)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s6
+        label: Numbers & stats (s6)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s7
+        label: Work history (s7)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: s8
+        label: Closing (s8)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+    - name: advanced
+      label: Advanced blocks (contain markup)
+      widget: list
+      collapsed: true
+      required: false
+      summary: '{{fields.id}} in {{fields.where}}'
+      hint: Blocks whose text is mixed with markup (links, buttons, components). Edit only the words between tags; a broken block fails the publish check rather than shipping.
+      fields: &id003
+      - name: id
+        label: Anchor id
+        widget: string
+        hint: Do not change.
+      - name: where
+        label: Section
+        widget: string
+        hint: Do not change.
+      - name: html
+        label: HTML
+        widget: code
+        default_language: html
+        output_code_only: true
+        allow_language_selection: false
+  - name: case_studies_page
+    label: Case-studies index page
+    file: portfolio/content/pages/case-studies.yml
+    fields:
+    - name: meta
+      label: SEO
+      widget: object
+      fields:
+      - name: title
+        label: Page title
+        widget: string
+        pattern:
+        - ^[\s\S]{1,70}$
+        - Required, at most 70 characters
+      - name: description
+        label: Meta description
+        widget: text
+        pattern:
+        - ^[\s\S]{1,170}$
+        - Required, at most 170 characters
+    - name: sections
+      label: Page copy, by section
+      widget: object
+      fields:
+      - name: chrome
+        label: Navigation & chrome
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+      - name: top
+        label: Page header (top)
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+    - name: advanced
+      label: Advanced blocks (contain markup)
+      widget: list
+      collapsed: true
+      required: false
+      summary: '{{fields.id}} in {{fields.where}}'
+      hint: Blocks whose text is mixed with markup (links, buttons, components). Edit only the words between tags; a broken block fails the publish check rather than shipping.
+      fields: *id003
+  - name: quick_view
+    label: Quick-view page
+    file: portfolio/content/pages/quick-view.yml
+    fields:
+    - name: meta
+      label: SEO
+      widget: object
+      fields:
+      - name: title
+        label: Page title
+        widget: string
+        pattern:
+        - ^[\s\S]{1,70}$
+        - Required, at most 70 characters
+      - name: description
+        label: Meta description
+        widget: text
+        pattern:
+        - ^[\s\S]{1,170}$
+        - Required, at most 170 characters
+    - name: sections
+      label: Page copy, by section
+      widget: object
+      fields:
+      - name: chrome
+        label: Navigation & chrome
+        widget: list
+        collapsed: true
+        summary: '{{fields.text | truncate(60)}}'
+        fields: *id002
+    - name: advanced
+      label: Advanced blocks (contain markup)
+      widget: list
+      collapsed: true
+      required: false
+      summary: '{{fields.id}} in {{fields.where}}'
+      hint: Blocks whose text is mixed with markup (links, buttons, components). Edit only the words between tags; a broken block fails the publish check rather than shipping.
+      fields: *id003
+- name: claims
+  label: Quick-view claims
+  description: 'The evidence table on the quick-view page: one row per claim, with its lane, source and status. Order here is display order.'
+  files:
+  - name: claims
+    label: Claims
+    file: portfolio/content/claims.yml
+    fields:
+    - name: claims
+      label: Claims
+      widget: list
+      summary: '{{fields.claim}}'
+      fields:
+      - name: claim
+        label: Claim
+        widget: string
+      - name: lane
+        label: Lane
+        widget: select
+        options:
+        - systems
+        - ai ops
+        - knowledge
+        - content
+        - marketing
+        - production
+      - name: source
+        label: Source / provenance
+        widget: string
+      - name: status
+        label: Status
+        widget: string
+        hint: e.g. shipped, measured, launched, not proven. Plain honest words.
+      - name: tone
+        label: Colour
+        widget: select
+        options:
+        - teal
+        - blue
+        - brick
+        - ink
