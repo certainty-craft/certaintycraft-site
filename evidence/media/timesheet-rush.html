@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<script>if(location.search.indexOf("compact=1")>-1)document.documentElement.classList.add("compact");</script>
 <style>
 /* ==========================================================================
    Liphe Design System — Tokens
@@ -14,7 +15,8 @@
    Voice: approachable, forward-thinking, empathetically professional, calmly confident.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800&family=Poppins:wght@300;400;600;700&display=swap");
+/* Fonts load once via the <link> in <head>; the old @import here fetched a
+   second, larger bundle and blocked rendering on it. */
 
 :root {
   /* ------------------------------------------------------------------ */
@@ -654,6 +656,27 @@ kbd{background:var(--liphe-grey-100);border:var(--border-default);border-radius:
 .touch .l-btn{flex:1}
 body.touch-on .touch{display:flex}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Small screens: the field and its controls fit the viewport first */
+@media(max-width:720px){
+  .main{padding:var(--space-s)}
+  .page-head{margin-bottom:var(--space-s)}
+  .page-head h2{font:600 18px/1.2 var(--font-ui)}
+  .touch .l-btn{min-height:48px}
+}
+
+/* Compact embed mode (?compact=1): the portfolio's mobile overlay loads this.
+   Chrome goes away, the field and the touch controls come first. */
+.rotate-hint{display:none;font:400 12px/1.4 var(--font-ui);color:var(--color-text-secondary);padding:var(--space-xs) var(--space-m);border-top:var(--border-default)}
+html.compact .l-brand-bar,html.compact .l-nav,
+html.compact .page-head h2,html.compact .page-head .l-eyebrow,
+html.compact .deadline .l-field__label,html.compact .deadline small{display:none}
+html.compact .main{padding:var(--space-s)}
+html.compact .page-head{margin-bottom:var(--space-xs);align-items:center}
+html.compact .layout{grid-template-columns:1fr}
+html.compact .deadline{flex-direction:row;align-items:center;gap:var(--space-xs)}
+html.compact body.touch-on .rotate-hint{display:block}
+@media(orientation:landscape){html.compact .rotate-hint{display:none}}
 </style>
 </head>
 <body>
@@ -770,6 +793,7 @@ body.touch-on .touch{display:flex}
             <button class="l-btn l-btn--optional l-btn--md" data-k="deposit">Log</button>
             <button class="l-btn l-btn--required l-btn--md" data-k="jump">Jump</button>
           </div>
+          <p class="rotate-hint">Tip: rotate your phone sideways for a bigger field.</p>
         </section>
 
         <aside class="side">
@@ -807,7 +831,13 @@ body.touch-on .touch{display:flex}
 <script>
 (() => {
 "use strict";
-const cv=document.getElementById("game"),ctx=cv.getContext("2d"),W=cv.width,H=cv.height;
+const cv=document.getElementById("game"),ctx=cv.getContext("2d"),W=960,H=540;
+// Crisp rendering on high-density screens: the backing store scales with the
+// devicePixelRatio while every game system keeps drawing in 960x540 world
+// coordinates through the base transform. Capped at 2.5 to bound fill cost.
+const DPR=Math.max(1,Math.min(2.5,window.devicePixelRatio||1));
+cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
+ctx.setTransform(DPR,0,0,DPR,0,0);
 const $=id=>document.getElementById(id);
 const fieldCard=$("fieldCard"),clockEl=$("clock"),clockHelp=$("clockHelp"),bar=$("bar"),
 hoursEl=$("hours"),airNote=$("airNote"),tsStatus=$("tsStatus"),tsHelp=$("tsHelp"),
@@ -952,6 +982,14 @@ addEventListener("keyup",e=>{const k=e.key.toLowerCase();
   else if(k===" "||k==="arrowup"||k==="w")keys.jump=false;});
 addEventListener("pointerdown",()=>{wake();skipIntro();});
 if("ontouchstart" in window||navigator.maxTouchPoints>0)document.body.classList.add("touch-on");
+const touchOn=document.body.classList.contains("touch-on");
+// Touch devices get instructions that match their controls.
+if(touchOn){
+  const hint=document.querySelector(".field-head .hint");
+  if(hint)hint.textContent="Use the buttons under the field: move, log, jump";
+  const sv=startVeil.querySelector(".l-dialog__head small");
+  if(sv)sv.textContent="Log 40 net hours before the window closes. Catch a falling block, carry it to its own weekday column and press Log to file it. Wrong day is rejected.";
+}
 document.querySelectorAll("[data-k]").forEach(b=>{const k=b.dataset.k;
   if(k==="deposit"){["touchstart","mousedown"].forEach(ev=>b.addEventListener(ev,e=>{e.preventDefault();wake();deposit();},{passive:false}));return;}
   const set=v=>{wake();if(k==="jump"){keys.jump=v;if(v&&p)p.buf=8;}else keys[k]=v;};
@@ -959,7 +997,7 @@ document.querySelectorAll("[data-k]").forEach(b=>{const k=b.dataset.k;
   ["touchend","touchcancel","mouseup","mouseleave"].forEach(ev=>b.addEventListener(ev,e=>{e.preventDefault();set(false);},{passive:false}));});
 function togglePause(){if(state==="start"||state==="intro"||state==="win"||state==="over"||timedOut||!modalVeil.classList.contains("hidden"))return;
   paused=!paused;pauseVeil.classList.toggle("hidden",!paused);$("pauseBtn").textContent=paused?"Resume":"Pause";
-  if(paused)pauseVeil.innerHTML='<div class="l-dialog"><div class="l-dialog__head"><h3>Paused</h3><small>The clock is holding. Press P to resume.</small></div></div>';}
+  if(paused)pauseVeil.innerHTML='<div class="l-dialog"><div class="l-dialog__head"><h3>Paused</h3><small>'+(touchOn?"The clock is holding. Tap Pause again to resume.":"The clock is holding. Press P to resume.")+'</small></div></div>';}
 $("pauseBtn").addEventListener("click",togglePause);
 function resumeTimeout(){timedOut=false;timeoutVeil.classList.add("hidden");idleT=0;}
 $("timeoutBtn").addEventListener("click",resumeTimeout);

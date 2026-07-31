@@ -62,9 +62,16 @@
     bar.setAttribute('role', 'dialog');
     bar.setAttribute('aria-live', 'polite');
     bar.setAttribute('aria-label', 'Consent to anonymous analytics / Consentement aux statistiques anonymes');
+    // On phones the sticky nav owns the top edge, so the banner sits at the
+    // bottom instead of covering Quick view / Case studies / Email me.
+    var mobile = window.matchMedia && matchMedia('(max-width: 980px)').matches;
     bar.style.cssText =
-      'position:fixed;top:14px;right:14px;z-index:2147483000;' +
-      'width:min(330px,calc(100vw - 28px));padding:12px 14px 12px;border-radius:16px;' +
+      'position:fixed;' +
+      (mobile
+        ? 'bottom:calc(14px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(430px,calc(100vw - 28px));'
+        : 'top:14px;right:14px;width:min(330px,calc(100vw - 28px));') +
+      'z-index:2147483000;' +
+      'padding:12px 14px 12px;border-radius:16px;' +
       'background:rgba(255,255,255,.78);' +
       '-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3);' +
       'color:var(--ink-700,#3a4b51);border:1px solid rgba(255,255,255,.65);' +
@@ -102,13 +109,13 @@
     document.body.appendChild(bar);
     var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduced && bar.animate) {
+      // One entrance, then still. The old infinite bob ran the compositor
+      // for as long as the banner stayed on screen.
+      var baseX = mobile ? 'translateX(-50%) ' : '';
+      var fromY = mobile ? 'translateY(8px)' : 'translateY(-8px)';
       bar.animate(
-        [{ opacity: 0, transform: 'translateY(-8px)' }, { opacity: 1, transform: 'translateY(0)' }],
+        [{ opacity: 0, transform: baseX + fromY }, { opacity: 1, transform: baseX + 'translateY(0)' }],
         { duration: 500, easing: 'cubic-bezier(.22,.8,.28,1)' }
-      );
-      bar.animate(
-        [{ transform: 'translateY(0)' }, { transform: 'translateY(-4px)' }, { transform: 'translateY(0)' }],
-        { duration: 5200, delay: 600, iterations: Infinity, easing: 'ease-in-out' }
       );
     }
   }
