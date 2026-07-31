@@ -6,11 +6,94 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Copy admin · certaintycraft.ca</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>">
+  <style>
+    /* Editing-comfort overrides for the Decap UI. Conservative on purpose:
+       if a Decap update changes its internals these simply stop applying
+       and the stock look returns; editing itself never breaks. */
+
+    /* Let the editing column breathe, centered in the window. */
+    div[class*="ControlPaneContainer"] { max-width: 900px !important; margin: 0 auto !important; }
+
+    /* Long copy wants room: taller boxes, readable type, comfy leading. */
+    #nc-root textarea {
+      min-height: 88px !important;
+      font-size: 15px !important;
+      line-height: 1.55 !important;
+    }
+    #nc-root input[type="text"] {
+      font-size: 15px !important;
+    }
+    /* Markdown editor body */
+    div[data-slate-editor="true"] {
+      font-size: 15px !important;
+      line-height: 1.6 !important;
+    }
+  </style>
 </head>
 <body>
   <!-- Decap CMS, GitHub backend against certainty-craft/portfolio-archive.
        Saving commits to portfolio/content on main; the publish-site
        workflow renders and deploys, so an edit is live in a few minutes. -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Case-study preview styled like the article page: same measure, same
+    // typographic hierarchy, site ink/teal values. Fonts are approximated
+    // with a system stack on purpose; the design-system CSS lives under a
+    // content-hashed path that must not be referenced from here.
+    CMS.registerPreviewStyle(`
+      .cs-preview { max-width: 70ch; margin: 0 auto; padding: 40px 24px 80px;
+        color: #16242a; font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
+      .cs-preview [data-eyebrow] { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #71828a; margin: 0 0 16px; }
+      .cs-preview h1 { font-weight: 300; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.08;
+        letter-spacing: -.025em; margin: 0 0 18px; }
+      .cs-preview [data-lede] { font-size: 19px; line-height: 1.55; color: #37474f; margin: 0 0 28px; }
+      .cs-preview h2 { font-weight: 600; font-size: 22px; margin: 34px 0 10px; }
+      .cs-preview h3 { font-weight: 600; font-size: 17px; margin: 24px 0 8px; color: #0d7f8c; }
+      .cs-preview p, .cs-preview li { font-size: 16px; line-height: 1.65; color: #37474f; }
+      .cs-preview blockquote { border-left: 3px solid #0d7f8c; margin: 16px 0; padding: 2px 0 2px 16px; color: #54666c; }
+      .cs-preview [data-figbox] { border: 1px dashed #b7c4c9; border-radius: 8px; padding: 18px;
+        margin: 22px 0; color: #71828a; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px; letter-spacing: .12em; text-transform: uppercase; text-align: center; }
+      .cs-preview [data-notebox] { background: #f0f6f7; border-radius: 10px; padding: 16px 18px; margin: 22px 0; }
+      .cs-preview [data-notebox] p { margin: 0; }
+      .cs-preview [data-artifacts] { font-size: 13px; color: #71828a; margin-top: 34px;
+        border-top: 1px solid rgba(36,52,57,.12); padding-top: 14px; }
+    `, { raw: true });
+
+    // decap-cms.js provides the h() and createClass() globals; React itself
+    // is not exposed.
+    var CaseStudyPreview = createClass({
+      render: function () {
+        var entry = this.props.entry;
+        var get = function (path) { return entry.getIn(['data'].concat(path)) || ''; };
+        var body = entry.getIn(['data', 'body']);
+        var widgetsForBody = this.props.widgetsFor('body');
+        var blocks = [];
+        if (body && widgetsForBody) {
+          widgetsForBody.forEach(function (item, i) {
+            var type = body.getIn([i, 'type']);
+            if (type === 'prose' || type === 'note') {
+              var rendered = item.getIn(['widgets', 'text']);
+              blocks.push(type === 'note'
+                ? h('div', { key: i, 'data-notebox': '' }, rendered)
+                : h('div', { key: i }, rendered));
+            } else if (type === 'figure') {
+              blocks.push(h('div', { key: i, 'data-figbox': '' }, 'diagram · rendered on the live page'));
+            }
+          });
+        }
+        return h('article', { className: 'cs-preview' },
+          h('div', { 'data-eyebrow': '' }, get(['eyebrow'])),
+          h('h1', {}, get(['title'])),
+          h('p', { 'data-lede': '' }, get(['lede'])),
+          blocks,
+          get(['artifacts_note']) ? h('p', { 'data-artifacts': '' }, get(['artifacts_note'])) : null
+        );
+      },
+    });
+
+    CMS.registerPreviewTemplate('case_studies', CaseStudyPreview);
+  </script>
 </body>
 </html>

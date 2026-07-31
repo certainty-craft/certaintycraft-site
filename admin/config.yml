@@ -169,28 +169,28 @@ collections:
         fields: &id001
         - name: all
           label: Everything
-          widget: string
+          widget: text
         - name: systems
           label: Content systems
-          widget: string
+          widget: text
         - name: ai
           label: AI operations
-          widget: string
+          widget: text
         - name: know
           label: Knowledge architecture
-          widget: string
+          widget: text
         - name: content
           label: Copy & content design
-          widget: string
+          widget: text
         - name: marketing
           label: Marketing
-          widget: string
+          widget: text
         - name: production
           label: Media production
-          widget: string
+          widget: text
         - name: art
           label: Sound & performance
-          widget: string
+          widget: text
       - name: hero_intro
         label: Hero intro paragraph
         widget: object
@@ -306,6 +306,8 @@ collections:
         default_language: html
         output_code_only: true
         allow_language_selection: false
+    editor:
+      preview: false
   - name: case_studies_page
     label: Case-studies index page
     file: portfolio/content/pages/case-studies.yml
@@ -350,6 +352,8 @@ collections:
       summary: '{{fields.id}} in {{fields.where}}'
       hint: Blocks whose text is mixed with markup (links, buttons, components). Edit only the words between tags; a broken block fails the publish check rather than shipping.
       fields: *id003
+    editor:
+      preview: false
   - name: quick_view
     label: Quick-view page
     file: portfolio/content/pages/quick-view.yml
@@ -388,6 +392,10 @@ collections:
       summary: '{{fields.id}} in {{fields.where}}'
       hint: Blocks whose text is mixed with markup (links, buttons, components). Edit only the words between tags; a broken block fails the publish check rather than shipping.
       fields: *id003
+    editor:
+      preview: false
+  editor:
+    preview: false
 - name: claims
   label: Quick-view claims
   description: 'The evidence table on the quick-view page: one row per claim, with its lane, source and status. Order here is display order.'
@@ -429,3 +437,7 @@ collections:
         - blue
         - brick
         - ink
+    editor:
+      preview: false
+  editor:
+    preview: false
