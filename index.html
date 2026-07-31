@@ -167,6 +167,25 @@
   [data-l="art"] [style*="--ink-500"]{color:rgba(233,241,242,.58) !important}
   .mp-badge{color:#16242a !important}
   [data-l="art"] .mp-badge{color:#0a1216 !important}
+  /* the rail's status pill sits alone on the mist canvas, where its own
+     surface is only 1.04:1 against it, so it carries an edge and a lift of
+     its own. These also stand in for the design system's badge sheet, which
+     the bundle only injects once React boots. */
+  [data-rail] .mp-badge{
+    position:relative;
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 10px;border-radius:var(--radius-pill,999px);
+    background:linear-gradient(180deg,var(--mint-soft,#ecf7f4),var(--success-bg,#e4f4ec));
+    font-family:var(--font-mono,ui-monospace,monospace);font-size:11px;font-weight:500;
+    letter-spacing:.04em;line-height:1;white-space:nowrap;
+    box-shadow:inset 0 0 0 1px rgba(36,52,57,.18),0 2px 6px rgba(16,36,42,.1),0 1px 2px rgba(16,36,42,.06)}
+  [data-rail] .mp-badge__dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  [data-rail] .mp-badge::after{
+    content:"\2728";
+    position:absolute;top:-6px;right:-7px;z-index:1;
+    font-size:12px;line-height:1;
+    filter:drop-shadow(0 1px 2px rgba(16,36,42,.28));
+    pointer-events:none}
   [data-l="art"] [style*="--ink-400"]{color:rgba(233,241,242,.46) !important}
   [data-l="art"] [style*="--teal-700"],[data-l="art"] [style*="--teal-600"],[data-l="art"] [style*="--teal-500"]{color:#8fd0d8 !important}
   [data-l="art"] [style*="--brick-500"]{color:#e39a8c !important}
