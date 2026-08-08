@@ -18,3 +18,33 @@
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Collapse duplicate url variants onto the canonical forms, so every page has
+# exactly one indexable url. force = true is needed on /index.html because the
+# file exists; Netlify still serves / from index.html internally, no loop.
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-studies/:slug/index.html"
+  to = "/case-studies/:slug/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-studies"
+  to = "/case-studies.html"
+  status = 301
+
+[[redirects]]
+  from = "/case-studies/"
+  to = "/case-studies.html"
+  status = 301
+
+[[redirects]]
+  from = "/quick-view"
+  to = "/quick-view.html"
+  status = 301

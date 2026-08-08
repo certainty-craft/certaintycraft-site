@@ -31,3 +31,8 @@
 /admin/*
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store
+
+# Directory-index case-study pages: the /*.html rule above cannot match
+# /case-studies/<slug>/ requests, so give them the same revalidation rule.
+/case-studies/*
+  Cache-Control: public, max-age=0, must-revalidate
